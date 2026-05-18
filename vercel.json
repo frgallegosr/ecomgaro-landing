@@ -1,0 +1,8 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "devCommand": "npx http-server",
+  "env": {
+    "VERCEL_ENV": "production"
+  }
+}
