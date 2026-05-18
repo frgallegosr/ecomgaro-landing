@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ecomgaro — Exploración de marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F4EF;
+    --ink: #111112;
+    --ink-2: #2A2A2C;
+    --mute: #6B6A66;
+    --line: #E3DFD6;
+    --card: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .page {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 56px 48px 120px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 28px;
+    margin-bottom: 48px;
+  }
+  .masthead .title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 72px;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .masthead .title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+  .masthead .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 20px;
+  }
+  .masthead .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--mute);
+    text-align: right;
+    letter-spacing: 0.04em;
+  }
+  .masthead .meta b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- Intro copy ---------- */
+  .intro {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 72px;
+  }
+  .intro h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .intro p {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.4;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .intro .small {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* ---------- Current state ---------- */
+  .current {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    padding-bottom: 64px;
+    margin-bottom: 72px;
+    border-bottom: 1px solid var(--line);
+  }
+  .current-frame {
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+  .current-frame img { width: 100%; height: auto; }
+  .current-notes ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    columns: 2;
+    column-gap: 40px;
+  }
+  .current-notes li {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+    break-inside: avoid;
+  }
+  .current-notes li b {
+    display: block;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  /* ---------- Direction card ---------- */
+  .direction {
+    padding-top: 40px;
+    margin-top: 64px;
+    border-top: 1px solid var(--ink);
+  }
+  .direction:first-of-type { margin-top: 0; }
+
+  .dir-head {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    gap: 48px;
+    align-items: end;
+    margin-bottom: 40px;
+  }
+  .dir-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+    text-transform: uppercase;
+  }
+  .dir-num b { color: var(--ink); font-weight: 500; }
+  .dir-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 56px;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    margin: 0;
+  }
+  .dir-title em { font-style: italic; font-weight: 400; }
+  .dir-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-align: right;
+    max-width: 180px;
+    line-height: 1.6;
+  }
+
+  .dir-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+  }
+  .dir-rationale {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .dir-rationale .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .dir-rationale p { margin: 0 0 14px; }
+  .dir-rationale .attrs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .dir-rationale .attrs span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    padding: 5px 9px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink-2);
+    background: #fff;
+  }
+
+  /* ---------- Grid of plates ---------- */
+  .plates {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+  }
+  .plates .row {
+    display: grid;
+    gap: 16px;
+  }
+  .plate {
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line);
+  }
+  .plate.tall { aspect-ratio: 4 / 3; }
+  .plate.square { aspect-ratio: 1 / 1; }
+  .plate.wide { aspect-ratio: 16 / 9; }
+  .plate.short { aspect-ratio: 16 / 7; }
+  .plate .tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    z-index: 2;
+  }
+  .plate .tag.light { color: rgba(255,255,255,0.6); }
+
+  .plate-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Palette swatches ---------- */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .palette > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 14px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+  .palette b { font-weight: 500; display: block; }
+  .palette small { opacity: 0.6; }
+
+  /* ---------- Type spec ---------- */
+  .type-spec {
+    padding: 28px 32px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .type-spec .head-line {
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .type-spec .body-line {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 340px;
+    margin: 10px 0 0;
+  }
+  .type-spec .foot {
+    display: flex;
+    gap: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .type-spec .foot b { color: var(--ink); font-weight: 500; display: block; margin-bottom: 2px; }
+
+  /* ---------- Application mockup ---------- */
+  .app-card {
+    width: 100%;
+    height: 100%;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* =========================================================
+     DIRECTION 1 — ASCENT (evolución flechas)
+     ========================================================= */
+  .d1 { --d-bg: #0E1A24; --d-ink: #F5F3EE; --d-accent: #6EE7B7; --d-accent-2: #4B9FD6; --d-mute: #7C8896; }
+  .d1 .plate.dark { background: var(--d-bg); color: var(--d-ink); }
+  .d1 .logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .d1 .mark-1 {
+    width: 88px; height: 88px;
+  }
+  .d1 .wm {
+    font-family: 'Geist', 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 56px;
+    letter-spacing: -0.04em;
+    color: var(--d-ink);
+  }
+  .d1 .wm .dot { color: var(--d-accent); }
+  .d1 .mark-big { width: 260px; height: 260px; }
+  .d1 .pal-1 { background: #0E1A24; color: #F5F3EE; }
+  .d1 .pal-2 { background: #1D3449; color: #F5F3EE; }
+  .d1 .pal-3 { background: #4B9FD6; color: #0E1A24; }
+  .d1 .pal-4 { background: #6EE7B7; color: #0E1A24; }
+  .d1 .pal-5 { background: #F5F3EE; color: #0E1A24; }
+
+  /* =========================================================
+     DIRECTION 2 — SPROUT (salud orgánica)
+     ========================================================= */
+  .d2 { --d-bg: #EFEBE0; --d-ink: #1F2A23; --d-accent: #3D5A46; --d-accent-2: #C2B280; --d-mute: #8A8674; }
+  .d2 .plate.warm { background: var(--d-bg); color: var(--d-ink); }
+  .d2 .logo-lockup { display: flex; align-items: center; gap: 20px; }
+  .d2 .mark-2 { width: 72px; height: 72px; }
+  .d2 .wm {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 56px;
+    letter-spacing: -0.03em;
+    color: var(--d-ink);
+    font-optical-sizing: auto;
+  }
+  .d2 .wm em { font-style: italic; font-weight: 300; }
+  .d2 .mark-big { width: 220px; height: 220px; }
+  .d2 .pal-1 { background: #3D5A46; color: #EFEBE0; }
+  .d2 .pal-2 { background: #7C8F6A; color: #1F2A23; }
+  .d2 .pal-3 { background: #C2B280; color: #1F2A23; }
+  .d2 .pal-4 { background: #EFEBE0; color: #1F2A23; }
+  .d2 .pal-5 { background: #1F2A23; color: #EFEBE0; }
+
+  /* =========================================================
+     DIRECTION 3 — SIGNAL (wordmark puro, Linear-like)
+     ========================================================= */
+  .d3 { --d-bg: #FAFAF7; --d-ink: #0A0A0B; --d-accent: #00D084; --d-accent-2: #2563EB; --d-mute: #787874; }
+  .d3 .plate.clean { background: var(--d-bg); color: var(--d-ink); }
+  .d3 .wm-big {
+    font-family: 'Geist', 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 120px;
+    letter-spacing: -0.055em;
+    color: var(--d-ink);
+    line-height: 0.9;
+  }
+  .d3 .wm-big .slash {
+    display: inline-block;
+    transform: translateY(-0.08em);
+    color: var(--d-accent);
+    font-weight: 400;
+    margin: 0 -0.02em 0 -0.01em;
+  }
+  .d3 .wm {
+    font-family: 'Geist', 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 52px;
+    letter-spacing: -0.045em;
+    color: var(--d-ink);
+    display: flex;
+    align-items: baseline;
+  }
+  .d3 .wm .slash { color: var(--d-accent); font-weight: 400; }
+  .d3 .pal-1 { background: #0A0A0B; color: #FAFAF7; }
+  .d3 .pal-2 { background: #2A2A2C; color: #FAFAF7; }
+  .d3 .pal-3 { background: #00D084; color: #0A0A0B; }
+  .d3 .pal-4 { background: #E8E8E3; color: #0A0A0B; }
+  .d3 .pal-5 { background: #FAFAF7; color: #0A0A0B; }
+
+  /* =========================================================
+     DIRECTION 4 — LOOP (sistema en flujo, editorial)
+     ========================================================= */
+  .d4 { --d-bg: #F3EEE5; --d-ink: #1A1816; --d-accent: #1F6B5E; --d-accent-2: #D4A574; --d-mute: #8C8578; }
+  .d4 .plate.editorial { background: var(--d-bg); color: var(--d-ink); }
+  .d4 .logo-lockup { display: flex; align-items: center; gap: 24px; }
+  .d4 .mark-4 { width: 78px; height: 78px; }
+  .d4 .wm {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 68px;
+    letter-spacing: -0.015em;
+    color: var(--d-ink);
+    line-height: 0.9;
+  }
+  .d4 .wm em {
+    font-style: italic;
+  }
+  .d4 .mark-big { width: 240px; height: 240px; }
+  .d4 .pal-1 { background: #1A1816; color: #F3EEE5; }
+  .d4 .pal-2 { background: #1F6B5E; color: #F3EEE5; }
+  .d4 .pal-3 { background: #D4A574; color: #1A1816; }
+  .d4 .pal-4 { background: #F3EEE5; color: #1A1816; }
+  .d4 .pal-5 { background: #E5DCC9; color: #1A1816; }
+
+  /* ---------- Business card mock ---------- */
+  .card-mock {
+    aspect-ratio: 1.7 / 1;
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    border-radius: 4px;
+  }
+
+  /* ---------- Tweaks panel ---------- */
+  .tweaks-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    background: #fff;
+    border: 1px solid var(--ink);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    z-index: 100;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    display: none;
+  }
+  .tweaks-panel.active { display: block; }
+  .tweaks-panel h4 {
+    margin: 0 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    font-weight: 500;
+  }
+  .tweaks-panel label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .tweaks-panel select, .tweaks-panel input[type="text"] {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .tweaks-panel .row-group { display: flex; gap: 8px; }
+
+  .footer {
+    margin-top: 120px;
+    padding-top: 32px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+</style>
+</head>
+<body>
+
+<div class="page" data-screen-label="01 Ecomgaro Rebrand">
+
+  <!-- =========== MASTHEAD =========== -->
+  <header class="masthead">
+    <div>
+      <div class="kicker">Brand exploration · V01 · Abril 2026</div>
+      <h1 class="title">ecomgaro <em>/ rebrand</em></h1>
+    </div>
+    <div class="meta">
+      <b>Cliente</b> ecomgaro<br/>
+      <b>Fundador</b> Fran Gallegos Romero<br/>
+      <b>Alcance</b> Identidad completa<br/>
+      <b>Direcciones</b> 04
+    </div>
+  </header>
+
+  <!-- =========== INTRO =========== -->
+  <section class="intro">
+    <div>
+      <h3>01 · Contexto</h3>
+    </div>
+    <div>
+      <p>Sistemas digitales de crecimiento para negocios de Salud y Bienestar. <em>Donde la estrategia se transforma en ventas.</em></p>
+    </div>
+    <div>
+      <p class="small">La marca actual vive cerca del territorio tech/SaaS: flechas en gradiente azul→verde, landing dark con verde neón. El posicionamiento deseado es premium + humano + fresco, con nicho principal en Salud y Bienestar. Este documento explora cuatro direcciones contrastadas para mover la marca desde "otra agencia de growth" hacia un sistema reconocible y maduro.</p>
+    </div>
+  </section>
+
+  <!-- =========== CURRENT STATE =========== -->
+  <section class="current">
+    <div>
+      <h3 style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);margin:0 0 14px;font-weight:500;">02 · Estado actual</h3>
+      <div class="current-frame">
+        <img src="assets/logo-actual.png" alt="Logo actual" />
+      </div>
+    </div>
+    <div class="current-notes">
+      <h3 style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);margin:0 0 14px;font-weight:500;">Diagnóstico</h3>
+      <p style="font-family:'Fraunces',serif;font-weight:300;font-size:22px;line-height:1.35;letter-spacing:-0.015em;margin:0 0 8px;">El símbolo actual trabaja duro pero compite en un espacio saturado.</p>
+      <ul>
+        <li><b>Territorio visual</b>Gradiente azul-verde + flechas 3D = tropo de agencia tech. Baja diferenciación.</li>
+        <li><b>Escalabilidad</b>La complejidad del símbolo pierde legibilidad bajo 32px y en favicon.</li>
+        <li><b>Tono</b>Comunica "crecimiento" pero no premium, ni humano, ni conexión con salud.</li>
+        <li><b>Wordmark</b>Inexistente como sistema — la marca vive solo en el símbolo.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       DIRECCIÓN 01 — ASCENT
+       ================================================================= -->
+  <section class="direction d1" data-screen-label="02 Ascent">
+    <div class="dir-head">
+      <div class="dir-num">Dirección · <b>01 / 04</b></div>
+      <h2 class="dir-title">Ascent <em>— flechas, maduradas</em></h2>
+      <div class="dir-tagline">Evolución del ADN actual · dark premium</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-rationale">
+        <p class="label">Rationale</p>
+        <p>Conserva la equity visual de las flechas cruzadas, pero las reduce a dos trazos geométricos planos. Sin 3D, sin gradiente saturado. El azul se oscurece hasta casi negro marino; el verde migra a mint maduro. Tipografía Geist: tecnológica pero humanista.</p>
+        <p>Ideal si quieres <b>mantener reconocimiento</b> con los clientes actuales mientras ganas autoridad.</p>
+        <div class="attrs">
+          <span>Continuidad</span><span>Técnico</span><span>Premium</span><span>Sistema</span>
+        </div>
+      </div>
+
+      <div class="plates">
+        <div class="row">
+          <!-- Big lockup -->
+          <div class="plate dark" style="aspect-ratio: 16/9;">
+            <span class="tag light">Lockup principal</span>
+            <div class="plate-inner">
+              <div class="logo-lockup">
+                <svg class="mark-1" viewBox="0 0 100 100" fill="none">
+                  <!-- Two clean upward chevrons, flat, staggered -->
+                  <path d="M20 72 L38 42 L38 72 L56 42" stroke="#4B9FD6" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+                  <path d="M44 72 L62 42 L62 72 L80 42" stroke="#6EE7B7" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+                </svg>
+                <div class="wm">ecomgaro<span class="dot">.</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Type spec -->
+          <div class="plate" style="aspect-ratio: 16/9;">
+            <span class="tag">Tipografía</span>
+            <div class="type-spec">
+              <div>
+                <h4 class="head-line" style="font-family:'Geist','Inter',sans-serif;font-weight:500;letter-spacing:-0.04em;">Sistemas que escalan.</h4>
+                <p class="body-line">Geist combina la precisión técnica de una mono con la calidez de una humanista. Para data-heavy layouts y headlines cortos.</p>
+              </div>
+              <div class="foot">
+                <div><b>Display</b>Geist Medium</div>
+                <div><b>Body</b>Geist Regular</div>
+                <div><b>Mono</b>JetBrains Mono</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Mark showcase -->
+          <div class="plate dark" style="aspect-ratio: 1/1;">
+            <span class="tag light">Símbolo</span>
+            <div class="plate-inner">
+              <svg class="mark-big" viewBox="0 0 100 100" fill="none">
+                <path d="M20 72 L38 42 L38 72 L56 42" stroke="#4B9FD6" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+                <path d="M44 72 L62 42 L62 72 L80 42" stroke="#6EE7B7" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Palette -->
+          <div class="plate" style="aspect-ratio: 1/1;">
+            <span class="tag light">Paleta</span>
+            <div class="palette">
+              <div class="pal-1"><b>Deep</b><small>#0E1A24</small></div>
+              <div class="pal-2"><b>Slate</b><small>#1D3449</small></div>
+              <div class="pal-3"><b>Signal</b><small>#4B9FD6</small></div>
+              <div class="pal-4"><b>Mint</b><small>#6EE7B7</small></div>
+              <div class="pal-5"><b>Bone</b><small>#F5F3EE</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application row -->
+      <div style="grid-column: 1 / -1; margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div class="plate dark" style="aspect-ratio: 1.7/1;">
+          <span class="tag light">Tarjeta</span>
+          <div class="card-mock">
+            <svg style="width:32px;height:32px;" viewBox="0 0 100 100" fill="none">
+              <path d="M20 72 L38 42 L38 72 L56 42" stroke="#4B9FD6" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+              <path d="M44 72 L62 42 L62 72 L80 42" stroke="#6EE7B7" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+            </svg>
+            <div>
+              <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:14px;color:#F5F3EE;">Fran Gallegos Romero</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7C8896;margin-top:2px;letter-spacing:0.06em;">FOUNDER · ECOMGARO</div>
+            </div>
+          </div>
+        </div>
+        <div class="plate" style="aspect-ratio: 1.7/1; background:#F5F3EE;">
+          <span class="tag">Avatar · social</span>
+          <div class="plate-inner">
+            <div style="width:64px;height:64px;background:#0E1A24;border-radius:14px;display:flex;align-items:center;justify-content:center;">
+              <svg style="width:42px;height:42px;" viewBox="0 0 100 100" fill="none">
+                <path d="M20 72 L38 42 L38 72 L56 42" stroke="#4B9FD6" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+                <path d="M44 72 L62 42 L62 72 L80 42" stroke="#6EE7B7" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="plate dark" style="aspect-ratio: 1.7/1; background:#1D3449;">
+          <span class="tag light">Headline</span>
+          <div style="padding:22px 26px;height:100%;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:22px;color:#F5F3EE;letter-spacing:-0.03em;line-height:1.1;">De <span style="color:#6EE7B7;">estrategia</span> a <span style="color:#6EE7B7;">sistema</span>.<br/>De sistema a ventas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       DIRECCIÓN 02 — SPROUT
+       ================================================================= -->
+  <section class="direction d2" data-screen-label="03 Sprout">
+    <div class="dir-head">
+      <div class="dir-num">Dirección · <b>02 / 04</b></div>
+      <h2 class="dir-title">Sprout <em>— salud, aplicada</em></h2>
+      <div class="dir-tagline">Lean-in al nicho · cálido y botánico</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-rationale">
+        <p class="label">Rationale</p>
+        <p>Pivot radical hacia el nicho Salud y Bienestar. Paleta salvia + crema + bronce. Tipografía Fraunces (serif contemporánea con cuerpo cálido). El símbolo abandona las flechas y propone un brote/semilla como metáfora de crecimiento orgánico.</p>
+        <p>Ideal si vas a <b>doblar la apuesta</b> por Salud y Bienestar como único vertical.</p>
+        <div class="attrs">
+          <span>Cálido</span><span>Humano</span><span>Editorial</span><span>Nicho</span>
+        </div>
+      </div>
+
+      <div class="plates">
+        <div class="row">
+          <div class="plate warm" style="aspect-ratio: 16/9;">
+            <span class="tag">Lockup principal</span>
+            <div class="plate-inner">
+              <div class="logo-lockup">
+                <svg class="mark-2" viewBox="0 0 100 100" fill="none">
+                  <!-- Sprout: two leaves rising from a stem -->
+                  <path d="M50 88 L50 42" stroke="#3D5A46" stroke-width="4" stroke-linecap="round"/>
+                  <path d="M50 58 Q28 52 28 32 Q48 32 50 58 Z" fill="#3D5A46"/>
+                  <path d="M50 48 Q72 42 72 22 Q52 22 50 48 Z" fill="#7C8F6A"/>
+                </svg>
+                <div class="wm">ecomgaro</div>
+              </div>
+            </div>
+          </div>
+          <div class="plate warm" style="aspect-ratio: 16/9; background:#EFEBE0;">
+            <span class="tag">Tipografía</span>
+            <div class="type-spec">
+              <div>
+                <h4 class="head-line" style="font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.03em;">Crecer con <em style="font-style:italic;font-weight:300;">raíz</em>.</h4>
+                <p class="body-line">Fraunces aporta autoridad editorial sin rigidez. Inter mantiene la UI limpia. El contraste serif/sans lee como <em>magazine</em>.</p>
+              </div>
+              <div class="foot">
+                <div><b>Display</b>Fraunces Book</div>
+                <div><b>Body</b>Inter Regular</div>
+                <div><b>Acento</b>Fraunces Italic</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="plate warm" style="aspect-ratio: 1/1; background:#3D5A46;">
+            <span class="tag light">Símbolo</span>
+            <div class="plate-inner">
+              <svg class="mark-big" viewBox="0 0 100 100" fill="none">
+                <path d="M50 88 L50 42" stroke="#EFEBE0" stroke-width="4" stroke-linecap="round"/>
+                <path d="M50 58 Q28 52 28 32 Q48 32 50 58 Z" fill="#EFEBE0"/>
+                <path d="M50 48 Q72 42 72 22 Q52 22 50 48 Z" fill="#C2B280"/>
+              </svg>
+            </div>
+          </div>
+          <div class="plate" style="aspect-ratio: 1/1;">
+            <span class="tag light">Paleta</span>
+            <div class="palette">
+              <div class="pal-1"><b>Forest</b><small>#3D5A46</small></div>
+              <div class="pal-2"><b>Sage</b><small>#7C8F6A</small></div>
+              <div class="pal-3"><b>Wheat</b><small>#C2B280</small></div>
+              <div class="pal-4"><b>Cream</b><small>#EFEBE0</small></div>
+              <div class="pal-5"><b>Ink</b><small>#1F2A23</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="grid-column: 1 / -1; margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div class="plate warm" style="aspect-ratio: 1.7/1;">
+          <span class="tag">Tarjeta</span>
+          <div class="card-mock" style="background:#EFEBE0;">
+            <svg style="width:28px;height:28px;" viewBox="0 0 100 100" fill="none">
+              <path d="M50 88 L50 42" stroke="#3D5A46" stroke-width="6" stroke-linecap="round"/>
+              <path d="M50 58 Q28 52 28 32 Q48 32 50 58 Z" fill="#3D5A46"/>
+              <path d="M50 48 Q72 42 72 22 Q52 22 50 48 Z" fill="#C2B280"/>
+            </svg>
+            <div>
+              <div style="font-family:'Fraunces',serif;font-weight:400;font-size:15px;color:#1F2A23;">Fran Gallegos Romero</div>
+              <div style="font-family:'Inter',sans-serif;font-size:10.5px;color:#8A8674;margin-top:2px;letter-spacing:0.04em;">Founder · ecomgaro</div>
+            </div>
+          </div>
+        </div>
+        <div class="plate" style="aspect-ratio: 1.7/1; background:#C2B280;">
+          <span class="tag">Tipografía editorial</span>
+          <div class="plate-inner">
+            <div style="font-family:'Fraunces',serif;font-weight:300;font-size:32px;color:#1F2A23;letter-spacing:-0.02em;line-height:1;padding:0 22px;text-align:center;">
+              Donde la <em style="font-style:italic;">estrategia</em><br/>se transforma en ventas.
+            </div>
+          </div>
+        </div>
+        <div class="plate warm" style="aspect-ratio: 1.7/1; background:#EFEBE0;">
+          <span class="tag">Avatar</span>
+          <div class="plate-inner">
+            <div style="width:70px;height:70px;background:#3D5A46;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <svg style="width:38px;height:38px;" viewBox="0 0 100 100" fill="none">
+                <path d="M50 88 L50 42" stroke="#EFEBE0" stroke-width="5" stroke-linecap="round"/>
+                <path d="M50 58 Q28 52 28 32 Q48 32 50 58 Z" fill="#EFEBE0"/>
+                <path d="M50 48 Q72 42 72 22 Q52 22 50 48 Z" fill="#C2B280"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       DIRECCIÓN 03 — SIGNAL
+       ================================================================= -->
+  <section class="direction d3" data-screen-label="04 Signal">
+    <div class="dir-head">
+      <div class="dir-num">Dirección · <b>03 / 04</b></div>
+      <h2 class="dir-title">Signal <em>— sin símbolo</em></h2>
+      <div class="dir-tagline">Wordmark puro · confianza silenciosa</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-rationale">
+        <p class="label">Rationale</p>
+        <p>Abandona el símbolo por completo. La marca vive en un wordmark con un slash <code style="font-family:'JetBrains Mono',monospace;background:#E8E8E3;padding:1px 4px;border-radius:3px;font-size:12px;">/</code> entre "ecom" y "garo" — una seña de autoría, como "by ecom/garo". Inspirado en el minimalismo confiado de Linear, Vercel y Stripe.</p>
+        <p>Ideal si quieres que la marca <b>se sienta moderna sin esfuerzo</b>. El sistema carga el peso en tipografía y espacio negativo.</p>
+        <div class="attrs">
+          <span>Minimal</span><span>Tech-premium</span><span>Flexible</span><span>Moderno</span>
+        </div>
+      </div>
+
+      <div class="plates">
+        <div class="row">
+          <div class="plate clean" style="aspect-ratio: 16/9; background:#FAFAF7;">
+            <span class="tag">Wordmark</span>
+            <div class="plate-inner">
+              <div class="wm-big">ecom<span class="slash">/</span>garo</div>
+            </div>
+          </div>
+          <div class="plate clean" style="aspect-ratio: 16/9; background:#FAFAF7;">
+            <span class="tag">Tipografía</span>
+            <div class="type-spec">
+              <div>
+                <h4 class="head-line" style="font-family:'Geist','Inter',sans-serif;font-weight:500;letter-spacing:-0.05em;">La señal sobre<br/>el ruido.</h4>
+                <p class="body-line">Un solo tipo haciendo todo el trabajo. Tracking apretado en display, abierto en body. El slash como único ornamento.</p>
+              </div>
+              <div class="foot">
+                <div><b>Display</b>Geist Medium</div>
+                <div><b>Body</b>Geist Regular</div>
+                <div><b>Slash</b>Geist Light</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="plate clean" style="aspect-ratio: 1/1; background:#0A0A0B;">
+            <span class="tag light">Monograma</span>
+            <div class="plate-inner" style="flex-direction:column;">
+              <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:180px;line-height:1;letter-spacing:-0.08em;color:#FAFAF7;">
+                e<span style="color:#00D084;font-weight:400;">/</span>g
+              </div>
+            </div>
+          </div>
+          <div class="plate" style="aspect-ratio: 1/1;">
+            <span class="tag light">Paleta</span>
+            <div class="palette">
+              <div class="pal-1"><b>Black</b><small>#0A0A0B</small></div>
+              <div class="pal-2"><b>Graphite</b><small>#2A2A2C</small></div>
+              <div class="pal-3"><b>Signal</b><small>#00D084</small></div>
+              <div class="pal-4"><b>Fog</b><small>#E8E8E3</small></div>
+              <div class="pal-5"><b>Paper</b><small>#FAFAF7</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="grid-column: 1 / -1; margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div class="plate clean" style="aspect-ratio: 1.7/1; background:#FAFAF7;">
+          <span class="tag">Tarjeta</span>
+          <div class="card-mock" style="background:#FAFAF7;border:1px solid #E8E8E3;">
+            <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:18px;letter-spacing:-0.04em;color:#0A0A0B;">
+              ecom<span style="color:#00D084;font-weight:400;">/</span>garo
+            </div>
+            <div>
+              <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:14px;color:#0A0A0B;letter-spacing:-0.01em;">Fran Gallegos Romero</div>
+              <div style="font-family:'Geist',sans-serif;font-size:11px;color:#787874;margin-top:2px;">Founder</div>
+            </div>
+          </div>
+        </div>
+        <div class="plate clean" style="aspect-ratio: 1.7/1; background:#0A0A0B;">
+          <span class="tag light">Web · header</span>
+          <div style="padding:16px 22px;height:100%;display:flex;flex-direction:column;justify-content:space-between;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:16px;color:#FAFAF7;letter-spacing:-0.03em;">
+                ecom<span style="color:#00D084;font-weight:400;">/</span>garo
+              </div>
+              <div style="font-family:'Geist',sans-serif;font-size:10px;color:#787874;letter-spacing:0.02em;">Método · Casos · Contacto</div>
+            </div>
+            <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:24px;color:#FAFAF7;letter-spacing:-0.04em;line-height:1;">Sistemas de crecimiento,<br/>no tácticas sueltas.</div>
+          </div>
+        </div>
+        <div class="plate" style="aspect-ratio: 1.7/1; background:#00D084;">
+          <span class="tag">Stamp</span>
+          <div class="plate-inner">
+            <div style="font-family:'Geist',sans-serif;font-weight:500;font-size:42px;color:#0A0A0B;letter-spacing:-0.05em;">
+              ecom<span style="font-weight:400;">/</span>garo
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       DIRECCIÓN 04 — LOOP
+       ================================================================= -->
+  <section class="direction d4" data-screen-label="05 Loop">
+    <div class="dir-head">
+      <div class="dir-num">Dirección · <b>04 / 04</b></div>
+      <h2 class="dir-title">Loop <em>— sistema, en flujo</em></h2>
+      <div class="dir-tagline">Editorial, serif · la más distintiva</div>
+    </div>
+    <div class="dir-body">
+      <div class="dir-rationale">
+        <p class="label">Rationale</p>
+        <p>El símbolo es un bucle continuo — una metáfora del sistema 3C (Captar → Convertir → Crecer → Captar). No hay principio ni fin, solo flujo. Tipografía Instrument Serif: alto contraste, italics dramáticos, muy editorial.</p>
+        <p>Es la dirección <b>más memorable y distintiva</b>. Si funciona, posiciona ecomgaro como una marca culta, no una agencia más.</p>
+        <div class="attrs">
+          <span>Distintiva</span><span>Editorial</span><span>Premium</span><span>Metafórica</span>
+        </div>
+      </div>
+
+      <div class="plates">
+        <div class="row">
+          <div class="plate editorial" style="aspect-ratio: 16/9;">
+            <span class="tag">Lockup principal</span>
+            <div class="plate-inner">
+              <div class="logo-lockup">
+                <svg class="mark-4" viewBox="0 0 100 100" fill="none">
+                  <!-- Infinity-like loop -->
+                  <path d="M30 50 C30 32, 46 32, 50 50 C54 68, 70 68, 70 50 C70 32, 54 32, 50 50 C46 68, 30 68, 30 50 Z"
+                        stroke="#1F6B5E" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="30" cy="50" r="3" fill="#D4A574"/>
+                </svg>
+                <div class="wm">ecom<em>garo</em></div>
+              </div>
+            </div>
+          </div>
+          <div class="plate editorial" style="aspect-ratio: 16/9;">
+            <span class="tag">Tipografía</span>
+            <div class="type-spec">
+              <div>
+                <h4 class="head-line" style="font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-0.01em;">El <em style="font-style:italic;">ciclo</em> del crecimiento.</h4>
+                <p class="body-line">Instrument Serif en display con sus cursivas dramáticas. Inter en body. Números tabulares para data. Tono: revista de negocios inteligente.</p>
+              </div>
+              <div class="foot">
+                <div><b>Display</b>Instrument Serif</div>
+                <div><b>Italic</b>Instrument Italic</div>
+                <div><b>Body</b>Inter Regular</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="plate editorial" style="aspect-ratio: 1/1; background:#1A1816;">
+            <span class="tag light">Símbolo</span>
+            <div class="plate-inner">
+              <svg class="mark-big" viewBox="0 0 100 100" fill="none">
+                <path d="M30 50 C30 32, 46 32, 50 50 C54 68, 70 68, 70 50 C70 32, 54 32, 50 50 C46 68, 30 68, 30 50 Z"
+                      stroke="#D4A574" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <circle cx="30" cy="50" r="3" fill="#1F6B5E"/>
+              </svg>
+            </div>
+          </div>
+          <div class="plate" style="aspect-ratio: 1/1;">
+            <span class="tag light">Paleta</span>
+            <div class="palette">
+              <div class="pal-1"><b>Ink</b><small>#1A1816</small></div>
+              <div class="pal-2"><b>Teal</b><small>#1F6B5E</small></div>
+              <div class="pal-3"><b>Bronze</b><small>#D4A574</small></div>
+              <div class="pal-4"><b>Paper</b><small>#F3EEE5</small></div>
+              <div class="pal-5"><b>Sand</b><small>#E5DCC9</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="grid-column: 1 / -1; margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div class="plate editorial" style="aspect-ratio: 1.7/1;">
+          <span class="tag">Tarjeta</span>
+          <div class="card-mock">
+            <svg style="width:28px;height:28px;" viewBox="0 0 100 100" fill="none">
+              <path d="M30 50 C30 32, 46 32, 50 50 C54 68, 70 68, 70 50 C70 32, 54 32, 50 50 C46 68, 30 68, 30 50 Z"
+                    stroke="#1F6B5E" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <circle cx="30" cy="50" r="5" fill="#D4A574"/>
+            </svg>
+            <div>
+              <div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:17px;color:#1A1816;line-height:1;">Fran Gallegos Romero</div>
+              <div style="font-family:'Inter',sans-serif;font-size:10.5px;color:#8C8578;margin-top:4px;letter-spacing:0.04em;">Founder · ecom<em style="color:#1F6B5E;">garo</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="plate editorial" style="aspect-ratio: 1.7/1; background:#1F6B5E;">
+          <span class="tag light">Editorial</span>
+          <div class="plate-inner">
+            <div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:30px;color:#F3EEE5;line-height:1.05;text-align:center;padding:0 22px;letter-spacing:-0.01em;">
+              Captar, convertir,<br/><em style="font-style:italic;color:#D4A574;">crecer.</em>
+            </div>
+          </div>
+        </div>
+        <div class="plate editorial" style="aspect-ratio: 1.7/1; background:#D4A574;">
+          <span class="tag">Avatar · social</span>
+          <div class="plate-inner">
+            <div style="width:72px;height:72px;background:#1A1816;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <svg style="width:44px;height:44px;" viewBox="0 0 100 100" fill="none">
+                <path d="M30 50 C30 32, 46 32, 50 50 C54 68, 70 68, 70 50 C70 32, 54 32, 50 50 C46 68, 30 68, 30 50 Z"
+                      stroke="#D4A574" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <circle cx="30" cy="50" r="4" fill="#1F6B5E"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================ Next steps ================ -->
+  <section class="direction" style="border-top:1px solid var(--ink);">
+    <div class="dir-head">
+      <div class="dir-num">Cierre · <b>Next</b></div>
+      <h2 class="dir-title">¿Qué sigue?</h2>
+      <div class="dir-tagline">Tu decisión guía la siguiente iteración</div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr 1fr 1fr;gap:48px;">
+      <div></div>
+      <div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);margin:0 0 8px;">Si eliges una</p>
+        <p style="font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:0;">Profundizamos: logo final vectorizado, sistema tipográfico completo, tokens de color, plantillas de LinkedIn/Instagram, rediseño de la landing.</p>
+      </div>
+      <div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);margin:0 0 8px;">Si quieres mezclar</p>
+        <p style="font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:0;">Podemos combinar (ej. símbolo de Loop + paleta de Ascent + tipografía de Signal). Usa los Tweaks para iterar en vivo.</p>
+      </div>
+      <div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);margin:0 0 8px;">Si ninguna convence</p>
+        <p style="font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.55;color:var(--ink-2);margin:0;">Dime qué te acerca y qué te aleja de cada una. Con 3–5 notas puedo hacer una V02 mucho más afinada.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>ecomgaro · brand exploration · v01</div>
+    <div>04 direcciones · 01 documento</div>
+  </footer>
+
+</div>
+
+<!-- =================== TWEAKS PANEL =================== -->
+<div class="tweaks-panel" id="tweaks">
+  <h4>Tweaks · mezclar direcciones</h4>
+
+  <label>Acento global
+    <select id="tw-accent">
+      <option value="mint">Mint (Ascent)</option>
+      <option value="sage">Sage (Sprout)</option>
+      <option value="signal">Signal green (Signal)</option>
+      <option value="bronze">Bronze (Loop)</option>
+    </select>
+  </label>
+
+  <label>Modo fondo
+    <select id="tw-mode">
+      <option value="warm">Warm (crema)</option>
+      <option value="cool">Cool (bone)</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+
+  <label>Escribir nombre como
+    <select id="tw-name">
+      <option value="lower">ecomgaro</option>
+      <option value="slash">ecom/garo</option>
+      <option value="upper">ECOMGARO</option>
+      <option value="italic">ecom<em>garo</em></option>
+    </select>
+  </label>
+
+  <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:11px;color:var(--mute);line-height:1.5;">
+    Activa/desactiva con el botón <b>Tweaks</b> en la barra superior.
+  </div>
+</div>
+
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "accent": "mint",
+    "mode": "warm",
+    "name": "lower"
+  }/*EDITMODE-END*/;
+
+  const state = { ...TWEAK_DEFAULTS };
+  const panel = document.getElementById('tweaks');
+
+  function applyTweaks() {
+    const accentMap = {
+      mint: '#6EE7B7',
+      sage: '#7C8F6A',
+      signal: '#00D084',
+      bronze: '#D4A574'
+    };
+    const bgMap = {
+      warm: '#F6F4EF',
+      cool: '#FAFAF7',
+      dark: '#0E1A24'
+    };
+    const inkMap = { warm: '#111112', cool: '#0A0A0B', dark: '#F5F3EE' };
+
+    document.body.style.background = bgMap[state.mode];
+    document.body.style.color = inkMap[state.mode];
+    document.documentElement.style.setProperty('--bg', bgMap[state.mode]);
+    document.documentElement.style.setProperty('--ink', inkMap[state.mode]);
+  }
+
+  // Listeners first
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') panel.classList.add('active');
+    if (d.type === '__deactivate_edit_mode') panel.classList.remove('active');
+  });
+
+  ['tw-accent','tw-mode','tw-name'].forEach(id => {
+    const el = document.getElementById(id);
+    const key = id.replace('tw-','');
+    el.value = state[key];
+    el.addEventListener('change', () => {
+      state[key] = el.value;
+      applyTweaks();
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: el.value } }, '*');
+    });
+  });
+
+  // Announce availability
+  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+  applyTweaks();
+</script>
+
+</body>
+</html>
