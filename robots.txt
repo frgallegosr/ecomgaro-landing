@@ -1,0 +1,35 @@
+# robots.txt para ecomGARO
+
+# Allow all bots
+User-agent: *
+Allow: /
+Disallow: /assets/
+
+# Specific rules for major crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckGo
+Allow: /
+
+# AI/LLM crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Sitemap
+Sitemap: https://ecomgaro.com/sitemap.xml
