@@ -1003,6 +1003,42 @@
     margin-top: 8px;
   }
 
+  /* ============= Sticky CTA Button ============= */
+  .sticky-cta {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 300ms ease, visibility 300ms ease, transform 300ms ease;
+    transform: scale(0.8) translateY(20px);
+  }
+  .sticky-cta.show {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+  }
+  .sticky-cta .btn {
+    box-shadow: 0 12px 40px rgba(57,255,20,0.3);
+  }
+  .sticky-cta .btn:hover {
+    box-shadow: 0 16px 50px rgba(57,255,20,0.5);
+  }
+  @media (max-width: 640px) {
+    .sticky-cta {
+      bottom: 16px;
+      right: 16px;
+    }
+    .sticky-cta .btn {
+      padding: 11px 20px;
+      font-size: 13px;
+    }
+  }
+
   /* ============= Tilt card ============= */
   .tilt {
     will-change: transform;
@@ -1036,44 +1072,16 @@
   }
   .tilt.is-hovered .tilt-spot { opacity: 1; }
 
-  /* ============= STACK (baraja) ============= */
-  .stack {
-    position: relative;
-    background: var(--navy-deep);
-    z-index: 1;
-  }
-  .stack-card {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: var(--navy);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -18px 60px rgba(0,0,0,0.45), 0 -1px 0 rgba(255,255,255,0.06) inset;
-    transform-origin: center top;
-    will-change: transform;
-  }
-  .stack-card > section {
-    width: 100%;
-    padding: 32px 0 !important;
-    background: transparent !important;
-  }
-  .stack-card > section::before { display: none !important; }
-  .stack-card .sec-head { margin-bottom: 36px; }
-  .stack-card .container { position: relative; z-index: 2; }
-
-  /* When stack content might overflow on short viewports, allow scroll inside the card */
-  @media (max-height: 760px) {
-    .stack-card { align-items: flex-start; overflow-y: auto; }
-    .stack-card > section { padding: 80px 0 40px !important; }
-  }
-
   /* ============= Reveal on scroll ============= */
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease, transform 700ms ease; }
-  .reveal.in { opacity: 1; transform: none; }
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -1209,9 +1217,6 @@
     </div>
   </section>
 
-  <!-- ============= STACK (baraja) START ============= -->
-  <div class="stack">
-  <div class="stack-card">
   <!-- ============= SECTION 3 — PROBLEMA ============= -->
   <section class="sec-problem" data-screen-label="03 Problema">
     <div class="container">
@@ -1249,8 +1254,6 @@
     </div>
   </section>
 
-  </div>
-  <div class="stack-card">
   <!-- ============= SECTION 4 — ¿POR QUÉ ECOMGARO? ============= -->
   <section class="sec-why" id="why" data-screen-label="04 Por que">
     <div class="container">
@@ -1285,8 +1288,6 @@
     </div>
   </section>
 
-  </div>
-  <div class="stack-card">
   <!-- ============= SECTION 5 — SISTEMA ============= -->
   <section class="sec-system" id="system" data-screen-label="05 Sistema">
     <div class="container">
@@ -1328,8 +1329,6 @@
     </div>
   </section>
 
-  </div>
-  <div class="stack-card">
   <!-- ============= SECTION 6 — PROCESO ============= -->
   <section class="sec-process" data-screen-label="06 Proceso">
     <div class="container">
@@ -1363,8 +1362,6 @@
     </div>
   </section>
 
-  </div>
-  <div class="stack-card">
   <!-- ============= SECTION 7 — CLIENTES ============= -->
   <section class="sec-clients" id="clients" data-screen-label="07 Clientes">
     <div class="container">
@@ -1396,8 +1393,6 @@
     </div>
   </section>
 
-  </div>
-  <div class="stack-card">
   <!-- ============= SECTION 8 — FAQ ============= -->
   <section class="sec-faq" id="faq" data-screen-label="08 FAQ">
     <div class="container">
@@ -1446,10 +1441,6 @@
     </div>
   </section>
 
-  </div>
-  </div>
-  <!-- ============= STACK (baraja) END ============= -->
-
   <!-- ============= SECTION 9 — CIERRE ============= -->
   <section class="sec-close" data-screen-label="09 Cierre">
     <div class="container">
@@ -1460,6 +1451,11 @@
       </div>
     </div>
   </section>
+
+  <!-- ============= STICKY CTA BUTTON ============= -->
+  <div class="sticky-cta" id="stickyCta">
+    <a href="#calendly" class="btn btn-primary lg">Agendar llamada</a>
+  </div>
 </main>
 
 <!-- ============= FOOTER ============= -->
@@ -1489,12 +1485,6 @@
       lastShrunk = shrunk;
     }
   }, { passive: true });
-
-  // ============= Marquee duplicate for seamless loop =============
-  const track = document.getElementById('marqueeTrack');
-  if (track) {
-    track.innerHTML = track.innerHTML + track.innerHTML;
-  }
 
   // ============= FAQ accordion =============
   document.querySelectorAll('.faq-q').forEach(btn => {
@@ -1545,37 +1535,26 @@
     });
   })();
 
-  // ============= Stack (baraja) scale =============
-  (function initStack() {
-    const cards = document.querySelectorAll('.stack-card');
-    if (!cards.length) return;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const minScale = 0.9;
-    let ticking = false;
+  // ============= Sticky CTA visibility toggle =============
+  (function initStickyCta() {
+    const stickyCta = document.getElementById('stickyCta');
+    const calendlySection = document.getElementById('calendly');
 
-    function update() {
-      ticking = false;
-      const vh = window.innerHeight;
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        // t = 0 when card is fully below viewport (rect.top >= vh)
-        // t = 1 when card has reached top (rect.top <= 0)
-        let t = 1 - rect.top / vh;
-        if (t < 0) t = 0;
-        if (t > 1) t = 1;
-        const scale = reduced ? 1 : (minScale + (1 - minScale) * t);
-        card.style.transform = 'scale(' + scale.toFixed(4) + ')';
-      });
-    }
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
+    function updateStickyCta() {
+      if (!calendlySection) return;
+
+      const rect = calendlySection.getBoundingClientRect();
+      const isVisible = rect.top > window.innerHeight;
+
+      if (isVisible && !stickyCta.classList.contains('show')) {
+        stickyCta.classList.add('show');
+      } else if (!isVisible && stickyCta.classList.contains('show')) {
+        stickyCta.classList.remove('show');
       }
     }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    update();
+
+    window.addEventListener('scroll', updateStickyCta, { passive: true });
+    updateStickyCta();
   })();
 
   // ============= Fixed anchor navigation (handles sticky stack) =============
