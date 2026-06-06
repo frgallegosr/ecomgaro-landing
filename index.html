@@ -1143,7 +1143,7 @@
       <div class="announce liquid-glass">
         <span class="pulse"></span>
         <span>Método GroWell en operación · 5 marcas/mes máx.</span>
-        <a href="#system" class="chip">
+        <a href="#why" class="chip">
           Conocer
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
         </a>
@@ -1578,7 +1578,7 @@
     update();
   })();
 
-  // ============= Smooth scroll fix for anchor links =============
+  // ============= Fixed anchor navigation (handles sticky stack) =============
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
@@ -1587,16 +1587,14 @@
       e.preventDefault();
       const target = document.querySelector(href);
       if (target) {
-        // Disable smooth behavior for a moment to prevent stack interference
-        const htmlStyle = document.documentElement.style.scrollBehavior;
-        document.documentElement.style.scrollBehavior = 'auto';
+        // Use programmatic scroll with offset to bypass sticky stack interference
+        const offset = 100; // Extra offset for navbar
+        const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
 
-        target.scrollIntoView({ behavior: 'auto', block: 'start' });
-
-        // Re-enable smooth scrolling after navigation
-        setTimeout(() => {
-          document.documentElement.style.scrollBehavior = htmlStyle;
-        }, 100);
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
       }
     });
   });
