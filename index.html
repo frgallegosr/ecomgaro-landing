@@ -1003,42 +1003,6 @@
     margin-top: 8px;
   }
 
-  /* ============= Sticky CTA Button ============= */
-  .sticky-cta {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 40;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 300ms ease, visibility 300ms ease, transform 300ms ease;
-    transform: scale(0.8) translateY(20px);
-  }
-  .sticky-cta.show {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1) translateY(0);
-  }
-  .sticky-cta .btn {
-    box-shadow: 0 12px 40px rgba(57,255,20,0.3);
-  }
-  .sticky-cta .btn:hover {
-    box-shadow: 0 16px 50px rgba(57,255,20,0.5);
-  }
-  @media (max-width: 640px) {
-    .sticky-cta {
-      bottom: 16px;
-      right: 16px;
-    }
-    .sticky-cta .btn {
-      padding: 11px 20px;
-      font-size: 13px;
-    }
-  }
-
   /* ============= Tilt card ============= */
   .tilt {
     will-change: transform;
@@ -1451,11 +1415,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ============= STICKY CTA BUTTON ============= -->
-  <div class="sticky-cta" id="stickyCta">
-    <a href="#calendly" class="btn btn-primary lg">Agendar llamada</a>
-  </div>
 </main>
 
 <!-- ============= FOOTER ============= -->
@@ -1535,29 +1494,7 @@
     });
   })();
 
-  // ============= Sticky CTA visibility toggle =============
-  (function initStickyCta() {
-    const stickyCta = document.getElementById('stickyCta');
-    const calendlySection = document.getElementById('calendly');
-
-    function updateStickyCta() {
-      if (!calendlySection) return;
-
-      const rect = calendlySection.getBoundingClientRect();
-      const isVisible = rect.top > window.innerHeight;
-
-      if (isVisible && !stickyCta.classList.contains('show')) {
-        stickyCta.classList.add('show');
-      } else if (!isVisible && stickyCta.classList.contains('show')) {
-        stickyCta.classList.remove('show');
-      }
-    }
-
-    window.addEventListener('scroll', updateStickyCta, { passive: true });
-    updateStickyCta();
-  })();
-
-  // ============= Fixed anchor navigation (handles sticky stack) =============
+  // ============= Fixed anchor navigation =============
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
