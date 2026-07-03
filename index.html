@@ -819,6 +819,99 @@
 
   /* ============= SECTION 7 — CLIENTES ============= */
   .sec-clients { padding: 120px 0; background: var(--navy); }
+
+  /* ============= SECTION 7B — TRABAJOS ============= */
+  .sec-trabajos {
+    padding: 120px 0;
+    background: var(--navy);
+    position: relative;
+  }
+  .sec-trabajos::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(57,255,20, 0.05), transparent 55%);
+    pointer-events: none;
+  }
+  .trabajos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 1000px) { .trabajos-grid { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; } }
+
+  .trabajo-card {
+    position: relative;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.10);
+    overflow: hidden;
+    transition: transform 320ms ease, border-color 320ms, background 320ms;
+    display: flex;
+    flex-direction: column;
+  }
+  .trabajo-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(57,255,20, 0.45);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .trabajo-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .trabajo-content {
+    padding: 28px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .trabajo-card h3 {
+    color: var(--white);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.015em;
+  }
+
+  .trabajo-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--neon);
+    background: rgba(57,255,20, 0.08);
+    border: 1px solid rgba(57,255,20, 0.20);
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+
+  .trabajo-card p {
+    color: var(--white-80);
+    font-size: 14.5px;
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+
+  .trabajo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--neon);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap 200ms ease;
+  }
+  .trabajo-link:hover { gap: 12px; }
   .client-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1316,6 +1409,62 @@
           <p>Arquitectura completa de growth que permite escalar sin depender de campañas aisladas.</p>
           <div class="tilt-spot"></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= SECTION 7B — TRABAJOS REALIZADOS ============= -->
+  <section class="sec-trabajos" data-screen-label="07B Trabajos">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-eyebrow neon">Trabajos realizados</div>
+        <h2 class="sec-h">Diseño, desarrollo y estrategia</h2>
+        <p class="sec-sub">Empresas que confiaron en nosotros para diseñar sus marcas, desarrollar sus webs y escalar sus negocios.</p>
+      </div>
+      <div class="trabajos-grid">
+        <a href="https://globalzinc.es" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;">
+          <img src="assets/trabajo-globalzinc.jpg" alt="GlobalZinc" class="trabajo-image">
+          <div class="trabajo-content">
+            <span class="trabajo-type">Web Corporativa</span>
+            <h3>GlobalZinc</h3>
+            <p>Transformados metálicos. Web corporativa con portfolio visual de proyectos industriales.</p>
+            <span class="trabajo-link">Ver proyecto →</span>
+          </div>
+          <div class="tilt-spot"></div>
+        </a>
+
+        <a href="https://acerozinc.com" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;">
+          <img src="assets/trabajo-acerozinc.jpg" alt="AceroZinc" class="trabajo-image">
+          <div class="trabajo-content">
+            <span class="trabajo-type">Web + Branding</span>
+            <h3>AceroZinc</h3>
+            <p>Transformados metálicos. Diseño de web, logo corporativo y catálogo de productos.</p>
+            <span class="trabajo-link">Ver proyecto →</span>
+          </div>
+          <div class="tilt-spot"></div>
+        </a>
+
+        <a href="https://jjweddingcars.es" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;">
+          <img src="assets/trabajo-jjweddingcars.jpg" alt="JJ Wedding Cars" class="trabajo-image">
+          <div class="trabajo-content">
+            <span class="trabajo-type">Logo + Branding</span>
+            <h3>JJ Wedding Cars</h3>
+            <p>Alquiler de coches clásicos para bodas. Diseño de logo, identidad visual y branding premium.</p>
+            <span class="trabajo-link">Ver proyecto →</span>
+          </div>
+          <div class="tilt-spot"></div>
+        </a>
+
+        <a href="#" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;">
+          <img src="assets/trabajo-trastero.jpg" alt="Trastero Almeritras" class="trabajo-image">
+          <div class="trabajo-content">
+            <span class="trabajo-type">Web + Diseño</span>
+            <h3>Trastero Almeritras</h3>
+            <p>Plataforma de almacenamiento. Web y diseño de identidad visual para servicio de trasteros.</p>
+            <span class="trabajo-link">Ver proyecto →</span>
+          </div>
+          <div class="tilt-spot"></div>
+        </a>
       </div>
     </div>
   </section>
