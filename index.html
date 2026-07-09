@@ -26,7 +26,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"/>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<!-- Google Consent Mode v2 — denegado por defecto hasta que el visitante decida -->
+<!-- Google Consent Mode v2 — denegado por defecto hasta que Cookiebot actualice el estado -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -34,9 +34,13 @@
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
     'ad_personalization': 'denied',
-    'analytics_storage': 'denied'
+    'analytics_storage': 'denied',
+    'wait_for_update': 500
   });
 </script>
+
+<!-- Cookiebot CMP — gestiona el banner y actualiza el consentimiento anterior -->
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="7a510f87-2c33-479d-bbff-a4f48e838f0b" data-blockingmode="auto" type="text/javascript"></script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1R6M0KHT8L"></script>
@@ -1613,94 +1617,6 @@
     el.style.transitionDelay = `${(i % 3) * 90}ms`;
     io.observe(el);
   });
-</script>
-
-<!-- ============= COOKIE CONSENT BANNER ============= -->
-<div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Consentimiento de cookies" hidden>
-  <p>Usamos cookies de analítica para entender cómo se usa esta web. Puedes aceptarlas o rechazarlas.</p>
-  <div class="cookie-consent-actions">
-    <button type="button" id="cookie-reject" class="btn-cookie btn-cookie-reject">Rechazar</button>
-    <button type="button" id="cookie-accept" class="btn-cookie btn-cookie-accept">Aceptar</button>
-  </div>
-</div>
-
-<style>
-  .cookie-consent {
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    z-index: 9999;
-    max-width: 560px;
-    margin: 0 auto;
-    background: var(--navy-deep, #001229);
-    border: 1px solid rgba(57,255,20,0.25);
-    border-radius: 16px;
-    padding: 18px 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    color: #e8f1f5;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-  .cookie-consent[hidden] { display: none; }
-  .cookie-consent p { margin: 0; flex: 1 1 260px; }
-  .cookie-consent-actions { display: flex; gap: 10px; flex: 0 0 auto; }
-  .btn-cookie {
-    border: none;
-    border-radius: 999px;
-    padding: 9px 18px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .btn-cookie-reject {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.25);
-    color: #e8f1f5;
-  }
-  .btn-cookie-accept {
-    background: #39FF14;
-    color: #001229;
-  }
-</style>
-
-<script>
-  (function () {
-    var STORAGE_KEY = 'ecomgaro_cookie_consent';
-    var banner = document.getElementById('cookie-consent');
-
-    function applyConsent(granted) {
-      gtag('consent', 'update', {
-        'ad_storage': granted ? 'granted' : 'denied',
-        'ad_user_data': granted ? 'granted' : 'denied',
-        'ad_personalization': granted ? 'granted' : 'denied',
-        'analytics_storage': granted ? 'granted' : 'denied'
-      });
-    }
-
-    var saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === 'granted' || saved === 'denied') {
-      applyConsent(saved === 'granted');
-    } else {
-      banner.hidden = false;
-    }
-
-    document.getElementById('cookie-accept').addEventListener('click', function () {
-      localStorage.setItem(STORAGE_KEY, 'granted');
-      applyConsent(true);
-      banner.hidden = true;
-    });
-
-    document.getElementById('cookie-reject').addEventListener('click', function () {
-      localStorage.setItem(STORAGE_KEY, 'denied');
-      applyConsent(false);
-      banner.hidden = true;
-    });
-  })();
 </script>
 
 </body>
