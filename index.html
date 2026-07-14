@@ -284,6 +284,7 @@
   @media (max-width: 880px) {
     .nav-links { display: none; }
     .nav { padding: 8px 10px 8px 16px; position: relative; }
+    .nav.menu-open { overflow: visible; }
     .nav-toggle { display: flex; }
 
     .nav-links.mobile-open {
@@ -1601,16 +1602,19 @@
   // ============= Mobile nav toggle =============
   const navToggle = document.getElementById('navToggle');
   const navLinksEl = document.getElementById('navLinks');
+  const navEl = document.getElementById('nav');
   if (navToggle && navLinksEl) {
     const closeMenu = () => {
       navLinksEl.classList.remove('mobile-open');
       navToggle.classList.remove('open');
+      navEl.classList.remove('menu-open');
       navToggle.setAttribute('aria-expanded', 'false');
       navToggle.setAttribute('aria-label', 'Abrir menú');
     };
     navToggle.addEventListener('click', () => {
       const isOpen = navLinksEl.classList.toggle('mobile-open');
       navToggle.classList.toggle('open', isOpen);
+      navEl.classList.toggle('menu-open', isOpen);
       navToggle.setAttribute('aria-expanded', String(isOpen));
       navToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
     });
