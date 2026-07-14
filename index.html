@@ -243,9 +243,70 @@
   .nav-cta { z-index: 2; }
   .nav-cta .btn { padding: 9px 18px; font-size: 14px; }
 
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 3;
+  }
+  .nav-toggle span {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: background 150ms ease;
+  }
+  .nav-toggle span::before,
+  .nav-toggle span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 200ms ease, top 200ms ease;
+  }
+  .nav-toggle span::before { top: -6px; }
+  .nav-toggle span::after { top: 6px; }
+  .nav-toggle.open span { background: transparent; }
+  .nav-toggle.open span::before { top: 0; transform: rotate(45deg); }
+  .nav-toggle.open span::after { top: 0; transform: rotate(-45deg); }
+
   @media (max-width: 880px) {
     .nav-links { display: none; }
-    .nav { padding: 8px 10px 8px 16px; }
+    .nav { padding: 8px 10px 8px 16px; position: relative; }
+    .nav-toggle { display: flex; }
+
+    .nav-links.mobile-open {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      background: var(--navy-deep);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    }
+    .nav-links.mobile-open a {
+      padding: 13px 16px;
+      justify-content: space-between;
+      font-size: 15px;
+      border-radius: 12px;
+    }
   }
 
   /* ============= HERO ============= */
@@ -1144,7 +1205,7 @@
       <img src="assets/ecomgaro-logo.png" alt="" />
       <span class="name">e-comgaro</span>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="#why">Propuesta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></a>
       <a href="#system">Sistema</a>
       <a href="#clients">Casos de éxito</a>
@@ -1153,6 +1214,9 @@
     <div class="nav-cta">
       <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20me%20gustaría%20conocer%20más%20sobre..." target="_blank" rel="noopener noreferrer" class="btn btn-primary">Contáctanos</a>
     </div>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+      <span></span>
+    </button>
   </nav>
 </div>
 
@@ -1533,6 +1597,28 @@
       lastShrunk = shrunk;
     }
   }, { passive: true });
+
+  // ============= Mobile nav toggle =============
+  const navToggle = document.getElementById('navToggle');
+  const navLinksEl = document.getElementById('navLinks');
+  if (navToggle && navLinksEl) {
+    const closeMenu = () => {
+      navLinksEl.classList.remove('mobile-open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú');
+    };
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinksEl.classList.toggle('mobile-open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      navToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+    });
+    navLinksEl.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('click', (e) => {
+      if (navLinksEl.classList.contains('mobile-open') && !e.target.closest('#nav')) closeMenu();
+    });
+  }
 
   // ============= FAQ accordion =============
   document.querySelectorAll('.faq-q').forEach(btn => {
