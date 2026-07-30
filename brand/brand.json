@@ -1,0 +1,106 @@
+{
+  "identity": {
+    "name": "e-comgaro",
+    "product": "Sistema de growth (captación + conversión + retención) para marcas de eCommerce ya en marcha, implementado y operado como partner",
+    "tagline": "El sistema que utilizan las marcas más sólidas para escalar hacia las 6 y 7 cifras",
+    "positioning": "Partner de growth dedicado (máx. 5 clientes/mes), no agencia tradicional — se queda operando mes a mes tras la implementación de 90 días",
+    "audience": [
+      "Fundadores de eCommerce de cualquier nicho que ya tienen ventas/tráfico pero sin sistema estructurado",
+      "NO marcas recién lanzadas sin ventas todavía"
+    ]
+  },
+  "category": "Growth partner / sistema de crecimiento para eCommerce",
+  "archetype": {
+    "primary": "Ruler",
+    "secondary": "Sage",
+    "ui_translation": "El sistema manda sobre la urgencia: rejilla disciplinada, paleta corta, cero improvisación — pero se explica con datos y auditoría antes de vender, nunca con hype.",
+    "allowed_behaviors": [
+      "mostrar el método paso a paso (auditoría → implementación → optimización)",
+      "cifras y plazos concretos (90 días, 5 clientes/mes)",
+      "jerarquía formal y consistente entre secciones"
+    ],
+    "forbidden_behaviors": [
+      "signos de exclamación",
+      "urgencia artificial (cuentas regresivas, 'últimas plazas' falsas)",
+      "improvisar un radio, color o familia tipográfica nueva fuera del contrato",
+      "promesas sin dato detrás"
+    ]
+  },
+  "visual_posture": {
+    "density": { "value": 3, "why": "Cada sección respira pero siempre trae un dato concreto (auditoría, 3 pasos, cifras de casos)." },
+    "expression": { "value": 3, "why": "El verde neón, el glow del timeline y el carrusel dan voz propia sin gritar con exclamaciones." },
+    "geometry": { "value": 2, "why": "Botones en píldora y esquinas redondeadas ya son la marca; el orden viene de disciplinar cuántos radios existen, no de ser anguloso." },
+    "warmth": { "value": 1, "why": "Navy, turquesa, verde neón — frío de punta a punta, cero ámbar ni terracota." },
+    "editoriality": { "value": 2, "why": "Landing de conversión: mandan las tarjetas y el CTA, no la tipografía editorial." },
+    "materiality": { "value": 3, "why": "El liquid-glass, los glows y las sombras dan profundidad real; no es plano absoluto." }
+  },
+  "tokens": {
+    "colors": {
+      "primary": { "hex": "#39FF14", "name": "Verde neón de crecimiento" },
+      "primary_deep": { "hex": "#2DCC10", "name": "Verde neón profundo" },
+      "accent": { "hex": "#17A2B8", "name": "Turquesa de dato" },
+      "background": { "hex": "#001F3F", "name": "Navy profundo" },
+      "surface": { "hex": "#00152C", "name": "Navy carbón" },
+      "surface_elevated": { "hex": "#0F1419", "name": "Carbón azulado" },
+      "border": { "hex": "rgba(255,255,255,0.10)", "name": "Línea de vidrio" },
+      "text": { "hex": "#FFFFFF", "name": "Blanco" },
+      "text_muted": { "hex": "rgba(255,255,255,0.80)", "name": "Blanco 80%" },
+      "text_subtle": { "hex": "rgba(255,255,255,0.60)", "name": "Blanco 60%" },
+      "success": { "hex": "#39FF14", "name": "Verde neón (reutiliza primary — crecimiento = éxito)" },
+      "danger": { "hex": "#FF5C5C", "name": "Rojo de alerta" },
+      "warning": { "hex": "#FFB020", "name": "Ámbar de aviso" }
+    },
+    "typography": {
+      "families": [
+        {
+          "family": "Geist",
+          "css_var": "--font-primary",
+          "fallback": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+          "weights": [400, 500, 600],
+          "use_for": ["títulos", "cuerpo", "botones", "labels", "todo"],
+          "avoid_for": ["no mezclar con otra familia para dar personalidad — ya la tiene por peso y tracking negativo en títulos"]
+        }
+      ]
+    },
+    "shape": {
+      "radius_sm": 8,
+      "radius_md": 16,
+      "radius_lg": 24,
+      "border_width": 1
+    },
+    "spacing": {
+      "unit": 8,
+      "section": { "sm": 60, "md": 100, "lg": 120 },
+      "gap": { "xs": 8, "sm": 14, "md": 24, "lg": 28 }
+    }
+  },
+  "component_rules_summary": "Ver COMPONENT_RULES.md",
+  "anti_slop": {
+    "forbidden_colors": ["#6366F1", "#8B5CF6", "#A855F7"],
+    "restricted_hue_range_hsl": [235, 285],
+    "forbidden_patterns": [
+      "hero centrado con headline + subheadline + dos botones genéricos sin nada que lo distinga",
+      "tres tarjetas idénticas de 'features' con icono + título + párrafo sin jerarquía real",
+      "stock photos de gente sonriendo en oficina",
+      "testimonios genéricos sin cifra ni nombre de empresa verificable",
+      "urgencia artificial (cuentas regresivas, 'oferta por tiempo limitado' falsa)",
+      "más de 3 valores de radio distintos en la misma interfaz (fuera de la píldora 999px documentada)",
+      "transition: all en cualquier componente",
+      "sellos de confianza genéricos ('Empresa certificada', badges sin origen verificable)",
+      "iconos decorativos que no distinguen ni aportan información"
+    ]
+  },
+  "validation": {
+    "max_fonts": 2,
+    "max_radius_values": 3,
+    "min_contrast_body": 4.5,
+    "max_primary_color_usage_percent": 15
+  },
+  "generation_notes": [
+    "Arquetipo Ruler+Sage elegido tras leer el copy real de la landing (tema central: 'sistema vs. ruleta'), no desde cero — decidido en la auditoría de julio 2026.",
+    "primary_deep, danger y warning son colores nuevos, no existían en el :root original — se añaden porque cualquier sistema los necesita para hover states y validaciones futuras (formularios, alertas).",
+    "geometry se mantiene en 2 (redondeado) a pesar del arquetipo Ruler porque la disciplina de Ruler aquí se expresa en consistencia de radios (3 valores), no en angularidad.",
+    "Los controles en píldora (botones, badges, nav) usan 999px (fully rounded) por convención documentada en COMPONENT_RULES.md — no cuenta como cuarto valor de radio porque no es una decisión de 'cuánto redondear', es la forma por defecto de un control tipo píldora.",
+    "El :root actual del proyecto tiene 10 valores de radio distintos (2,8,12,14,16,18,20,22,24px + 999px de píldora) — pendiente de colapsar a radius_sm/md/lg + la píldora documentada."
+  ]
+}

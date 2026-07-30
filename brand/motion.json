@@ -1,0 +1,29 @@
+{
+  "motion": {
+    "personality": {
+      "energy": 3,
+      "elasticity": 1,
+      "directionality": 4,
+      "restraint": 3
+    },
+    "durations_ms": {
+      "micro": 120,
+      "fast": 200,
+      "base": 400,
+      "slow": 600
+    },
+    "easing": "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    "easing_gsap": "power2.out",
+    "safe_props": ["transform", "opacity"],
+    "unsafe_props": ["width", "height", "top", "left", "right", "bottom", "padding", "margin"],
+    "stagger": { "delay_ms": 90, "max_groups": 3 },
+    "rules": [
+      "Nunca transition: all — enumerar siempre las propiedades.",
+      "Animaciones de posición: transform: translate(), nunca top/left.",
+      "Animaciones de tamaño: transform: scale(), nunca width/height.",
+      "Entrada con ease-out, salida con ease-in.",
+      "Feedback de interacción (hover, focus) por debajo de 200ms."
+    ],
+    "reduced_motion": "Todas las animaciones decorativas (pulso del botón flotante, auto-scroll del carrusel, tilt de tarjetas, reveal-on-scroll, bolita del timeline) se desactivan o reducen a instantáneo bajo prefers-reduced-motion. No negociable."
+  }
+}

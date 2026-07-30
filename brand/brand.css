@@ -1,0 +1,56 @@
+/* Generado por scripts/tokens.mjs desde brand/brand.json — NO EDITAR A MANO */
+
+:root {
+  /* ---- Nivel 1: primitivos ---- */
+  --color-primary: #39FF14; /* Verde neón de crecimiento */
+  --color-primary-deep: #2DCC10; /* Verde neón profundo */
+  --color-accent: #17A2B8; /* Turquesa de dato */
+  --color-background: #001F3F; /* Navy profundo */
+  --color-surface: #00152C; /* Navy carbón */
+  --color-surface-elevated: #0F1419; /* Carbón azulado */
+  --color-border: rgba(255,255,255,0.10); /* Línea de vidrio */
+  --color-text: #FFFFFF; /* Blanco */
+  --color-text-muted: rgba(255,255,255,0.80); /* Blanco 80% */
+  --color-text-subtle: rgba(255,255,255,0.60); /* Blanco 60% */
+  --color-success: #39FF14; /* Verde neón (reutiliza primary — crecimiento = éxito) */
+  --color-danger: #FF5C5C; /* Rojo de alerta */
+  --color-warning: #FFB020; /* Ámbar de aviso */
+  --font-primary: 'Geist', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px; /* píldora, documentada aparte — no cuenta en la escala de 3 */
+  --border-width: 1px;
+  --space-unit: 8px;
+  --space-section-sm: 60px;
+  --space-section-md: 100px;
+  --space-section-lg: 120px;
+  --space-gap-xs: 8px;
+  --space-gap-sm: 14px;
+  --space-gap-md: 24px;
+  --space-gap-lg: 28px;
+
+  /* ---- Nivel 2: semánticos ---- */
+  --surface-bg: var(--color-background);
+  --surface-panel: var(--color-surface);
+  --surface-elevated: var(--color-surface-elevated);
+  --text-default: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --text-subtle: var(--color-text-subtle);
+  --border-default: var(--color-border);
+  --action-primary: var(--color-primary);
+  --action-primary-hover: var(--color-primary-deep);
+  --action-accent: var(--color-accent);
+  --state-success: var(--color-success);
+  --state-danger: var(--color-danger);
+  --state-warning: var(--color-warning);
+
+  /* ---- Nivel 3: componente ---- */
+  --btn-radius: var(--radius-full);
+  --card-radius: var(--radius-md);
+  --section-radius: var(--radius-lg);
+  --btn-bg: var(--action-primary);
+  --btn-bg-hover: var(--action-primary-hover);
+  --card-bg: var(--surface-panel);
+  --card-border: var(--border-default);
+}

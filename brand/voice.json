@@ -1,0 +1,50 @@
+{
+  "voice": {
+    "language": "es",
+    "dialect": "Español de España, tuteo. Nunca usted ni voseo, aunque las fuentes citadas los usen.",
+    "tone_axes": {
+      "directness": 4,
+      "warmth": 2,
+      "technicality": 3,
+      "provocation": 1,
+      "hype": 1
+    },
+    "principles": [
+      "Números y método, no adjetivos vacíos",
+      "El sistema es el protagonista, no la urgencia",
+      "Explicamos antes de vender",
+      "La escasez que comunicamos es real (5 clientes/mes), nunca fingida"
+    ],
+    "vibe": "Un socio de growth que audita antes de prometer, habla con datos y plazos concretos, y no necesita gritar para que le crean.",
+    "avoid_words": [
+      "revolucionario", "disruptivo", "mágico", "gurú", "hack", "secreto", "fórmula secreta",
+      "sin esfuerzo", "garantizado", "en tiempo récord", "brutal", "una locura", "flipante",
+      "épico", "viral", "boom", "la clave definitiva", "sin límites", "ilimitado",
+      "no te lo puedes perder", "últimas plazas", "agotándose", "imperdible", "cambia tu vida",
+      "increíble", "10x en 24 horas"
+    ],
+    "safe_words": [
+      "crecimiento", "automatizaciones", "IA", "sistema", "método", "auditoría", "datos",
+      "estructura", "escalar", "rentabilidad"
+    ],
+    "sentence_rules": {
+      "prefer": [
+        "frases cortas",
+        "voz activa",
+        "números y plazos concretos (90 días, 5 clientes/mes)"
+      ],
+      "avoid": [
+        "adjetivos superlativos sin dato detrás",
+        "tricolon genérico ('rápido, fácil y efectivo')",
+        "signos de exclamación"
+      ]
+    },
+    "cta_style": "Directo, 1-2 palabras, sin urgencia fingida",
+    "cta_primary": "Contáctanos",
+    "cta_secondary": "Ver sistema",
+    "code_switching": {
+      "allowed": ["LTV", "ads", "email marketing"],
+      "rule": "Solo términos que un founder/marketer ya usa a diario en español; si hay traducción corta y natural (embudo, no funnel), se usa la traducción."
+    }
+  }
+}
