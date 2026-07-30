@@ -893,27 +893,29 @@
     pointer-events: none;
   }
   .trabajos-viewport {
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     width: 100%;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
   }
+  .trabajos-viewport::-webkit-scrollbar { display: none; }
   .trabajos-track {
     display: flex;
     gap: 28px;
     width: max-content;
-    animation: trabajosScroll 34s linear infinite;
+    padding: 0 24px;
   }
-  .trabajos-viewport:hover .trabajos-track,
-  .trabajos-track:focus-within {
-    animation-play-state: paused;
-  }
-  @keyframes trabajosScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .trabajos-track { animation: none; }
+  .trabajos-hint {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--white-80);
+    opacity: 0.55;
+    margin-top: 18px;
+    letter-spacing: 0.01em;
   }
 
   .trabajo-card {
@@ -1547,7 +1549,8 @@
         <h2 class="sec-h">Diseño, desarrollo y estrategia</h2>
         <p class="sec-sub">Empresas que confiaron en nosotros para diseñar sus marcas, desarrollar sus webs y escalar sus negocios.</p>
       </div>
-      <div class="trabajos-viewport">
+    </div>
+    <div class="trabajos-viewport" id="trabajosViewport">
         <div class="trabajos-track" id="trabajosTrack">
           <a href="https://globalzinc.es" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;">
             <img src="assets/trabajo-globalzinc.jpg" alt="GlobalZinc" class="trabajo-image">
@@ -1638,7 +1641,9 @@
             <div class="tilt-spot"></div>
           </a>
         </div>
-      </div>
+    </div>
+    <div class="container">
+      <p class="trabajos-hint">Deslizá con la rueda o el trackpad para adelantar</p>
     </div>
   </section>
 
@@ -1734,6 +1739,57 @@
       lastShrunk = shrunk;
     }
   }, { passive: true });
+
+  // ============= Trabajos auto-scroll carousel =============
+  const trabajosViewport = document.getElementById('trabajosViewport');
+  const trabajosTrack = document.getElementById('trabajosTrack');
+  if (trabajosViewport && trabajosTrack) {
+    let paused = false;
+    let userScrollTimeout;
+    const speed = 0.6; // px por frame
+
+    const halfWidth = () => trabajosTrack.scrollWidth / 2;
+
+    function tick() {
+      if (!paused) {
+        trabajosViewport.scrollLeft += speed;
+        const hw = halfWidth();
+        if (trabajosViewport.scrollLeft >= hw) {
+          trabajosViewport.scrollLeft -= hw;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    trabajosViewport.addEventListener('mouseenter', () => { paused = true; });
+    trabajosViewport.addEventListener('mouseleave', () => { paused = false; });
+    trabajosViewport.addEventListener('focusin', () => { paused = true; });
+    trabajosViewport.addEventListener('focusout', () => { paused = false; });
+
+    const markUserScrolling = () => {
+      paused = true;
+      clearTimeout(userScrollTimeout);
+      userScrollTimeout = setTimeout(() => { paused = false; }, 1500);
+    };
+    trabajosViewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      trabajosViewport.scrollLeft += (Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX);
+      markUserScrolling();
+    }, { passive: false });
+    trabajosViewport.addEventListener('touchstart', markUserScrolling, { passive: true });
+    trabajosViewport.addEventListener('touchmove', markUserScrolling, { passive: true });
+
+    // Mantiene el bucle si el usuario arrastra manualmente más allá de los límites
+    trabajosViewport.addEventListener('scroll', () => {
+      const hw = halfWidth();
+      if (trabajosViewport.scrollLeft >= hw) {
+        trabajosViewport.scrollLeft -= hw;
+      } else if (trabajosViewport.scrollLeft < 0) {
+        trabajosViewport.scrollLeft += hw;
+      }
+    }, { passive: true });
+  }
 
   // ============= Timeline ball =============
   const timelineEl = document.getElementById('timeline');
