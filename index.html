@@ -567,40 +567,35 @@
     padding: 100px 0;
     background: var(--navy);
   }
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+  .problem-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 760px;
+    margin: 0 auto;
   }
-  @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
-
-  .prob-card {
-    padding: 32px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.10);
-    transition: transform 280ms ease, border-color 280ms ease, background 280ms ease;
+  .problem-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .prob-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(23,162,184, 0.45);
-    background: rgba(255,255,255,0.04);
-  }
-  .prob-card .ic {
+  .problem-row:last-child { border-bottom: none; }
+  .problem-row .ic {
     width: 44px; height: 44px;
     border-radius: 8px;
     background: rgba(23,162,184, 0.10);
     color: var(--turquoise);
     display: flex; align-items: center; justify-content: center;
-    margin-bottom: 22px;
+    flex-shrink: 0;
   }
-  .prob-card h3 {
+  .problem-row h3 {
     color: var(--white);
     font-size: 19px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
-  .prob-card p {
+  .problem-row p {
     color: var(--white-80);
     font-size: 15.5px;
     line-height: 1.6;
@@ -622,64 +617,50 @@
     pointer-events: none;
   }
   .sec-why .container { position: relative; z-index: 1; }
-  .why-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+  .why-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 780px;
+    margin: 0 auto;
   }
-  @media (max-width: 1000px) { .why-grid { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto;} }
-
-  .why-card {
-    position: relative;
-    padding: 40px 32px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.10);
-    overflow: hidden;
-    transition: transform 320ms ease, border-color 320ms ease, background 320ms ease;
+  .why-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .why-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(57,255,20, 0.45);
-    background: rgba(255,255,255,0.04);
+  .why-row:last-child { border-bottom: none; }
+  @media (max-width: 700px) {
+    .why-row { flex-direction: column; align-items: flex-start; gap: 12px; }
   }
-  .why-card::before {
-    content: '';
-    position: absolute;
-    top: -120px; right: -120px;
-    width: 280px; height: 280px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(57,255,20,0.06), transparent 70%);
-    transition: transform 600ms ease;
-  }
-  .why-card:hover::before { transform: scale(1.3); }
 
   .why-num {
-    position: relative;
     font-family: 'Geist', sans-serif;
-    font-size: 96px;
+    font-size: 72px;
     font-weight: 700;
     line-height: 0.85;
     background: linear-gradient(180deg, var(--neon) 0%, rgba(57,255,20,0.25) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    margin-bottom: 24px;
     letter-spacing: -0.05em;
+    flex-shrink: 0;
+    width: 100px;
   }
-  .why-card h3 {
+  .why-row h3 {
     color: var(--white);
     font-size: 21px;
     font-weight: 600;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     letter-spacing: -0.01em;
   }
-  .why-card p {
+  .why-row p {
     color: var(--white-80);
     font-size: 15.5px;
     line-height: 1.6;
   }
-  .why-card .badge {
+  .why-row .badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -690,7 +671,7 @@
     color: var(--neon);
     background: rgba(57,255,20, 0.08);
     border: 1px solid rgba(57,255,20, 0.20);
-    margin-top: 16px;
+    margin-top: 14px;
   }
 
   /* ============= SECTION 5 — SISTEMA (3 PILARES) ============= */
@@ -1373,30 +1354,33 @@
         <h2 class="sec-h">La mayoría de marcas no tienen un sistema.</h2>
         <p class="sec-sub">Por eso el crecimiento depende de picos de ventas o campañas aisladas.</p>
       </div>
-      <div class="grid-3">
-        <div class="prob-card reveal tilt">
+      <div class="problem-list">
+        <div class="problem-row reveal">
           <div class="ic">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
           </div>
-          <h3>Tráfico sin estructura</h3>
-          <p>Los visitantes llegan pero no existe un recorrido claro hacia la compra.</p>
-          <div class="tilt-spot"></div>
+          <div>
+            <h3>Tráfico sin estructura</h3>
+            <p>Los visitantes llegan pero no existe un recorrido claro hacia la compra.</p>
+          </div>
         </div>
-        <div class="prob-card reveal tilt">
+        <div class="problem-row reveal">
           <div class="ic">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><polyline points="7 14 11 9 14 12 21 5"/></svg>
           </div>
-          <h3>Ventas impredecibles</h3>
-          <p>Dependencia de promociones aisladas para sobrevivir el mes.</p>
-          <div class="tilt-spot"></div>
+          <div>
+            <h3>Ventas impredecibles</h3>
+            <p>Dependencia de promociones aisladas para sobrevivir el mes.</p>
+          </div>
         </div>
-        <div class="prob-card reveal tilt">
+        <div class="problem-row reveal">
           <div class="ic">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>
           </div>
-          <h3>Tácticas desconectadas</h3>
-          <p>Anuncios, contenido y email marketing no trabajan como un solo sistema.</p>
-          <div class="tilt-spot"></div>
+          <div>
+            <h3>Tácticas desconectadas</h3>
+            <p>Anuncios, contenido y email marketing no trabajan como un solo sistema.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1410,27 +1394,30 @@
         <h2 class="sec-h">¿Por qué e-comgaro?</h2>
         <p class="sec-sub">No somos una agencia. Somos un socio de crecimiento dedicado a escalar tu marca.</p>
       </div>
-      <div class="why-grid">
-        <div class="why-card reveal tilt">
+      <div class="why-list">
+        <div class="why-row reveal">
           <div class="why-num">01</div>
-          <h3>Socio dedicado</h3>
-          <p>Trabajamos con pocas marcas para asegurar la máxima atención y resultados. No eres un ticket de soporte, eres un proyecto estratégico.</p>
-          <span class="badge">Máx. 5 clientes/mes</span>
-          <div class="tilt-spot"></div>
+          <div>
+            <h3>Socio dedicado</h3>
+            <p>Trabajamos con pocas marcas para asegurar la máxima atención y resultados. No eres un ticket de soporte, eres un proyecto estratégico.</p>
+            <span class="badge">Máx. 5 clientes/mes</span>
+          </div>
         </div>
-        <div class="why-card reveal tilt">
+        <div class="why-row reveal">
           <div class="why-num">02</div>
-          <h3>Método GroWell</h3>
-          <p>No gestionamos campañas aisladas. Diseñamos una arquitectura completa: captación inteligente + embudos optimizados + retención automatizada. Todo funciona como un único sistema.</p>
-          <span class="badge">No solo ads</span>
-          <div class="tilt-spot"></div>
+          <div>
+            <h3>Método GroWell</h3>
+            <p>No gestionamos campañas aisladas. Diseñamos una arquitectura completa: captación inteligente + embudos optimizados + retención automatizada. Todo funciona como un único sistema.</p>
+            <span class="badge">No solo ads</span>
+          </div>
         </div>
-        <div class="why-card reveal tilt">
+        <div class="why-row reveal">
           <div class="why-num">03</div>
-          <h3>90 días para implementar</h3>
-          <p>En 90 días diseñamos e implementamos los pilares del sistema en tu marca. A partir de ahí, seguimos como equipo de crecimiento operando mes a mes.</p>
-          <span class="badge">Implementación + operación</span>
-          <div class="tilt-spot"></div>
+          <div>
+            <h3>90 días para implementar</h3>
+            <p>En 90 días diseñamos e implementamos los pilares del sistema en tu marca. A partir de ahí, seguimos como equipo de crecimiento operando mes a mes.</p>
+            <span class="badge">Implementación + operación</span>
+          </div>
         </div>
       </div>
     </div>
