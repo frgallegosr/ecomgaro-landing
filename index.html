@@ -1136,17 +1136,32 @@
     background: var(--navy-deep);
     border-top: 1px solid rgba(255,255,255,0.06);
   }
-  .foot-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    text-align: center;
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 32px;
+    align-items: start;
   }
+  .foot-col { display: flex; flex-direction: column; gap: 14px; }
   .foot-logo { display: inline-flex; align-items: center; gap: 12px; }
   .foot-logo img { height: 36px; }
   .foot-logo span { font-size: 18px; font-weight: 600; }
-  .foot-tag { color: var(--white-60); font-size: 14px; max-width: 420px; }
+  .foot-tag { color: var(--white-60); font-size: 14px; max-width: 320px; }
+  .foot-legal { align-items: center; text-align: center; }
+  .foot-legal a { color: var(--white-60); font-size: 14px; transition: color 180ms ease; }
+  .foot-legal a:hover { color: var(--white); }
+  .foot-contact { align-items: flex-end; text-align: right; }
+  .foot-contact-label { color: var(--white-40); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .foot-contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--white-80);
+    font-size: 14px;
+    transition: color 180ms ease;
+  }
+  .foot-contact-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .foot-contact-item:hover { color: var(--neon); }
   .foot-socials { display: flex; gap: 12px; }
   .foot-socials a {
     width: 40px; height: 40px;
@@ -1156,13 +1171,20 @@
     transition: color 200ms, background 200ms, border-color 200ms;
   }
   .foot-socials a:hover { color: var(--turquoise); }
+  @media (max-width: 800px) {
+    .foot-grid { grid-template-columns: 1fr; text-align: center; gap: 36px; }
+    .foot-col { align-items: center; }
+    .foot-tag { max-width: none; }
+    .foot-contact { align-items: center; text-align: center; }
+  }
   .foot-bottom {
     color: var(--white-40);
     font-size: 13px;
     padding-top: 20px;
     border-top: 1px solid rgba(255,255,255,0.05);
     width: 100%;
-    margin-top: 8px;
+    margin-top: 32px;
+    text-align: center;
   }
 
   /* ============= Tilt card ============= */
@@ -1697,15 +1719,37 @@
 
 <!-- ============= FOOTER ============= -->
 <footer data-screen-label="10 Footer">
-  <div class="container foot-inner">
-    <div class="foot-logo">
-      <img src="assets/ecomgaro-logo.png" alt="e-com Garo" />
-      <span>e-com Garo</span>
-    </div>
-    <p class="foot-tag">Sistema de crecimiento para eCommerce que aspira a 6 y 7 cifras.</p>
-    <div class="foot-socials">
-      <a href="https://www.linkedin.com/in/frangallegosromero/" target="_blank" rel="noopener noreferrer" class="liquid-glass" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-      <a href="https://www.instagram.com/frangallegosr/" target="_blank" rel="noopener noreferrer" class="liquid-glass" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <div class="foot-logo">
+          <img src="assets/ecomgaro-logo.png" alt="e-com Garo" />
+          <span>e-com Garo</span>
+        </div>
+        <p class="foot-tag">Sistema de crecimiento para emprendedores, pymes.</p>
+      </div>
+
+      <nav class="foot-col foot-legal" aria-label="Legal">
+        <a href="aviso-legal.html">Aviso legal</a>
+        <a href="politica-privacidad.html">Política de privacidad</a>
+        <a href="politica-cookies.html">Política de Cookies</a>
+      </nav>
+
+      <div class="foot-col foot-contact">
+        <span class="foot-contact-label">Contacto</span>
+        <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20me%20gustaría%20conocer%20más%20sobre..." target="_blank" rel="noopener noreferrer" class="foot-contact-item">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11a16.5 16.5 0 0 1-1.6-.59c-2.82-1.22-4.66-4.06-4.8-4.25-.14-.19-1.15-1.53-1.15-2.92s.72-2.07.98-2.35c.26-.28.56-.35.75-.35s.38 0 .54.01c.18.01.4-.07.63.48.24.57.8 1.97.87 2.11.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.28.75 1.24 1.61 2.01 1.11 1 2.04 1.3 2.32 1.45.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.63-.14.26.1 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.68-.17 1.36z"/></svg>
+          +34 613 83 27 08
+        </a>
+        <a href="mailto:fran@ecomgaro.com" class="foot-contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          fran@ecomgaro.com
+        </a>
+        <div class="foot-socials">
+          <a href="https://www.linkedin.com/in/frangallegosromero/" target="_blank" rel="noopener noreferrer" class="liquid-glass" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://www.instagram.com/frangallegosr/" target="_blank" rel="noopener noreferrer" class="liquid-glass" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        </div>
+      </div>
     </div>
     <div class="foot-bottom">© 2026 e-com Garo. All rights reserved.</div>
   </div>
