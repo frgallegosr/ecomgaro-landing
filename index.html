@@ -1824,8 +1824,37 @@
   // ============= Cookie consent (propio, sin CMP externo) =============
   (function () {
     var STORAGE_KEY = 'ecomgaro_cookie_consent';
+    var VISITOR_KEY = 'ecomgaro_visitor_id';
+    var POLICY_VERSION = '2026-08-03';
+    var SUPABASE_URL = 'https://ffplgwkgqltiqscwsfgn.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmcGxnd2tncWx0aXFzY3dzZmduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NDQyNDQsImV4cCI6MjEwMTMyMDI0NH0.gRqWBITOYWtQuhpvSu6s8Z38CGSGfZKDPG9Ybtx9ckE';
     var banner = document.getElementById('cookie-consent');
     if (!banner) return;
+
+    function getVisitorId() {
+      var id = localStorage.getItem(VISITOR_KEY);
+      if (!id) {
+        id = crypto.randomUUID();
+        localStorage.setItem(VISITOR_KEY, id);
+      }
+      return id;
+    }
+
+    function logConsent(granted) {
+      fetch(SUPABASE_URL + '/rest/v1/cookie_consent_log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({
+          decision: granted ? 'granted' : 'denied',
+          visitor_id: getVisitorId(),
+          politica_version: POLICY_VERSION
+        })
+      }).catch(function () {});
+    }
 
     function applyConsent(granted) {
       gtag('consent', 'update', {
@@ -1846,12 +1875,14 @@
     document.getElementById('cookie-accept').addEventListener('click', function () {
       localStorage.setItem(STORAGE_KEY, 'granted');
       applyConsent(true);
+      logConsent(true);
       banner.hidden = true;
     });
 
     document.getElementById('cookie-reject').addEventListener('click', function () {
       localStorage.setItem(STORAGE_KEY, 'denied');
       applyConsent(false);
+      logConsent(false);
       banner.hidden = true;
     });
 
