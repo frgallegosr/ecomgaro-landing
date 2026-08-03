@@ -26,7 +26,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"/>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<!-- Google Consent Mode v2 — denegado por defecto hasta que Cookiebot actualice el estado -->
+<!-- Google Consent Mode v2 — denegado por defecto hasta que el visitante decida en el banner propio -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -34,13 +34,9 @@
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
     'ad_personalization': 'denied',
-    'analytics_storage': 'denied',
-    'wait_for_update': 500
+    'analytics_storage': 'denied'
   });
 </script>
-
-<!-- Cookiebot CMP — gestiona el banner y actualiza el consentimiento anterior -->
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="7a510f87-2c33-479d-bbff-a4f48e838f0b" data-blockingmode="auto" type="text/javascript"></script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1R6M0KHT8L"></script>
@@ -1282,6 +1278,49 @@
   @media (prefers-reduced-motion: reduce) {
     .floating-contact::before { animation: none; }
   }
+
+  /* ============= COOKIE CONSENT BANNER ============= */
+  .cookie-consent {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 999;
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--navy-deep);
+    border: 1px solid rgba(57,255,20,0.25);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    color: var(--white);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .cookie-consent[hidden] { display: none; }
+  .cookie-consent p { margin: 0; flex: 1 1 260px; }
+  .cookie-consent-actions { display: flex; gap: 10px; flex: 0 0 auto; }
+  .btn-cookie {
+    border: none;
+    border-radius: 999px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-cookie-reject {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--white);
+  }
+  .btn-cookie-accept {
+    background: var(--neon);
+    color: var(--navy-deep);
+  }
 </style>
 </head>
 <body>
@@ -1733,6 +1772,7 @@
         <a href="aviso-legal.html">Aviso legal</a>
         <a href="politica-privacidad.html">Política de privacidad</a>
         <a href="politica-cookies.html">Política de Cookies</a>
+        <a href="#" id="reopenCookieConsent">Gestionar cookies</a>
       </nav>
 
       <div class="foot-col foot-contact">
@@ -1760,6 +1800,15 @@
   <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.12.11-1.8-.11a16.5 16.5 0 0 1-1.6-.59c-2.82-1.22-4.66-4.06-4.8-4.25-.14-.19-1.15-1.53-1.15-2.92s.72-2.07.98-2.35c.26-.28.56-.35.75-.35s.38 0 .54.01c.18.01.4-.07.63.48.24.57.8 1.97.87 2.11.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.28.75 1.24 1.61 2.01 1.11 1 2.04 1.3 2.32 1.45.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.63-.14.26.1 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.68-.17 1.36z"/></svg>
 </a>
 
+<!-- ============= COOKIE CONSENT BANNER (propio, sin CMP externo) ============= -->
+<div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Consentimiento de cookies" hidden>
+  <p>Usamos cookies de analítica para entender cómo se usa esta web. Puedes aceptarlas o rechazarlas.</p>
+  <div class="cookie-consent-actions">
+    <button type="button" id="cookie-reject" class="btn-cookie btn-cookie-reject">Rechazar</button>
+    <button type="button" id="cookie-accept" class="btn-cookie btn-cookie-accept">Aceptar</button>
+  </div>
+</div>
+
 <script>
   // ============= Navbar shrink =============
   const nav = document.getElementById('nav');
@@ -1771,6 +1820,49 @@
       lastShrunk = shrunk;
     }
   }, { passive: true });
+
+  // ============= Cookie consent (propio, sin CMP externo) =============
+  (function () {
+    var STORAGE_KEY = 'ecomgaro_cookie_consent';
+    var banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+
+    function applyConsent(granted) {
+      gtag('consent', 'update', {
+        'ad_storage': granted ? 'granted' : 'denied',
+        'ad_user_data': granted ? 'granted' : 'denied',
+        'ad_personalization': granted ? 'granted' : 'denied',
+        'analytics_storage': granted ? 'granted' : 'denied'
+      });
+    }
+
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === 'granted' || saved === 'denied') {
+      applyConsent(saved === 'granted');
+    } else {
+      banner.hidden = false;
+    }
+
+    document.getElementById('cookie-accept').addEventListener('click', function () {
+      localStorage.setItem(STORAGE_KEY, 'granted');
+      applyConsent(true);
+      banner.hidden = true;
+    });
+
+    document.getElementById('cookie-reject').addEventListener('click', function () {
+      localStorage.setItem(STORAGE_KEY, 'denied');
+      applyConsent(false);
+      banner.hidden = true;
+    });
+
+    var reopenLink = document.getElementById('reopenCookieConsent');
+    if (reopenLink) {
+      reopenLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        banner.hidden = false;
+      });
+    }
+  })();
 
   // ============= Trabajos auto-scroll carousel =============
   const trabajosViewport = document.getElementById('trabajosViewport');
