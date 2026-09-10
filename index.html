@@ -657,7 +657,7 @@
     font-size: 15.5px;
     line-height: 1.6;
   }
-  .why-row .badge {
+  .badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1023,6 +1023,41 @@
   }
 
   /* ============= SECTION 8 — FAQ ============= */
+  /* ============= SECTION 7C — SOBRE MI ============= */
+  .sec-about { padding: 120px 0; background: var(--navy-deep); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .about-photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  }
+  .about-copy .sec-h { margin-top: 16px; }
+  .about-copy p {
+    color: var(--white-80);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    max-width: 560px;
+  }
+  .about-copy p:last-of-type { margin-bottom: 0; }
+  .about-creds { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .about-creds .badge { margin-top: 0; }
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-photo { max-width: 420px; }
+  }
+
   .sec-faq { padding: 120px 0; background: var(--navy); }
   .faq-list { max-width: 820px; margin: 0 auto; }
   .faq-item {
@@ -1660,8 +1695,29 @@
     </div>
   </section>
 
-  <!-- ============= SECTION 7C — ¿POR QUÉ ECOMGARO? (movido después de Trabajos) ============= -->
-  <section class="sec-why" id="why" data-screen-label="07C Por que">
+  <!-- ============= SECTION 7C — SOBRE MI ============= -->
+  <section class="sec-about" id="about" data-screen-label="07C Sobre mi">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photo reveal">
+          <img src="assets/fran-gallegos.jpg" alt="Fran Gallegos, Growth Partner para marcas de salud y bienestar" width="900" height="900" loading="lazy" />
+        </div>
+        <div class="about-copy reveal">
+          <div class="sec-eyebrow neon">Sobre mí</div>
+          <h2 class="sec-h">¡Hola, soy Fran Gallegos!</h2>
+          <p>Ayudo a marcas de salud y bienestar a vender cada mes de forma predecible, sin depender de descuentos ni de campañas sueltas.</p>
+          <p>Tengo un Máster en eCommerce y Marketing Digital y soy Growth Partner certificado. Elegí este sector porque lo vivo: creo en los productos que mejoran la vida de la gente. Ayudar a que lleguen a más personas es mi forma de sumar.</p>
+          <div class="about-creds">
+            <span class="badge">Máster en eCommerce y Marketing Digital</span>
+            <span class="badge">Growth Partner certificado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= SECTION 7D — ¿POR QUÉ TRABAJAR CONMIGO? ============= -->
+  <section class="sec-why" id="why" data-screen-label="07D Por que">
     <div class="container">
       <div class="sec-head reveal">
         <div class="sec-eyebrow neon">Diferenciador</div>
