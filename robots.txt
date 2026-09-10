@@ -1,4 +1,4 @@
-# robots.txt para ecomGARO
+# robots.txt para Fran Gallegos
 
 # Allow all bots
 User-agent: *
