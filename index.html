@@ -83,6 +83,7 @@
     --turquoise: #17A2B8;
     --turquoise-dim: #0E7587;
     --neon: #39FF14;
+    --danger: #FF5C5C;
     --neon-soft: #4FE85A;
     --dark-card: #0F1419;
     --dark-card-2: #131B22;
@@ -95,6 +96,8 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* El atributo hidden debe ganar siempre a cualquier display de clase */
+  [hidden] { display: none !important; }
   html { scroll-behavior: smooth; overflow-x: clip; }
   html, body {
     background: var(--navy);
@@ -1139,6 +1142,102 @@
     max-width: 720px;
   }
 
+  /* ============= SECTION 9B — AGENDA / CAPTACION ============= */
+  .sec-agenda { padding: 120px 0; background: var(--navy-deep); }
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .agenda-copy .sec-h { margin-top: 16px; }
+  .agenda-copy .sec-sub { margin-bottom: 28px; }
+  .agenda-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .agenda-list li {
+    display: flex;
+    gap: 12px;
+    color: var(--white-80);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .agenda-list li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    margin-top: 7px;
+    border-radius: 999px;
+    background: var(--neon);
+  }
+
+  .agenda-form,
+  .agenda-ok {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 32px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white-80);
+    letter-spacing: 0.01em;
+  }
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(0,21,44,0.6);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 180ms ease, background 180ms ease;
+  }
+  .field select { cursor: pointer; }
+  .field input::placeholder { color: var(--white-40); }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--neon);
+    background: rgba(0,21,44,0.85);
+  }
+  .field input[aria-invalid="true"],
+  .field select[aria-invalid="true"] { border-color: var(--danger); }
+  .field-error { font-size: 12.5px; color: var(--danger); }
+
+  .agenda-consent { display: flex; gap: 10px; align-items: flex-start; }
+  .agenda-consent input { margin-top: 3px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--neon); }
+  .agenda-consent label { font-size: 12.5px; color: var(--white-60); line-height: 1.5; }
+  .agenda-consent a { color: var(--white-80); text-decoration: underline; }
+
+  .agenda-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  /* Accion principal del formulario: 45px de alto para objetivo tactil comodo */
+  .agenda-form .btn,
+  .agenda-ok .btn { width: 100%; padding: 15px 24px; }
+  .agenda-status { font-size: 13.5px; color: var(--white-80); }
+  .agenda-status[data-tipo="error"] { color: var(--danger); }
+
+  .agenda-ok { text-align: center; align-items: stretch; }
+
+  .agenda-ok h3 { font-size: 20px; font-weight: 600; }
+  .agenda-ok p { font-size: 14.5px; color: var(--white-80); line-height: 1.6; }
+  .agenda-ok-alt { font-size: 13px; color: var(--white-60); }
+  .agenda-ok-alt a { color: var(--neon); }
+
+  @media (max-width: 900px) {
+    .agenda-grid { grid-template-columns: 1fr; gap: 36px; }
+    .agenda-form { padding: 24px; }
+  }
+
   /* ============= SECTION 9 — CIERRE ============= */
   .sec-close {
     padding: 140px 0;
@@ -1825,6 +1924,76 @@
   </section>
 
   <!-- ============= SECTION 9 — CIERRE ============= -->
+  <!-- ============= SECTION 9B — AGENDA ============= -->
+  <section class="sec-agenda" id="agenda" data-screen-label="09B Agenda">
+    <div class="container">
+      <div class="agenda-grid">
+        <div class="agenda-copy reveal">
+          <div class="sec-eyebrow neon">Llamada gratuita</div>
+          <h2 class="sec-h">Agenda 15 minutos conmigo</h2>
+          <p class="sec-sub">Sin compromiso y sin presentación comercial. Me cuentas dónde está tu marca y te digo qué haría yo.</p>
+          <ul class="agenda-list">
+            <li>Revisamos de dónde vienen hoy tus ventas y qué se está escapando por el camino.</li>
+            <li>Te digo qué pilar del sistema tienes más flojo: captación, conversión o retención.</li>
+            <li>Sales con dos o tres acciones concretas, trabajes conmigo o no.</li>
+          </ul>
+        </div>
+
+        <div class="agenda-panel reveal">
+          <form class="agenda-form" id="agendaForm" novalidate>
+            <div class="field">
+              <label for="lead-nombre">Nombre</label>
+              <input type="text" id="lead-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre" required />
+              <span class="field-error" id="err-nombre" hidden></span>
+            </div>
+            <div class="field">
+              <label for="lead-email">Email</label>
+              <input type="email" id="lead-email" name="email" autocomplete="email" placeholder="tu@email.com" required />
+              <span class="field-error" id="err-email" hidden></span>
+            </div>
+            <div class="field">
+              <label for="lead-web">Web de tu tienda</label>
+              <input type="text" id="lead-web" name="web" autocomplete="url" placeholder="mimarca.com" required />
+              <span class="field-error" id="err-web" hidden></span>
+            </div>
+            <div class="field">
+              <label for="lead-facturacion">Facturación mensual aproximada</label>
+              <select id="lead-facturacion" name="facturacion" required>
+                <option value="">Selecciona una opción</option>
+                <option value="menos-5k">Menos de 5.000 €</option>
+                <option value="5k-20k">Entre 5.000 y 20.000 €</option>
+                <option value="20k-50k">Entre 20.000 y 50.000 €</option>
+                <option value="mas-50k">Más de 50.000 €</option>
+              </select>
+              <span class="field-error" id="err-facturacion" hidden></span>
+            </div>
+
+            <div class="agenda-hp" aria-hidden="true">
+              <label for="lead-web2">No rellenar este campo</label>
+              <input type="text" id="lead-web2" name="web2" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="agenda-consent">
+              <input type="checkbox" id="lead-consent" name="consent" required />
+              <label for="lead-consent">He leído y acepto la <a href="politica-privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>. Uso tus datos solo para responderte y preparar la llamada.</label>
+            </div>
+            <span class="field-error" id="err-consent" hidden></span>
+
+            <button type="submit" class="btn btn-primary" id="agendaSubmit">Reservar mi llamada de 15 min</button>
+            <p class="agenda-status" id="agendaStatus" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="agenda-ok" id="agendaOk" hidden>
+            <h3>¡Listo!</h3>
+            <p>Ya tengo tus datos. Elige el hueco que mejor te venga y hablamos 15 minutos.</p>
+            <a class="btn btn-primary" id="agendaBooking" href="#" target="_blank" rel="noopener noreferrer">Elegir hueco en el calendario</a>
+            <p class="agenda-ok-alt">¿Prefieres WhatsApp? <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio%20y%20ver%20qu%C3%A9%20sistema%20me%20encaja%20mejor.%20%C2%BFC%C3%B3mo%20empezamos%3F" target="_blank" rel="noopener noreferrer" data-cta="agenda_ok">Escríbeme directamente</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="sec-close" data-screen-label="09 Cierre">
     <div class="container">
       <div class="close-inner reveal">
@@ -2159,6 +2328,127 @@
         gtag('event', 'social_click', { network: (link.getAttribute('aria-label') || '').toLowerCase() });
       });
     });
+  })();
+
+
+  // ============= Formulario de agenda =============
+  (function () {
+    const form = document.getElementById('agendaForm');
+    if (!form) return;
+
+    // --- Configuracion: rellenar para que el formulario guarde y agende ---
+    const SUPABASE_URL = '';       // https://xxxxxxxx.supabase.co
+    const SUPABASE_ANON_KEY = '';  // clave anon (publica, protegida por RLS insert-only)
+    const SUPABASE_TABLA = 'leads';
+    const BOOKING_URL = '';        // enlace de Cal.com / Calendly (evento de 15 min)
+    // ---------------------------------------------------------------------
+
+    const estado = document.getElementById('agendaStatus');
+    const boton = document.getElementById('agendaSubmit');
+    const panelOk = document.getElementById('agendaOk');
+
+    const campos = [
+      { id: 'lead-nombre', err: 'err-nombre', msg: 'Dime c\u00f3mo te llamas.' },
+      { id: 'lead-email', err: 'err-email', msg: 'Necesito un email v\u00e1lido para escribirte.' },
+      { id: 'lead-web', err: 'err-web', msg: 'Dime la web de tu tienda.' },
+      { id: 'lead-facturacion', err: 'err-facturacion', msg: 'Elige un tramo.' },
+      { id: 'lead-consent', err: 'err-consent', msg: 'Necesito tu consentimiento para tratar tus datos.' }
+    ];
+
+    function marcar(campo, valido) {
+      const el = document.getElementById(campo.id);
+      const err = document.getElementById(campo.err);
+      el.setAttribute('aria-invalid', valido ? 'false' : 'true');
+      err.textContent = valido ? '' : campo.msg;
+      err.hidden = valido;
+      return valido;
+    }
+
+    function validar() {
+      let todoOk = true;
+      campos.forEach(c => {
+        const el = document.getElementById(c.id);
+        const valido = el.type === 'checkbox' ? el.checked : (el.checkValidity() && el.value.trim() !== '');
+        if (!marcar(c, valido)) todoOk = false;
+      });
+      return todoOk;
+    }
+
+    campos.forEach(c => {
+      const el = document.getElementById(c.id);
+      el.addEventListener('change', () => {
+        if (el.getAttribute('aria-invalid') === 'true') validar();
+      });
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      estado.textContent = '';
+      estado.removeAttribute('data-tipo');
+
+      // Trampa antispam: los bots rellenan campos ocultos, las personas no
+      if (form.elements.web2.value !== '') return;
+
+      if (!validar()) {
+        estado.textContent = 'Revisa los campos marcados.';
+        estado.setAttribute('data-tipo', 'error');
+        return;
+      }
+
+      const lead = {
+        nombre: form.elements.nombre.value.trim(),
+        email: form.elements.email.value.trim(),
+        web: form.elements.web.value.trim(),
+        facturacion: form.elements.facturacion.value
+      };
+
+      boton.disabled = true;
+      estado.textContent = 'Guardando\u2026';
+
+      let guardado = false;
+      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+        try {
+          const res = await fetch(SUPABASE_URL + '/rest/v1/' + SUPABASE_TABLA, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(lead)
+          });
+          guardado = res.ok;
+          if (!res.ok) console.warn('Supabase respondio', res.status);
+        } catch (err) {
+          console.warn('No se pudo guardar el lead:', err);
+        }
+      } else {
+        console.warn('Formulario sin configurar: faltan SUPABASE_URL y SUPABASE_ANON_KEY.');
+      }
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'lead_form_submit', { facturacion: lead.facturacion, guardado: guardado });
+      }
+
+      // Pase lo que pase con el guardado, el visitante puede seguir adelante
+      boton.disabled = false;
+      estado.textContent = '';
+      mostrarExito(lead.nombre);
+    });
+
+    function mostrarExito(nombre) {
+      const enlace = document.getElementById('agendaBooking');
+      if (BOOKING_URL) {
+        enlace.href = BOOKING_URL;
+        enlace.hidden = false;
+      } else {
+        enlace.hidden = true;
+      }
+      panelOk.querySelector('h3').textContent = '\u00a1Listo, ' + nombre + '!';
+      form.hidden = true;
+      panelOk.hidden = false;
+    }
   })();
 
   // ============= Reveal on scroll =============
