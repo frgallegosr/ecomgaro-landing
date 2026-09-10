@@ -27,28 +27,85 @@
     ]
   },
   "visual_posture": {
-    "density": { "value": 3, "why": "Cada sección respira pero siempre trae un dato concreto (auditoría, 3 pasos, cifras de casos)." },
-    "expression": { "value": 3, "why": "El verde neón, el glow del timeline y el carrusel dan voz propia sin gritar con exclamaciones." },
-    "geometry": { "value": 2, "why": "Botones en píldora y esquinas redondeadas ya son la marca; el orden viene de disciplinar cuántos radios existen, no de ser anguloso." },
-    "warmth": { "value": 1, "why": "Navy, turquesa, verde neón — frío de punta a punta, cero ámbar ni terracota." },
-    "editoriality": { "value": 2, "why": "Landing de conversión: mandan las tarjetas y el CTA, no la tipografía editorial." },
-    "materiality": { "value": 3, "why": "El liquid-glass, los glows y las sombras dan profundidad real; no es plano absoluto." }
+    "density": {
+      "value": 3,
+      "why": "Cada sección respira pero siempre trae un dato concreto (auditoría, 3 pasos, cifras de casos)."
+    },
+    "expression": {
+      "value": 3,
+      "why": "El verde neón, el glow del timeline y el carrusel dan voz propia sin gritar con exclamaciones."
+    },
+    "geometry": {
+      "value": 2,
+      "why": "Botones en píldora y esquinas redondeadas ya son la marca; el orden viene de disciplinar cuántos radios existen, no de ser anguloso."
+    },
+    "warmth": {
+      "value": 1,
+      "why": "Navy, turquesa, verde neón — frío de punta a punta, cero ámbar ni terracota."
+    },
+    "editoriality": {
+      "value": 2,
+      "why": "Landing de conversión: mandan las tarjetas y el CTA, no la tipografía editorial."
+    },
+    "materiality": {
+      "value": 3,
+      "why": "El liquid-glass, los glows y las sombras dan profundidad real; no es plano absoluto."
+    }
   },
   "tokens": {
     "colors": {
-      "primary": { "hex": "#39FF14", "name": "Verde neón de crecimiento" },
-      "primary_deep": { "hex": "#2DCC10", "name": "Verde neón profundo" },
-      "accent": { "hex": "#17A2B8", "name": "Turquesa de dato" },
-      "background": { "hex": "#001F3F", "name": "Navy profundo" },
-      "surface": { "hex": "#00152C", "name": "Navy carbón" },
-      "surface_elevated": { "hex": "#0F1419", "name": "Carbón azulado" },
-      "border": { "hex": "rgba(255,255,255,0.10)", "name": "Línea de vidrio" },
-      "text": { "hex": "#FFFFFF", "name": "Blanco" },
-      "text_muted": { "hex": "rgba(255,255,255,0.80)", "name": "Blanco 80%" },
-      "text_subtle": { "hex": "rgba(255,255,255,0.60)", "name": "Blanco 60%" },
-      "success": { "hex": "#39FF14", "name": "Verde neón (reutiliza primary — crecimiento = éxito)" },
-      "danger": { "hex": "#FF5C5C", "name": "Rojo de alerta" },
-      "warning": { "hex": "#FFB020", "name": "Ámbar de aviso" }
+      "primary": {
+        "hex": "#39FF14",
+        "name": "Verde neón de crecimiento"
+      },
+      "primary_deep": {
+        "hex": "#2DCC10",
+        "name": "Verde neón profundo"
+      },
+      "accent": {
+        "hex": "#17A2B8",
+        "name": "Turquesa de dato"
+      },
+      "background": {
+        "hex": "#001F3F",
+        "name": "Navy profundo"
+      },
+      "surface": {
+        "hex": "#00152C",
+        "name": "Navy carbón"
+      },
+      "surface_elevated": {
+        "hex": "#0F1419",
+        "name": "Carbón azulado"
+      },
+      "border": {
+        "hex": "rgba(255,255,255,0.10)",
+        "name": "Línea de vidrio"
+      },
+      "text": {
+        "hex": "#FFFFFF",
+        "name": "Blanco"
+      },
+      "text_muted": {
+        "hex": "rgba(255,255,255,0.80)",
+        "name": "Blanco 80%"
+      },
+      "text_subtle": {
+        "hex": "rgba(255,255,255,0.60)",
+        "name": "Blanco 60%"
+      },
+      "success": {
+        "hex": "#39FF14",
+        "name": "Verde neón (reutiliza primary — crecimiento = éxito)"
+      },
+      "danger": {
+        "hex": "#FF5C5C",
+        "name": "Rojo de alerta"
+      },
+      "warning": {
+        "hex": "#FFB020",
+        "name": "Ámbar de aviso"
+      }
     },
     "typography": {
       "families": [
@@ -56,9 +113,43 @@
           "family": "Geist",
           "css_var": "--font-primary",
           "fallback": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          "weights": [400, 500, 600],
-          "use_for": ["títulos", "cuerpo", "botones", "labels", "todo"],
-          "avoid_for": ["no mezclar con otra familia para dar personalidad — ya la tiene por peso y tracking negativo en títulos"]
+          "weights": [
+            400,
+            500,
+            600
+          ],
+          "use_for": [
+            "títulos",
+            "cuerpo",
+            "botones",
+            "labels",
+            "todo"
+          ],
+          "avoid_for": [
+            "no mezclar con otra familia para dar personalidad — ya la tiene por peso y tracking negativo en títulos",
+            "EXCEPCIÓN documentada: Fraunces cursiva se usa únicamente en una palabra del titular del hero, para lograr contraste de estilo (serif cursiva contra sans pesada). No extender a ningún otro sitio."
+          ]
+        },
+        {
+          "family": "Fraunces",
+          "css_var": "--font-accent",
+          "fallback": "Georgia, serif",
+          "weights": [
+            400
+          ],
+          "styles": [
+            "italic"
+          ],
+          "use_for": [
+            "una sola palabra resaltada en el titular del hero"
+          ],
+          "avoid_for": [
+            "cuerpo",
+            "titulares de sección",
+            "botones",
+            "labels",
+            "cualquier uso fuera del hero"
+          ]
         }
       ]
     },
@@ -70,14 +161,30 @@
     },
     "spacing": {
       "unit": 8,
-      "section": { "sm": 60, "md": 100, "lg": 120 },
-      "gap": { "xs": 8, "sm": 14, "md": 24, "lg": 28 }
+      "section": {
+        "sm": 60,
+        "md": 100,
+        "lg": 120
+      },
+      "gap": {
+        "xs": 8,
+        "sm": 14,
+        "md": 24,
+        "lg": 28
+      }
     }
   },
   "component_rules_summary": "Ver COMPONENT_RULES.md",
   "anti_slop": {
-    "forbidden_colors": ["#6366F1", "#8B5CF6", "#A855F7"],
-    "restricted_hue_range_hsl": [235, 285],
+    "forbidden_colors": [
+      "#6366F1",
+      "#8B5CF6",
+      "#A855F7"
+    ],
+    "restricted_hue_range_hsl": [
+      235,
+      285
+    ],
     "forbidden_patterns": [
       "hero centrado con headline + subheadline + dos botones genéricos sin nada que lo distinga",
       "tres tarjetas idénticas de 'features' con icono + título + párrafo sin jerarquía real",

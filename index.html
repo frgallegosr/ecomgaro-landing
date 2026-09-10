@@ -22,9 +22,9 @@
 <meta name="theme-color" content="#001F3F" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&family=Geist:wght@300;400;500;600;700&display=swap"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
 <!-- Google Consent Mode v2 — denegado por defecto hasta que el visitante decida en el banner propio -->
 <script>
@@ -351,11 +351,32 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 60px 24px 40px;
-    text-align: center;
+    width: 100%;
+    max-width: 1248px;
+    margin: 0 auto;
+    padding: 120px 24px 60px;
+    text-align: left;
     animation: fadeInUp 800ms ease-out both;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--white-60);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--neon);
   }
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -395,24 +416,41 @@
   }
 
   .hero h1 {
-    font-size: clamp(30px, 4.4vw, 56px);
-    line-height: 1.1;
+    font-size: clamp(30px, min(7vw, 11.5vh), 96px);
+    line-height: 0.98;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     max-width: 1240px;
     text-wrap: balance;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .hero h1 .accent {
     color: var(--neon);
+  }
+  /* Contraste de estilo, no solo de color: cursiva serif contra la sans pesada */
+  .hero h1 .accent-serif {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.06em;
+    letter-spacing: -0.005em;
+    color: var(--neon);
+  }
+
+  /* Pantallas bajas (portatiles ~680-780px): comprime para que el CTA no caiga bajo el pliegue */
+  @media (max-height: 780px) {
+    .hero-content { padding-top: 96px; padding-bottom: 40px; }
+    .hero-eyebrow { margin-bottom: 20px; }
+    .hero h1 { margin-bottom: 20px; }
+    .hero-sub { margin-bottom: 24px; }
   }
 
   .hero-sub {
     font-size: clamp(15px, 1.3vw, 18px);
     line-height: 1.55;
     color: var(--white-80);
-    max-width: 680px;
-    margin: 0 auto 36px;
+    max-width: 620px;
+    margin: 0 0 36px;
   }
 
   .hero-ctas {
@@ -1412,9 +1450,13 @@
 
     <div class="hero-content">
 
+      <div class="hero-eyebrow">Growth Partner · Salud y bienestar</div>
+
       <h1>
-        TU MARCA DE SALUD Y BIENESTAR MERECE<br/>
-        <span class="accent">clientes</span> cada mes, <span class="accent">NO DESCUENTOS</span>.
+        TU MARCA DE SALUD<br/>
+        Y BIENESTAR MERECE<br/>
+        <span class="accent-serif">clientes</span> cada mes,<br/>
+        <span class="accent">NO DESCUENTOS</span>.
       </h1>
 
       <p class="hero-sub">Diseño e implemento el sistema GroWell: la arquitectura de captación, conversión y retención que convierte tus ventas en algo predecible. Sin campañas aisladas ni promociones de pánico.</p>
