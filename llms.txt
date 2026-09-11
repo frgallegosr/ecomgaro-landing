@@ -2,7 +2,7 @@
 
 > Sistema de crecimiento (captación, conversión, retención) para marcas de eCommerce ya en marcha, implementado y operado como partner — método GroWell.
 
-Fran Gallegos es un partner de growth dedicado (máximo 5 clientes al mes) para eCommerce que ya tiene ventas pero no un sistema estructurado. No es una agencia de campañas sueltas: audita, implementa en 90 días y sigue operando el sistema mes a mes.
+Fran Gallegos es un partner de growth dedicado (máximo 5 marcas a la vez) para eCommerce que ya tiene ventas pero no un sistema estructurado. No es una agencia de campañas sueltas: audita, implementa en 90 días y sigue operando el sistema mes a mes.
 
 ## Páginas
 - [Inicio](https://ecomgaro.com/): sistema completo, método GroWell, casos de éxito, proceso de 3 pasos.
