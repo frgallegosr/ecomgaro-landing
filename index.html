@@ -1172,6 +1172,17 @@
     background: var(--neon);
   }
 
+  .agenda-alt {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.10);
+  }
+  .agenda-alt p {
+    color: var(--white-60);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
   .agenda-form,
   .agenda-ok {
     display: flex;
@@ -1937,6 +1948,11 @@
             <li>Te digo qué pilar del sistema tienes más flojo: captación, conversión o retención.</li>
             <li>Sales con dos o tres acciones concretas, trabajes conmigo o no.</li>
           </ul>
+
+          <div class="agenda-alt">
+            <p>¿Prefieres hablar ahora y sin formularios? Escríbeme y te contesto yo, no un bot.</p>
+            <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio%20y%20ver%20qu%C3%A9%20sistema%20me%20encaja%20mejor.%20%C2%BFC%C3%B3mo%20empezamos%3F" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-cta="agenda_whatsapp">Escríbeme por WhatsApp</a>
+          </div>
         </div>
 
         <div class="agenda-panel reveal">
@@ -1986,7 +2002,7 @@
           <div class="agenda-ok" id="agendaOk" hidden>
             <h3>¡Listo!</h3>
             <p>Ya tengo tus datos. Elige el hueco que mejor te venga y hablamos 15 minutos.</p>
-            <a class="btn btn-primary" id="agendaBooking" href="#" target="_blank" rel="noopener noreferrer">Elegir hueco en el calendario</a>
+            <a class="btn btn-primary" id="agendaBooking" href="https://cal.com/soyfrangallegos/15min" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Elegir hueco en el calendario</a>
             <p class="agenda-ok-alt">¿Prefieres WhatsApp? <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio%20y%20ver%20qu%C3%A9%20sistema%20me%20encaja%20mejor.%20%C2%BFC%C3%B3mo%20empezamos%3F" target="_blank" rel="noopener noreferrer" data-cta="agenda_ok">Escríbeme directamente</a></p>
           </div>
         </div>
@@ -2289,7 +2305,9 @@
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
-      if (href === '#') return;
+      // Solo anclas internas reales: un href que ya no empieza por '#' (p. ej. si el JS
+      // lo reemplazo por una URL externa) no debe secuestrarse ni cancelarse.
+      if (!href || href === '#' || href.charAt(0) !== '#') return;
 
       e.preventDefault();
       const target = document.querySelector(href);
@@ -2439,15 +2457,12 @@
 
     function mostrarExito(nombre) {
       const enlace = document.getElementById('agendaBooking');
-      if (BOOKING_URL) {
-        enlace.href = BOOKING_URL;
-        enlace.hidden = false;
-      } else {
-        enlace.hidden = true;
-      }
+      if (BOOKING_URL) enlace.href = BOOKING_URL;
+      enlace.hidden = !enlace.getAttribute('href');
       panelOk.querySelector('h3').textContent = '\u00a1Listo, ' + nombre + '!';
       form.hidden = true;
       panelOk.hidden = false;
+      panelOk.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   })();
 
