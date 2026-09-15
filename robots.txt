@@ -44,4 +44,4 @@ User-agent: OAI-SearchBot
 Allow: /
 
 # Sitemap
-Sitemap: https://ecomgaro.com/sitemap.xml
+Sitemap: https://frangallegosr.com/sitemap.xml
