@@ -2154,6 +2154,13 @@
       else clearAnalyticsCookies();
     }
 
+    // Si la decisión se tomó con otra versión de la política (p. ej. antes de añadir Meta),
+    // se descarta y se vuelve a preguntar.
+    var VERSION_KEY = 'ecomgaro_cookie_consent_version';
+    if (localStorage.getItem(VERSION_KEY) !== POLICY_VERSION) {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
     var saved = localStorage.getItem(STORAGE_KEY);
     if (saved === 'granted' || saved === 'denied') {
       applyConsent(saved === 'granted');
@@ -2163,6 +2170,7 @@
 
     document.getElementById('cookie-accept').addEventListener('click', function () {
       localStorage.setItem(STORAGE_KEY, 'granted');
+      localStorage.setItem(VERSION_KEY, POLICY_VERSION);
       applyConsent(true);
       logConsent(true);
       banner.hidden = true;
@@ -2170,6 +2178,7 @@
 
     document.getElementById('cookie-reject').addEventListener('click', function () {
       localStorage.setItem(STORAGE_KEY, 'denied');
+      localStorage.setItem(VERSION_KEY, POLICY_VERSION);
       applyConsent(false);
       logConsent(false);
       banner.hidden = true;
