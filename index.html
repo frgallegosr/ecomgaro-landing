@@ -2043,7 +2043,7 @@
 
 <!-- ============= COOKIE CONSENT BANNER (propio, sin CMP externo) ============= -->
 <div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Consentimiento de cookies" hidden>
-  <p>Uso cookies de analítica para entender cómo se usa esta web. Puedes aceptarlas o rechazarlas.</p>
+  <p>Uso cookies de analítica y de publicidad (Google y Meta) para medir y mejorar mis anuncios. Puedes aceptarlas o rechazarlas.</p>
   <div class="cookie-consent-actions">
     <button type="button" id="cookie-reject" class="btn-cookie btn-cookie-reject">Rechazar</button>
     <button type="button" id="cookie-accept" class="btn-cookie btn-cookie-accept">Aceptar</button>
@@ -2112,11 +2112,31 @@
       gtag('config', GA_ID, { 'anonymize_ip': true });
     }
 
-    // Al retirar el consentimiento, borra las cookies de GA que ya se hubieran instalado.
+    var META_PIXEL_ID = '1866740844703457';
+    var pixelLoaded = false;
+
+    // Píxel de Meta: igual que GA, solo se carga tras el consentimiento.
+    function loadMetaPixel() {
+      if (pixelLoaded) { fbq('consent', 'grant'); return; }
+      pixelLoaded = true;
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', META_PIXEL_ID);
+      fbq('track', 'PageView');
+    }
+
+    // Al retirar el consentimiento, borra las cookies de GA y Meta que ya se hubieran instalado.
     function clearAnalyticsCookies() {
+      if (pixelLoaded && typeof fbq === 'function') fbq('consent', 'revoke');
       document.cookie.split(';').forEach(function (c) {
         var name = c.split('=')[0].trim();
-        if (name.indexOf('_ga') !== 0) return;
+        if (name.indexOf('_ga') !== 0 && name !== '_fbp' && name !== '_fbc') return;
         ['', '; domain=' + location.hostname, '; domain=.' + location.hostname].forEach(function (d) {
           document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d;
         });
@@ -2130,7 +2150,7 @@
         'ad_personalization': granted ? 'granted' : 'denied',
         'analytics_storage': granted ? 'granted' : 'denied'
       });
-      if (granted) loadAnalytics();
+      if (granted) { loadAnalytics(); loadMetaPixel(); }
       else clearAnalyticsCookies();
     }
 
@@ -2331,10 +2351,12 @@
   // ============= Eventos de conversion (GA4) =============
   // whatsapp_click es la conversion principal; cta_location distingue que boton la genero.
   // Solo se envian si el visitante acepto las cookies (si no, ni se encolan).
+  // Los eventos clave se replican en el Pixel de Meta con sus eventos estandar.
+  var META_EVENTS = { whatsapp_click: 'Contact', lead_form_submit: 'Lead' };
   function trackEvent(name, params) {
-    if (typeof gtag !== 'function') return;
     try { if (localStorage.getItem('ecomgaro_cookie_consent') !== 'granted') return; } catch (e) { return; }
-    gtag('event', name, params);
+    if (typeof gtag === 'function') gtag('event', name, params);
+    if (META_EVENTS[name] && typeof fbq === 'function') fbq('track', META_EVENTS[name]);
   }
 
   (function () {
