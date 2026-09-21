@@ -28,7 +28,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
-<!-- Google Consent Mode v2 — denegado por defecto hasta que el visitante decida en el banner propio -->
+<!-- Google Consent Mode v2 (modo básico) — denegado por defecto. gtag.js NO se carga
+     hasta que el visitante acepta en el banner propio: ver loadAnalytics() al final. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -37,15 +38,6 @@
     'ad_user_data': 'denied',
     'ad_personalization': 'denied',
     'analytics_storage': 'denied'
-  });
-</script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1R6M0KHT8L"></script>
-<script>
-  gtag('js', new Date());
-  gtag('config', 'G-1R6M0KHT8L', {
-    'anonymize_ip': true
   });
 </script>
 
@@ -2105,6 +2097,32 @@
       }).catch(function () {});
     }
 
+    var GA_ID = 'G-1R6M0KHT8L';
+    var analyticsLoaded = false;
+
+    // Carga gtag.js solo tras el consentimiento: sin aceptar, no sale ninguna petición a Google.
+    function loadAnalytics() {
+      if (analyticsLoaded) return;
+      analyticsLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', GA_ID, { 'anonymize_ip': true });
+    }
+
+    // Al retirar el consentimiento, borra las cookies de GA que ya se hubieran instalado.
+    function clearAnalyticsCookies() {
+      document.cookie.split(';').forEach(function (c) {
+        var name = c.split('=')[0].trim();
+        if (name.indexOf('_ga') !== 0) return;
+        ['', '; domain=' + location.hostname, '; domain=.' + location.hostname].forEach(function (d) {
+          document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d;
+        });
+      });
+    }
+
     function applyConsent(granted) {
       gtag('consent', 'update', {
         'ad_storage': granted ? 'granted' : 'denied',
@@ -2112,6 +2130,8 @@
         'ad_personalization': granted ? 'granted' : 'denied',
         'analytics_storage': granted ? 'granted' : 'denied'
       });
+      if (granted) loadAnalytics();
+      else clearAnalyticsCookies();
     }
 
     var saved = localStorage.getItem(STORAGE_KEY);
@@ -2310,24 +2330,29 @@
 
   // ============= Eventos de conversion (GA4) =============
   // whatsapp_click es la conversion principal; cta_location distingue que boton la genero.
-  (function () {
+  // Solo se envian si el visitante acepto las cookies (si no, ni se encolan).
+  function trackEvent(name, params) {
     if (typeof gtag !== 'function') return;
+    try { if (localStorage.getItem('ecomgaro_cookie_consent') !== 'granted') return; } catch (e) { return; }
+    gtag('event', name, params);
+  }
 
+  (function () {
     document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
       link.addEventListener('click', () => {
-        gtag('event', 'whatsapp_click', { cta_location: link.dataset.cta || 'sin_identificar' });
+        trackEvent('whatsapp_click', { cta_location: link.dataset.cta || 'sin_identificar' });
       });
     });
 
     document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
       link.addEventListener('click', () => {
-        gtag('event', 'email_click', { cta_location: 'footer' });
+        trackEvent('email_click', { cta_location: 'footer' });
       });
     });
 
     document.querySelectorAll('.foot-socials a').forEach(link => {
       link.addEventListener('click', () => {
-        gtag('event', 'social_click', { network: (link.getAttribute('aria-label') || '').toLowerCase() });
+        trackEvent('social_click', { network: (link.getAttribute('aria-label') || '').toLowerCase() });
       });
     });
   })();
@@ -2425,9 +2450,7 @@
         console.warn('Formulario sin configurar: faltan SUPABASE_URL y SUPABASE_ANON_KEY.');
       }
 
-      if (typeof gtag === 'function') {
-        gtag('event', 'lead_form_submit', { guardado: guardado });
-      }
+      trackEvent('lead_form_submit', { guardado: guardado });
 
       // Pase lo que pase con el guardado, el visitante puede seguir adelante
       boton.disabled = false;
