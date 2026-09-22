@@ -1979,7 +1979,7 @@
           <div class="agenda-ok" id="agendaOk" hidden>
             <h3>¡Listo!</h3>
             <p>Ya tengo tus datos. Elige el hueco que mejor te venga y hablamos 15 minutos.</p>
-            <a class="btn btn-primary" id="agendaBooking" href="https://cal.com/soyfrangallegos/15min" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Elegir hueco en el calendario</a>
+            <a class="btn btn-primary" id="agendaBooking" href="https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Elegir hueco en el calendario</a>
             <p class="agenda-ok-alt">¿Prefieres WhatsApp? <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" data-cta="agenda_ok">Escríbeme directamente</a></p>
           </div>
         </div>
@@ -2398,7 +2398,7 @@
     const SUPABASE_URL = 'https://asbnmhteshhnemisvryu.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_-oqjXIjJWApExMrv9oTi8w_VAdWAXN-';
     const SUPABASE_TABLA = 'leads';
-    const BOOKING_URL = 'https://cal.com/soyfrangallegos/15min';
+    const BOOKING_URL = 'https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr';
     // ---------------------------------------------------------------------
 
     const estado = document.getElementById('agendaStatus');
@@ -2486,12 +2486,13 @@
       // Pase lo que pase con el guardado, el visitante puede seguir adelante
       boton.disabled = false;
       estado.textContent = '';
-      mostrarExito(lead.nombre);
+      mostrarExito(lead.nombre, lead.email);
     });
 
-    function mostrarExito(nombre) {
+    function mostrarExito(nombre, email) {
       const enlace = document.getElementById('agendaBooking');
-      if (BOOKING_URL) enlace.href = BOOKING_URL;
+      // Prerrellena el calendario de GoHighLevel con lo que ya escribio en el formulario.
+      if (BOOKING_URL) enlace.href = BOOKING_URL + '?first_name=' + encodeURIComponent(nombre) + '&email=' + encodeURIComponent(email);
       enlace.hidden = !enlace.getAttribute('href');
       panelOk.querySelector('h3').textContent = '\u00a1Listo, ' + nombre + '!';
       form.hidden = true;
