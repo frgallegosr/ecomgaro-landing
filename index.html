@@ -1237,6 +1237,16 @@
   .agenda-ok-alt { font-size: 13px; color: var(--white-60); }
   .agenda-ok-alt a { color: var(--neon); }
 
+  /* Calendario de GoHighLevel incrustado: solo se carga tras enviar el formulario */
+  .agenda-cal iframe {
+    display: block;
+    width: 100%;
+    height: 860px;
+    border: 0;
+    border-radius: 16px;
+    background: #fff;
+  }
+
   @media (max-width: 900px) {
     .agenda-grid { grid-template-columns: 1fr; gap: 36px; }
     .agenda-form { padding: 24px; }
@@ -1978,8 +1988,9 @@
 
           <div class="agenda-ok" id="agendaOk" hidden>
             <h3>¡Listo!</h3>
-            <p>Ya tengo tus datos. Elige el hueco que mejor te venga y hablamos 15 minutos.</p>
-            <a class="btn btn-primary" id="agendaBooking" href="https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Elegir hueco en el calendario</a>
+            <p>Ya tengo tus datos. Elige aquí abajo el hueco que mejor te venga y hablamos 15 minutos.</p>
+            <div class="agenda-cal" id="agendaCal"></div>
+            <p class="agenda-ok-alt">¿No se ve el calendario? <a id="agendaBooking" href="https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Ábrelo en otra pestaña</a></p>
             <p class="agenda-ok-alt">¿Prefieres WhatsApp? <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" data-cta="agenda_ok">Escríbeme directamente</a></p>
           </div>
         </div>
@@ -2493,11 +2504,19 @@
       const enlace = document.getElementById('agendaBooking');
       // Prerrellena el calendario de GoHighLevel con lo que ya escribio en el formulario.
       if (BOOKING_URL) enlace.href = BOOKING_URL + '?first_name=' + encodeURIComponent(nombre) + '&email=' + encodeURIComponent(email);
-      enlace.hidden = !enlace.getAttribute('href');
+      // El calendario se incrusta aquí mismo (no antes: no carga nada de GoHighLevel hasta este paso).
+      const cal = document.getElementById('agendaCal');
+      if (cal && !cal.firstChild) {
+        const iframe = document.createElement('iframe');
+        iframe.src = enlace.href;
+        iframe.title = 'Calendario para reservar la llamada de 15 minutos';
+        iframe.setAttribute('scrolling', 'yes');
+        cal.appendChild(iframe);
+      }
       panelOk.querySelector('h3').textContent = '\u00a1Listo, ' + nombre + '!';
       form.hidden = true;
       panelOk.hidden = false;
-      panelOk.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      panelOk.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   })();
 
