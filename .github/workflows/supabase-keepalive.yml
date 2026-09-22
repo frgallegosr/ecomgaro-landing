@@ -1,0 +1,28 @@
+# Mantiene activo el proyecto de Supabase (plan gratuito): Supabase pausa los
+# proyectos tras ~7 dias sin actividad, y con poco trafico la web no basta.
+# Hace una consulta de solo lectura dos veces por semana. No escribe nada.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '0 8 * * 1,4'   # lunes y jueves, 08:00 UTC
+  workflow_dispatch:         # permite lanzarlo a mano desde la pestana Actions
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar Supabase
+        env:
+          SUPABASE_URL: https://asbnmhteshhnemisvryu.supabase.co
+          # Clave publicable (la misma que ya usa index.html); RLS impide leer datos.
+          SUPABASE_KEY: sb_publishable_-oqjXIjJWApExMrv9oTi8w_VAdWAXN-
+        run: |
+          status=$(curl -s -o /dev/null -w '%{http_code}' -m 30 \
+            "$SUPABASE_URL/rest/v1/leads?select=id&limit=1" \
+            -H "apikey: $SUPABASE_KEY" -H "Authorization: Bearer $SUPABASE_KEY")
+          echo "Supabase respondio: $status"
+          if [ "$status" != "200" ]; then
+            echo "::error::Supabase no responde (HTTP $status). Revisa si el proyecto esta pausado en supabase.com."
+            exit 1
+          fi
