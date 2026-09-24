@@ -786,6 +786,25 @@
     letter-spacing: 0.06em;
   }
 
+  .system-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin-top: 56px;
+    text-align: center;
+  }
+  .system-cta p {
+    font-size: 18px;
+    color: var(--white-80);
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 700px) {
+    .system-cta { margin-top: 40px; }
+    .system-cta p { font-size: 16.5px; }
+    .system-cta .btn { width: 100%; }
+  }
+
   /* ============= SECTION 6 — PROCESO ============= */
   .sec-process { padding: 120px 0; background: var(--navy); position: relative; }
   .sec-process::before {
@@ -946,6 +965,41 @@
     border-color: rgba(57,255,20, 0.45);
     background: rgba(255,255,255,0.04);
   }
+
+  /* Cinta de obra: la web del cliente aún no está abierta al público */
+  .trabajo-card--obra::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 7px solid transparent;
+    border-image: repeating-linear-gradient(45deg, #F5C400 0 14px, #141414 14px 28px) 7;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .tilt > .obra-tape,
+  .obra-tape {
+    position: absolute;
+    top: 96px;
+    left: -10%;
+    width: 120%;
+    padding: 9px 0;
+    transform: rotate(-8deg);
+    background: repeating-linear-gradient(45deg, #F5C400 0 16px, #141414 16px 32px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.45);
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .obra-tape span {
+    display: inline-block;
+    padding: 4px 14px;
+    background: #F5C400;
+    color: #141414;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+  @media (max-width: 700px) { .tilt > .obra-tape, .obra-tape { top: 84px; } }
 
   .trabajo-image {
     width: 100%;
@@ -1572,7 +1626,7 @@
       <p class="hero-sub">Diseño e implemento el sistema GroWell: la arquitectura de captación, conversión y retención que convierte tus ventas en algo predecible. Sin campañas aisladas ni promociones de pánico.</p>
 
       <div class="hero-ctas">
-        <a href="#agenda" class="btn btn-secondary">Agendar llamada</a>
+        <a href="#agenda" class="btn btn-primary">Agendar llamada</a>
       </div>
 
     </div>
@@ -1657,6 +1711,10 @@
           <p>El 80% del crecimiento viene de clientes existentes, no de nuevos. Email automático, programas de lealtad y upsells estratégicos para aumentar 3× el LTV.</p>
           <div class="tilt-spot"></div>
         </div>
+      </div>
+
+      <div class="system-cta reveal">
+        <a href="#agenda" class="btn btn-primary lg" data-cta="sistema">Quiero mi sistema</a>
       </div>
     </div>
   </section>
@@ -1791,13 +1849,14 @@
             <div class="tilt-spot"></div>
           </a>
 
-          <a href="https://trasterosalmeritras.es/" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;">
+          <a href="https://trasterosalmeritras.es/" target="_blank" rel="noopener noreferrer" class="trabajo-card trabajo-card--obra reveal tilt" style="text-decoration: none;">
             <img src="assets/trabajo-trastero.jpg" alt="Trastero Almeritras" class="trabajo-image" width="900" height="866" loading="lazy">
+            <div class="obra-tape" aria-hidden="true"><span>EN CONSTRUCCIÓN</span></div>
             <div class="trabajo-content">
               <span class="trabajo-type">Web + Diseño</span>
               <h3>Trastero Almeritras</h3>
-              <p>Plataforma de almacenamiento. Web y diseño de identidad visual para servicio de trasteros.</p>
-              <span class="trabajo-link">Ver proyecto →</span>
+              <p>Plataforma de almacenamiento. Web y diseño de identidad visual para servicio de trasteros. Todavía no está abierta al público.</p>
+              <span class="trabajo-link">Ver el aviso de obra →</span>
             </div>
             <div class="tilt-spot"></div>
           </a>
@@ -1836,13 +1895,14 @@
             <div class="tilt-spot"></div>
           </a>
 
-          <a href="https://trasterosalmeritras.es/" target="_blank" rel="noopener noreferrer" class="trabajo-card reveal tilt" style="text-decoration: none;" aria-hidden="true" tabindex="-1">
+          <a href="https://trasterosalmeritras.es/" target="_blank" rel="noopener noreferrer" class="trabajo-card trabajo-card--obra reveal tilt" style="text-decoration: none;" aria-hidden="true" tabindex="-1">
             <img src="assets/trabajo-trastero.jpg" alt="" class="trabajo-image" width="900" height="866" loading="lazy">
+            <div class="obra-tape" aria-hidden="true"><span>EN CONSTRUCCIÓN</span></div>
             <div class="trabajo-content">
               <span class="trabajo-type">Web + Diseño</span>
               <h3>Trastero Almeritras</h3>
-              <p>Plataforma de almacenamiento. Web y diseño de identidad visual para servicio de trasteros.</p>
-              <span class="trabajo-link">Ver proyecto →</span>
+              <p>Plataforma de almacenamiento. Web y diseño de identidad visual para servicio de trasteros. Todavía no está abierta al público.</p>
+              <span class="trabajo-link">Ver el aviso de obra →</span>
             </div>
             <div class="tilt-spot"></div>
           </a>
@@ -1890,6 +1950,67 @@
     </div>
   </section>
 
+
+  <!-- ============= SECTION 9 — CIERRE ============= -->
+  <!-- ============= SECTION 9B — AGENDA ============= -->
+  <section class="sec-agenda" id="agenda" data-screen-label="09B Agenda">
+    <div class="container">
+      <div class="agenda-grid">
+        <div class="agenda-copy reveal">
+          <div class="sec-eyebrow neon">Llamada gratuita</div>
+          <h2 class="sec-h">Agenda 30 minutos conmigo</h2>
+          <p class="sec-sub">Sin compromiso y sin presentación comercial. Me cuentas dónde está tu marca y te digo qué haría yo.</p>
+          <ul class="agenda-list">
+            <li>Revisamos de dónde vienen hoy tus ventas y qué se está escapando por el camino.</li>
+            <li>Te digo qué pilar del sistema tienes más flojo: captación, conversión o retención.</li>
+            <li>Sales con dos o tres acciones concretas, trabajes conmigo o no.</li>
+          </ul>
+        </div>
+
+        <div class="agenda-panel reveal">
+          <form class="agenda-form" id="agendaForm" novalidate>
+            <div class="field">
+              <label for="lead-nombre">Nombre</label>
+              <input type="text" id="lead-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre" required />
+              <span class="field-error" id="err-nombre" hidden></span>
+            </div>
+            <div class="field">
+              <label for="lead-email">Email</label>
+              <input type="email" id="lead-email" name="email" autocomplete="email" placeholder="tu@email.com" required />
+              <span class="field-error" id="err-email" hidden></span>
+            </div>
+
+            <div class="agenda-hp" aria-hidden="true">
+              <label for="lead-web2">No rellenar este campo</label>
+              <input type="text" id="lead-web2" name="web2" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="agenda-consent">
+              <input type="checkbox" id="lead-consent" name="consent" required />
+              <label for="lead-consent">He leído y acepto la <a href="politica-privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>. Uso tus datos solo para responderte y preparar la llamada.</label>
+            </div>
+            <span class="field-error" id="err-consent" hidden></span>
+
+            <button type="submit" class="btn btn-primary" id="agendaSubmit">Reservar mi llamada de 30 min</button>
+            <p class="agenda-status" id="agendaStatus" role="status" aria-live="polite"></p>
+            <div class="agenda-alt">
+                <p>¿Prefieres hablar ahora y sin formularios?</p>
+                <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-cta="agenda_whatsapp">Escríbeme por WhatsApp</a>
+            </div>
+          </form>
+
+          <div class="agenda-ok" id="agendaOk" hidden>
+            <h3>¡Listo!</h3>
+            <p>Ya tengo tus datos. Elige aquí abajo el hueco que mejor te venga y hablamos 30 minutos.</p>
+            <div class="agenda-cal" id="agendaCal"></div>
+            <p class="agenda-ok-alt">¿No se ve el calendario? <a id="agendaBooking" href="https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Ábrelo en otra pestaña</a></p>
+            <p class="agenda-ok-alt">¿Prefieres WhatsApp? <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" data-cta="agenda_ok">Escríbeme directamente</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============= SECTION 8 — FAQ ============= -->
   <section class="sec-faq" id="faq" data-screen-label="08 FAQ">
     <div class="container">
@@ -1931,67 +2052,7 @@
             <span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span>
           </button>
           <div class="faq-a">
-            <div class="faq-a-inner">15 minutos. Diagnóstico claro: dónde están las fugas de ingresos, qué pilar del sistema está más débil y qué impacto realista esperar en 90 días. Si encajamos, te paso propuesta. Si no, te dejo las recomendaciones igualmente.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============= SECTION 9 — CIERRE ============= -->
-  <!-- ============= SECTION 9B — AGENDA ============= -->
-  <section class="sec-agenda" id="agenda" data-screen-label="09B Agenda">
-    <div class="container">
-      <div class="agenda-grid">
-        <div class="agenda-copy reveal">
-          <div class="sec-eyebrow neon">Llamada gratuita</div>
-          <h2 class="sec-h">Agenda 15 minutos conmigo</h2>
-          <p class="sec-sub">Sin compromiso y sin presentación comercial. Me cuentas dónde está tu marca y te digo qué haría yo.</p>
-          <ul class="agenda-list">
-            <li>Revisamos de dónde vienen hoy tus ventas y qué se está escapando por el camino.</li>
-            <li>Te digo qué pilar del sistema tienes más flojo: captación, conversión o retención.</li>
-            <li>Sales con dos o tres acciones concretas, trabajes conmigo o no.</li>
-          </ul>
-        </div>
-
-        <div class="agenda-panel reveal">
-          <form class="agenda-form" id="agendaForm" novalidate>
-            <div class="field">
-              <label for="lead-nombre">Nombre</label>
-              <input type="text" id="lead-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre" required />
-              <span class="field-error" id="err-nombre" hidden></span>
-            </div>
-            <div class="field">
-              <label for="lead-email">Email</label>
-              <input type="email" id="lead-email" name="email" autocomplete="email" placeholder="tu@email.com" required />
-              <span class="field-error" id="err-email" hidden></span>
-            </div>
-
-            <div class="agenda-hp" aria-hidden="true">
-              <label for="lead-web2">No rellenar este campo</label>
-              <input type="text" id="lead-web2" name="web2" tabindex="-1" autocomplete="off" />
-            </div>
-
-            <div class="agenda-consent">
-              <input type="checkbox" id="lead-consent" name="consent" required />
-              <label for="lead-consent">He leído y acepto la <a href="politica-privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>. Uso tus datos solo para responderte y preparar la llamada.</label>
-            </div>
-            <span class="field-error" id="err-consent" hidden></span>
-
-            <button type="submit" class="btn btn-primary" id="agendaSubmit">Reservar mi llamada de 15 min</button>
-            <p class="agenda-status" id="agendaStatus" role="status" aria-live="polite"></p>
-            <div class="agenda-alt">
-                <p>¿Prefieres hablar ahora y sin formularios?</p>
-                <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-cta="agenda_whatsapp">Escríbeme por WhatsApp</a>
-            </div>
-          </form>
-
-          <div class="agenda-ok" id="agendaOk" hidden>
-            <h3>¡Listo!</h3>
-            <p>Ya tengo tus datos. Elige aquí abajo el hueco que mejor te venga y hablamos 15 minutos.</p>
-            <div class="agenda-cal" id="agendaCal"></div>
-            <p class="agenda-ok-alt">¿No se ve el calendario? <a id="agendaBooking" href="https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Ábrelo en otra pestaña</a></p>
-            <p class="agenda-ok-alt">¿Prefieres WhatsApp? <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" data-cta="agenda_ok">Escríbeme directamente</a></p>
+            <div class="faq-a-inner">30 minutos. Diagnóstico claro: dónde están las fugas de ingresos, qué pilar del sistema está más débil y qué impacto realista esperar en 90 días. Si encajamos, te paso propuesta. Si no, te dejo las recomendaciones igualmente.</div>
           </div>
         </div>
       </div>
@@ -2509,7 +2570,7 @@
       if (cal && !cal.firstChild) {
         const iframe = document.createElement('iframe');
         iframe.src = enlace.href;
-        iframe.title = 'Calendario para reservar la llamada de 15 minutos';
+        iframe.title = 'Calendario para reservar la llamada de 30 minutos';
         iframe.setAttribute('scrolling', 'yes');
         cal.appendChild(iframe);
       }
