@@ -2461,6 +2461,26 @@
   })();
 
 
+  // ============= Origen del visitante (UTM) =============
+  // Se guarda al entrar y se reenvia al calendario, para saber que anuncio trae cada reunion.
+  const ORIGEN_KEY = 'ecomgaro_origen';
+  const PARAMS_ORIGEN = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'];
+
+  function guardarOrigen() {
+    try {
+      const url = new URLSearchParams(location.search);
+      const origen = {};
+      PARAMS_ORIGEN.forEach(k => { const v = url.get(k); if (v) origen[k] = v; });
+      if (Object.keys(origen).length) sessionStorage.setItem(ORIGEN_KEY, JSON.stringify(origen));
+    } catch (e) {}
+  }
+
+  function leerOrigen() {
+    try { return JSON.parse(sessionStorage.getItem(ORIGEN_KEY) || '{}'); } catch (e) { return {}; }
+  }
+
+  guardarOrigen();
+
   // ============= Formulario de agenda =============
   (function () {
     const form = document.getElementById('agendaForm');
@@ -2564,7 +2584,12 @@
     function mostrarExito(nombre, email) {
       const enlace = document.getElementById('agendaBooking');
       // Prerrellena el calendario de GoHighLevel con lo que ya escribio en el formulario.
-      if (BOOKING_URL) enlace.href = BOOKING_URL + '?first_name=' + encodeURIComponent(nombre) + '&email=' + encodeURIComponent(email);
+      if (BOOKING_URL) {
+        const q = new URLSearchParams({ first_name: nombre, email: email });
+        const origen = leerOrigen();
+        Object.keys(origen).forEach(k => q.set(k, origen[k]));
+        enlace.href = BOOKING_URL + '?' + q.toString();
+      }
       // El calendario se incrusta aquí mismo (no antes: no carga nada de GoHighLevel hasta este paso).
       const cal = document.getElementById('agendaCal');
       if (cal && !cal.firstChild) {
