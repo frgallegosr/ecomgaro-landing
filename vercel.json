@@ -8,7 +8,7 @@
   "redirects": [
     {
       "source": "/agenda",
-      "destination": "/#agenda",
+      "destination": "/?ir=agenda#agenda",
       "permanent": false
     }
   ],

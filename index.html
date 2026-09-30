@@ -2481,6 +2481,20 @@
 
   guardarOrigen();
 
+  // Si se llega por frangallegosr.com/agenda, baja a la seccion aunque LinkedIn
+  // (u otro acortador) se haya comido el #agenda del enlace.
+  (function () {
+    try {
+      if (new URLSearchParams(location.search).get('ir') !== 'agenda') return;
+      const seccion = document.getElementById('agenda');
+      if (!seccion) return;
+      // Salto directo, no suave: recorrer toda la pagina con animacion marea y se puede cancelar.
+      const irAlaAgenda = () => window.scrollTo({ top: seccion.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+      setTimeout(irAlaAgenda, 150);
+      addEventListener('load', () => setTimeout(irAlaAgenda, 250));
+    } catch (e) {}
+  })();
+
   // ============= Formulario de agenda =============
   (function () {
     const form = document.getElementById('agendaForm');
