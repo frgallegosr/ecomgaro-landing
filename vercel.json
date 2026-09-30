@@ -10,6 +10,12 @@
       "source": "/agenda",
       "destination": "/?ir=agenda#agenda",
       "permanent": false
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "agenda.frangallegosr.com" }],
+      "destination": "https://frangallegosr.com/?ir=agenda#agenda",
+      "permanent": false
     }
   ],
   "headers": [
