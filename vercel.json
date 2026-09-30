@@ -5,6 +5,13 @@
   "env": {
     "VERCEL_ENV": "production"
   },
+  "redirects": [
+    {
+      "source": "/agenda",
+      "destination": "/#agenda",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
