@@ -2552,9 +2552,9 @@
     if (!form) return;
 
     // --- Configuracion: rellenar para que el formulario guarde y agende ---
-    const SUPABASE_URL = 'https://asbnmhteshhnemisvryu.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_-oqjXIjJWApExMrv9oTi8w_VAdWAXN-';
-    const SUPABASE_TABLA = 'leads';
+    // El lead va directo al CRM (GoHighLevel). Antes iba a Supabase, que se borro.
+    // Puente propio: el lead va a /api/lead y desde ahi al CRM (el token vive en Vercel).
+    const WEBHOOK_LEADS = '/api/lead';
     const BOOKING_URL = 'https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr';
     // ---------------------------------------------------------------------
 
@@ -2617,25 +2617,31 @@
       estado.textContent = 'Guardando\u2026';
 
       let guardado = false;
-      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      if (WEBHOOK_LEADS) {
+        const origen = leerOrigen();
         try {
-          const res = await fetch(SUPABASE_URL + '/rest/v1/' + SUPABASE_TABLA, {
+          const res = await fetch(WEBHOOK_LEADS, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': SUPABASE_ANON_KEY,
-              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-              'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify(lead)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              first_name: lead.nombre,
+              email: lead.email,
+              source: 'web-frangallegosr',
+              pagina: location.href,
+              utm_source: origen.utm_source || '',
+              utm_medium: origen.utm_medium || '',
+              utm_campaign: origen.utm_campaign || '',
+              utm_content: origen.utm_content || '',
+              utm_term: origen.utm_term || ''
+            })
           });
           guardado = res.ok;
-          if (!res.ok) console.warn('Supabase respondio', res.status);
+          if (!res.ok) console.warn('El CRM respondio', res.status);
         } catch (err) {
-          console.warn('No se pudo guardar el lead:', err);
+          console.warn('No se pudo enviar el lead al CRM:', err);
         }
       } else {
-        console.warn('Formulario sin configurar: faltan SUPABASE_URL y SUPABASE_ANON_KEY.');
+        console.warn('Formulario sin configurar: falta WEBHOOK_LEADS.');
       }
 
       trackEvent('lead_form_submit', { guardado: guardado });
