@@ -67,20 +67,50 @@
     <p class="pie">¿Necesitas cambiar la hora o preguntar algo antes?
       <a href="https://wa.me/34613832708" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>.
     </p>
+    <p class="pie"><a href="/">Volver a frangallegosr.com</a></p>
   </div>
 
 <script>
   // Esta pagina es a la que GoHighLevel redirige al confirmar la reserva.
-  // Si esta dentro del calendario incrustado, avisa a la pagina principal para
-  // que registre el evento alli (donde vive el pixel y el consentimiento).
-  // Si alguien la abre suelta, la manda a la web con la marca de reserva hecha.
   (function () {
+    var GA_ID = 'G-1R6M0KHT8L';
+    var PIXEL_ID = '1132329755676018';
+
+    // Dentro del calendario incrustado: avisa a la pagina principal, que ya
+    // tiene el pixel cargado, y se queda quieta mostrando la confirmacion.
     var dentroDeIframe = window.parent && window.parent !== window;
     if (dentroDeIframe) {
       try { window.parent.postMessage({ tipo: 'reserva-confirmada' }, location.origin); } catch (e) {}
       return;
     }
-    setTimeout(function () { location.replace('/?reserva=ok'); }, 2500);
+
+    // A pantalla completa: no se redirige a ningun sitio (la persona acaba de
+    // reservar y lo que quiere es leer la confirmacion). El evento se registra
+    // aqui mismo, y solo si acepto las cookies en la web.
+    var acepto = false;
+    try { acepto = localStorage.getItem('ecomgaro_cookie_consent') === 'granted'; } catch (e) {}
+    if (!acepto) return;
+
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_ID, { 'anonymize_ip': true });
+    gtag('event', 'reserva_confirmada', { origen: 'pagina_gracias' });
+
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', PIXEL_ID);
+    fbq('track', 'Schedule');
   })();
 </script>
 </body>
