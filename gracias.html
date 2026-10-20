@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reserva confirmada — Fran Gallegos</title>
+<meta name="robots" content="noindex, follow" />
+<style>
+  :root {
+    --navy: #001F3F;
+    --navy-deep: #00152C;
+    --neon: #39FF14;
+    --white: #FFFFFF;
+    --white-80: rgba(255,255,255,0.80);
+    --white-60: rgba(255,255,255,0.60);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 20px;
+  }
+  .caja {
+    max-width: 560px;
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .tic {
+    width: 56px; height: 56px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: rgba(57,255,20,0.12);
+    border: 1px solid rgba(57,255,20,0.45);
+  }
+  h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; }
+  p { color: var(--white-80); font-size: 15.5px; margin-bottom: 14px; }
+  ul { list-style: none; text-align: left; margin: 20px 0 8px; display: grid; gap: 10px; }
+  li { color: var(--white-80); font-size: 15px; padding-left: 22px; position: relative; }
+  li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--neon); }
+  .pie { font-size: 13px; color: var(--white-60); margin-top: 18px; }
+  .pie a { color: var(--neon); }
+</style>
+</head>
+<body>
+  <div class="caja">
+    <div class="tic" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#39FF14" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1>Reserva confirmada</h1>
+    <p>Nos vemos en la llamada de 30 minutos.</p>
+    <ul>
+      <li>Recibirás un email con la confirmación y el enlace de Google Meet.</li>
+      <li>Vengo con tu caso mirado: cuanto más concreto seas en el formulario, mejor aprovechamos el tiempo.</li>
+      <li>Sales de la llamada con dos o tres acciones concretas, trabajes conmigo o no.</li>
+    </ul>
+    <p class="pie">¿Necesitas cambiar la hora o preguntar algo antes?
+      <a href="https://wa.me/34613832708" target="_blank" rel="noopener noreferrer">Escríbeme por WhatsApp</a>.
+    </p>
+  </div>
+
+<script>
+  // Esta pagina es a la que GoHighLevel redirige al confirmar la reserva.
+  // Si esta dentro del calendario incrustado, avisa a la pagina principal para
+  // que registre el evento alli (donde vive el pixel y el consentimiento).
+  // Si alguien la abre suelta, la manda a la web con la marca de reserva hecha.
+  (function () {
+    var dentroDeIframe = window.parent && window.parent !== window;
+    if (dentroDeIframe) {
+      try { window.parent.postMessage({ tipo: 'reserva-confirmada' }, location.origin); } catch (e) {}
+      return;
+    }
+    setTimeout(function () { location.replace('/?reserva=ok'); }, 2500);
+  })();
+</script>
+</body>
+</html>
