@@ -2146,37 +2146,9 @@
   // ============= Cookie consent (propio, sin CMP externo) =============
   (function () {
     var STORAGE_KEY = 'ecomgaro_cookie_consent';
-    var VISITOR_KEY = 'ecomgaro_visitor_id';
-    var POLICY_VERSION = '2026-09-21';
-    var SUPABASE_URL = 'https://asbnmhteshhnemisvryu.supabase.co';
-    var SUPABASE_ANON_KEY = 'sb_publishable_-oqjXIjJWApExMrv9oTi8w_VAdWAXN-';
+    var POLICY_VERSION = '2026-10-20';
     var banner = document.getElementById('cookie-consent');
     if (!banner) return;
-
-    function getVisitorId() {
-      var id = localStorage.getItem(VISITOR_KEY);
-      if (!id) {
-        id = crypto.randomUUID();
-        localStorage.setItem(VISITOR_KEY, id);
-      }
-      return id;
-    }
-
-    function logConsent(granted) {
-      fetch(SUPABASE_URL + '/rest/v1/cookie_consent_log', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
-        },
-        body: JSON.stringify({
-          decision: granted ? 'granted' : 'denied',
-          visitor_id: getVisitorId(),
-          politica_version: POLICY_VERSION
-        })
-      }).catch(function () {});
-    }
 
     var GA_ID = 'G-1R6M0KHT8L';
     var analyticsLoaded = false;
@@ -2253,7 +2225,6 @@
       localStorage.setItem(STORAGE_KEY, 'granted');
       localStorage.setItem(VERSION_KEY, POLICY_VERSION);
       applyConsent(true);
-      logConsent(true);
       banner.hidden = true;
     });
 
@@ -2261,7 +2232,6 @@
       localStorage.setItem(STORAGE_KEY, 'denied');
       localStorage.setItem(VERSION_KEY, POLICY_VERSION);
       applyConsent(false);
-      logConsent(false);
       banner.hidden = true;
     });
 
