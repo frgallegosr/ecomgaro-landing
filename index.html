@@ -2146,9 +2146,41 @@
   // ============= Cookie consent (propio, sin CMP externo) =============
   (function () {
     var STORAGE_KEY = 'ecomgaro_cookie_consent';
+    var VISITOR_KEY = 'ecomgaro_visitor_id';
     var POLICY_VERSION = '2026-10-20';
     var banner = document.getElementById('cookie-consent');
     if (!banner) return;
+
+    // Identificador aleatorio de navegador: no dice quien eres, solo permite
+    // demostrar que ESTE navegador acepto o rechazo, y cuando.
+    function getVisitorId() {
+      try {
+        var id = localStorage.getItem(VISITOR_KEY);
+        if (!id) {
+          id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+          localStorage.setItem(VISITOR_KEY, id);
+        }
+        return id;
+      } catch (e) { return 'sin-identificador'; }
+    }
+
+    // Prueba del consentimiento, guardada en servidor (exigible con el RGPD).
+    function registrarConsentimiento(granted) {
+      try {
+        fetch('/api/consent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            id: getVisitorId(),
+            decision: granted ? 'granted' : 'denied',
+            version: POLICY_VERSION,
+            pagina: location.href,
+            idioma: navigator.language || ''
+          })
+        }).catch(function () {});
+      } catch (e) {}
+    }
 
     var GA_ID = 'G-1R6M0KHT8L';
     var analyticsLoaded = false;
@@ -2225,6 +2257,7 @@
       localStorage.setItem(STORAGE_KEY, 'granted');
       localStorage.setItem(VERSION_KEY, POLICY_VERSION);
       applyConsent(true);
+      registrarConsentimiento(true);
       banner.hidden = true;
     });
 
@@ -2232,6 +2265,7 @@
       localStorage.setItem(STORAGE_KEY, 'denied');
       localStorage.setItem(VERSION_KEY, POLICY_VERSION);
       applyConsent(false);
+      registrarConsentimiento(false);
       banner.hidden = true;
     });
 
