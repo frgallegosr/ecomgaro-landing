@@ -1300,7 +1300,9 @@
   .agenda-ok-alt { font-size: 13px; color: var(--white-60); }
   .agenda-ok-alt a { color: var(--neon); }
 
-  /* Calendario de GoHighLevel incrustado: solo se carga tras enviar el formulario */
+  /* Calendario de GoHighLevel incrustado: se carga al acercarse a la seccion */
+  .agenda-cal { min-height: 860px; border-radius: 16px; background: rgba(255,255,255,0.04); }
+  .agenda-cal:empty::before { content: 'Cargando calendario6'; display: block; padding: 40px 0; text-align: center; font-size: 14px; color: var(--white-60); }
   .agenda-cal iframe {
     display: block;
     width: 100%;
@@ -1977,43 +1979,14 @@
         </div>
 
         <div class="agenda-panel reveal">
-          <form class="agenda-form" id="agendaForm" novalidate>
-            <div class="field">
-              <label for="lead-nombre">Nombre</label>
-              <input type="text" id="lead-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre" required />
-              <span class="field-error" id="err-nombre" hidden></span>
-            </div>
-            <div class="field">
-              <label for="lead-email">Email</label>
-              <input type="email" id="lead-email" name="email" autocomplete="email" placeholder="tu@email.com" required />
-              <span class="field-error" id="err-email" hidden></span>
-            </div>
-
-            <div class="agenda-hp" aria-hidden="true">
-              <label for="lead-web2">No rellenar este campo</label>
-              <input type="text" id="lead-web2" name="web2" tabindex="-1" autocomplete="off" />
-            </div>
-
-            <div class="agenda-consent">
-              <input type="checkbox" id="lead-consent" name="consent" required />
-              <label for="lead-consent">He leído y acepto la <a href="politica-privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>. Uso tus datos solo para responderte y preparar la llamada.</label>
-            </div>
-            <span class="field-error" id="err-consent" hidden></span>
-
-            <button type="submit" class="btn btn-primary" id="agendaSubmit">Quiero mi llamada de 30 min</button>
-            <p class="agenda-status" id="agendaStatus" role="status" aria-live="polite"></p>
-            <div class="agenda-alt">
-                <p>¿Prefieres hablar ahora y sin formularios?</p>
-                <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-cta="agenda_whatsapp">Prefiero WhatsApp</a>
-            </div>
-          </form>
-
-          <div class="agenda-ok" id="agendaOk" hidden>
-            <h3>¡Listo!</h3>
-            <p>Ya tengo tus datos. Elige aquí abajo el hueco que mejor te venga y hablamos 30 minutos.</p>
+          <div class="agenda-ok" id="agendaOk">
             <div class="agenda-cal" id="agendaCal"></div>
             <p class="agenda-ok-alt">¿No se ve el calendario? <a id="agendaBooking" href="https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr" target="_blank" rel="noopener noreferrer" data-cta="agenda_calendario">Ábrelo en otra pestaña</a></p>
-            <p class="agenda-ok-alt">Al reservar recibirás un email con la confirmación y el enlace de Google Meet.</p>
+            <p class="agenda-ok-alt">Al reservar recibirás un email con la confirmación y el enlace de Google Meet. Al hacerlo aceptas la <a href="politica-privacidad.html" target="_blank" rel="noopener noreferrer">política de privacidad</a>: uso tus datos solo para responderte y preparar la llamada.</p>
+            <div class="agenda-alt">
+              <p>¿Prefieres hablar ahora y sin formularios?</p>
+              <a href="https://wa.me/34613832708?text=Hola%20Fran%2C%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20Growth%20para%20analizar%20mi%20negocio." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-cta="agenda_whatsapp">Prefiero WhatsApp</a>
+            </div>
           </div>
         </div>
       </div>
@@ -2571,134 +2544,38 @@
     } catch (e) {}
   })();
 
-  // ============= Formulario de agenda =============
+  // ============= Calendario de agenda =============
+  // El calendario de GoHighLevel va directo en la seccion, sin formulario previo.
+  // No se carga hasta que el visitante esta cerca de la seccion (rendimiento y privacidad),
+  // y recibe el origen (UTM) para saber que anuncio trae cada reunion.
   (function () {
-    const form = document.getElementById('agendaForm');
-    if (!form) return;
-
-    // --- Configuracion: rellenar para que el formulario guarde y agende ---
-    // El lead va directo al CRM (GoHighLevel). Antes iba a Supabase, que se borro.
-    // Puente propio: el lead va a /api/lead y desde ahi al CRM (el token vive en Vercel).
-    const WEBHOOK_LEADS = '/api/lead';
     const BOOKING_URL = 'https://api.leadconnectorhq.com/widget/booking/0AIGXq35EU2gJJOpEvlr';
-    // ---------------------------------------------------------------------
+    const cal = document.getElementById('agendaCal');
+    const enlace = document.getElementById('agendaBooking');
+    if (!cal || !enlace) return;
 
-    const estado = document.getElementById('agendaStatus');
-    const boton = document.getElementById('agendaSubmit');
-    const panelOk = document.getElementById('agendaOk');
+    const q = new URLSearchParams();
+    const origen = leerOrigen();
+    Object.keys(origen).forEach(k => q.set(k, origen[k]));
+    const url = q.toString() ? BOOKING_URL + '?' + q.toString() : BOOKING_URL;
+    enlace.href = url;
 
-    const campos = [
-      { id: 'lead-nombre', err: 'err-nombre', msg: 'Dime c\u00f3mo te llamas.' },
-      { id: 'lead-email', err: 'err-email', msg: 'Necesito un email v\u00e1lido para escribirte.' },
-      { id: 'lead-consent', err: 'err-consent', msg: 'Necesito tu consentimiento para tratar tus datos.' }
-    ];
-
-    function marcar(campo, valido) {
-      const el = document.getElementById(campo.id);
-      const err = document.getElementById(campo.err);
-      el.setAttribute('aria-invalid', valido ? 'false' : 'true');
-      err.textContent = valido ? '' : campo.msg;
-      err.hidden = valido;
-      return valido;
+    function cargar() {
+      if (cal.firstChild) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.title = 'Calendario para reservar la llamada de 30 minutos';
+      iframe.setAttribute('scrolling', 'yes');
+      cal.appendChild(iframe);
     }
 
-    function validar() {
-      let todoOk = true;
-      campos.forEach(c => {
-        const el = document.getElementById(c.id);
-        const valido = el.type === 'checkbox' ? el.checked : (el.checkValidity() && el.value.trim() !== '');
-        if (!marcar(c, valido)) todoOk = false;
-      });
-      return todoOk;
-    }
-
-    campos.forEach(c => {
-      const el = document.getElementById(c.id);
-      el.addEventListener('change', () => {
-        if (el.getAttribute('aria-invalid') === 'true') validar();
-      });
-    });
-
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      estado.textContent = '';
-      estado.removeAttribute('data-tipo');
-
-      // Trampa antispam: los bots rellenan campos ocultos, las personas no
-      if (form.elements.web2.value !== '') return;
-
-      if (!validar()) {
-        estado.textContent = 'Revisa los campos marcados.';
-        estado.setAttribute('data-tipo', 'error');
-        return;
-      }
-
-      const lead = {
-        nombre: form.elements.nombre.value.trim(),
-        email: form.elements.email.value.trim()
-      };
-
-      boton.disabled = true;
-      estado.textContent = 'Guardando\u2026';
-
-      let guardado = false;
-      if (WEBHOOK_LEADS) {
-        const origen = leerOrigen();
-        try {
-          const res = await fetch(WEBHOOK_LEADS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              first_name: lead.nombre,
-              email: lead.email,
-              source: 'web-frangallegosr',
-              pagina: location.href,
-              utm_source: origen.utm_source || '',
-              utm_medium: origen.utm_medium || '',
-              utm_campaign: origen.utm_campaign || '',
-              utm_content: origen.utm_content || '',
-              utm_term: origen.utm_term || ''
-            })
-          });
-          guardado = res.ok;
-          if (!res.ok) console.warn('El CRM respondio', res.status);
-        } catch (err) {
-          console.warn('No se pudo enviar el lead al CRM:', err);
-        }
-      } else {
-        console.warn('Formulario sin configurar: falta WEBHOOK_LEADS.');
-      }
-
-      trackEvent('lead_form_submit', { guardado: guardado });
-
-      // Pase lo que pase con el guardado, el visitante puede seguir adelante
-      boton.disabled = false;
-      estado.textContent = '';
-      mostrarExito(lead.nombre, lead.email);
-    });
-
-    function mostrarExito(nombre, email) {
-      const enlace = document.getElementById('agendaBooking');
-      // Prerrellena el calendario de GoHighLevel con lo que ya escribio en el formulario.
-      if (BOOKING_URL) {
-        const q = new URLSearchParams({ first_name: nombre, email: email });
-        const origen = leerOrigen();
-        Object.keys(origen).forEach(k => q.set(k, origen[k]));
-        enlace.href = BOOKING_URL + '?' + q.toString();
-      }
-      // El calendario se incrusta aquí mismo (no antes: no carga nada de GoHighLevel hasta este paso).
-      const cal = document.getElementById('agendaCal');
-      if (cal && !cal.firstChild) {
-        const iframe = document.createElement('iframe');
-        iframe.src = enlace.href;
-        iframe.title = 'Calendario para reservar la llamada de 30 minutos';
-        iframe.setAttribute('scrolling', 'yes');
-        cal.appendChild(iframe);
-      }
-      panelOk.querySelector('h3').textContent = '\u00a1Listo, ' + nombre + '!';
-      form.hidden = true;
-      panelOk.hidden = false;
-      panelOk.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if ('IntersectionObserver' in window) {
+      const o = new IntersectionObserver(function (es) {
+        if (es.some(function (e) { return e.isIntersecting; })) { cargar(); o.disconnect(); }
+      }, { rootMargin: '800px 0px' });
+      o.observe(cal);
+    } else {
+      cargar();
     }
   })();
 
