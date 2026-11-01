@@ -1315,6 +1315,11 @@
   @media (max-width: 900px) {
     .agenda-grid { grid-template-columns: 1fr; gap: 36px; }
     .agenda-form { padding: 24px; }
+    /* Movil: el calendario necesita todo el ancho (en la tarjeta quedaba en 262 px y se cortaba). */
+    .agenda-panel { margin-left: -24px; margin-right: -24px; }
+    .agenda-ok { padding: 8px 0 28px; border-radius: 0; border-left: 0; border-right: 0; }
+    .agenda-ok .agenda-ok-alt, .agenda-ok .agenda-alt { padding-left: 24px; padding-right: 24px; }
+    .agenda-cal, .agenda-cal iframe { border-radius: 0; }
   }
 
   /* ============= SECTION 9 — CIERRE ============= */
