@@ -4,7 +4,7 @@
 User-agent: *
 Allow: /
 Disallow: /assets/
-Allow: /assets/og-fran-baseline.jpg
+Allow: /assets/og-fran-cuadrada.jpg
 
 # Rastreadores de vistas previas al compartir el enlace (Facebook, Instagram, WhatsApp,
 # LinkedIn, X...): necesitan descargar la imagen de /assets/ para mostrarla.
