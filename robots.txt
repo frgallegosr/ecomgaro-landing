@@ -4,6 +4,18 @@
 User-agent: *
 Allow: /
 Disallow: /assets/
+Allow: /assets/og-fran-baseline.jpg
+
+# Rastreadores de vistas previas al compartir el enlace (Facebook, Instagram, WhatsApp,
+# LinkedIn, X...): necesitan descargar la imagen de /assets/ para mostrarla.
+User-agent: facebookexternalhit
+User-agent: Facebot
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: WhatsApp
+User-agent: Slackbot
+User-agent: TelegramBot
+Allow: /
 
 # Specific rules for major crawlers
 User-agent: Googlebot
