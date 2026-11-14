@@ -8,13 +8,31 @@
   "redirects": [
     {
       "source": "/agenda",
-      "destination": "/?ir=agenda#agenda",
+      "destination": "/empieza-aqui/?ir=agenda#agenda",
       "permanent": false
     },
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "agenda.frangallegosr.com" }],
-      "destination": "https://frangallegosr.com/?ir=agenda#agenda",
+      "destination": "https://frangallegosr.com/empieza-aqui/?ir=agenda#agenda",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "utm_source" }],
+      "destination": "/empieza-aqui/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "fbclid" }],
+      "destination": "/empieza-aqui/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "gclid" }],
+      "destination": "/empieza-aqui/",
       "permanent": false
     }
   ],

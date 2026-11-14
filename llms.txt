@@ -1,15 +1,39 @@
 # Fran Gallegos
 
-> Sistema de crecimiento (captación, conversión, retención) para marcas de eCommerce ya en marcha, implementado y operado como partner — método GroWell.
+> Profesional independiente de marketing digital, diseño y desarrollo web, y automatizaciones con IA para negocios de cualquier sector. Trabaja con un máximo de 5 marcas a la vez, en España y Latinoamérica, en español.
 
-Fran Gallegos es un partner de growth dedicado (máximo 5 marcas a la vez) para eCommerce que ya tiene ventas pero no un sistema estructurado. No es una agencia de campañas sueltas: audita, implementa en 90 días y sigue operando el sistema mes a mes.
+Fran Gallegos no es una agencia: quien contrata habla con él y es él quien diseña y construye. Su trabajo une tres piezas que suelen ir separadas: la captación (anuncios, embudos y email), la web y las automatizaciones que conectan web, CRM y agenda. Su especialidad de origen son las marcas de salud y bienestar y el eCommerce; también trabaja con industria, bodas y trasteros.
+
+Formación: Máster en eCommerce y Marketing Digital (IEBS) y certificación Ecom Growth Partner.
 
 ## Páginas
-- [Inicio](https://frangallegosr.com/): sistema completo, método GroWell, casos de éxito, proceso de 3 pasos.
+- [Inicio](https://frangallegosr.com/): qué hace, para quién y cómo contactar.
+- [Servicios](https://frangallegosr.com/servicios/): marketing digital, webs y landings, automatizaciones e IA. Qué incluye cada uno, para quién es y preguntas frecuentes.
+- [Trabajos](https://frangallegosr.com/trabajos/): proyectos de web, identidad visual y captación, por sector.
+- [Quién soy](https://frangallegosr.com/sobre-mi/): historia, formación y forma de trabajar.
+- [Contacto](https://frangallegosr.com/contacto/): formulario, WhatsApp y llamada de 30 minutos.
+- [Marcas de salud y bienestar](https://frangallegosr.com/empieza-aqui/): sistema GroWell (captar, convertir, crecer) y calendario para reservar la llamada.
+
+## Servicios
+- Marketing digital: anuncios en Meta Ads y Google Ads, embudos y páginas de aterrizaje, email marketing y medición.
+- Webs y landings: diseño, textos y desarrollo, con preparación para Google y para los buscadores de IA.
+- Automatizaciones e IA: CRM con seguimiento automático, respuestas y recordatorios por email, reserva de citas y asistentes de IA para tareas concretas.
+
+## Cómo trabaja
+1. Auditoría y estrategia.
+2. Implementación.
+3. Optimización continua.
+
+El precio depende del alcance y se entrega en una propuesta por escrito tras una primera conversación.
+
+## Contacto
+- Formulario: https://frangallegosr.com/contacto/
+- WhatsApp: +34 613 83 27 08
+- Email: frangallegosgp@gmail.com
+- LinkedIn: https://www.linkedin.com/in/frangallegosromero
+- Instagram: https://www.instagram.com/frangallegosr
+
+## Legal
 - [Aviso legal](https://frangallegosr.com/aviso-legal.html)
 - [Política de privacidad](https://frangallegosr.com/politica-privacidad.html)
 - [Política de cookies](https://frangallegosr.com/politica-cookies.html)
-
-## Contacto
-- WhatsApp: +34 613 83 27 08
-- Email: frangallegosgp@gmail.com

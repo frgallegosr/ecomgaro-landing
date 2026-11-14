@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://frangallegosr.com/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://frangallegosr.com/assets/ecomgaro-logo.png</image:loc>
-      <image:title>e-com Garo Logo</image:title>
-    </image:image>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <url>
+    <loc>https://frangallegosr.com/servicios/</loc>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <url>
+    <loc>https://frangallegosr.com/trabajos/</loc>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <url>
+    <loc>https://frangallegosr.com/sobre-mi/</loc>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <url>
+    <loc>https://frangallegosr.com/contacto/</loc>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <url>
+    <loc>https://frangallegosr.com/empieza-aqui/</loc>
+    <lastmod>2026-11-15</lastmod>
   </url>
 </urlset>
