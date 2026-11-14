@@ -58,3 +58,37 @@ Postura visual de referencia: sistema disciplinado (Ruler) que explica antes de 
 - Cuatro duraciones con nombre: `micro` 120ms, `fast` 200ms, `base` 400ms, `slow` 600ms. Nada de valores sueltos tipo `duration: 350ms`.
 - Una sola curva: `cubic-bezier(0.25, 0.46, 0.45, 0.94)`.
 - `prefers-reduced-motion` se respeta siempre, sin excepción, en cualquier animación decorativa.
+
+---
+
+# Web de varias páginas (tema claro)
+
+Añadido el 15-11-2026. Vale para `/`, `/sobre-mi/`, `/servicios/`, `/trabajos/` y `/contacto/`, que comparten `site.css` y `site.js`. La landing `/empieza-aqui/` sigue con las reglas de arriba y no se toca.
+
+Referencia elegida por Fran: `bencorde.com`. Portada oscura con titular grande y una frase en cursiva de color; cuerpo claro y plano. Los tokens están en `brand.json`, apartado `web_theme`.
+
+## Qué cambia respecto a la landing
+
+- **Navegación:** barra completa (logo a la izquierda, enlaces, un botón), no píldora de vidrio. Transparente sobre la portada y navy sólido al hacer scroll. En móvil, panel desplegable; el botón «Hablemos» nunca se esconde.
+- **Fondo:** cuerpo en blanco roto (`paper`), tarjetas blancas con borde de 1px. Sin vidrio, sin brillos, sin sombras.
+- **Verde neón:** solo como relleno del botón principal y solo sobre navy. Sobre claro, el botón es navy con texto blanco.
+- **Enlaces y etiquetas sobre claro:** `accent_deep` (#0A6C7E). El turquesa #17A2B8 da 2,83:1 sobre el fondo y no sirve para texto.
+- **Errores de formulario sobre claro:** `danger_deep` (#B3261E), con icono y con la instrucción de qué hacer.
+
+## Qué se mantiene
+
+- Geist para todo; Fraunces cursiva en una palabra o frase del titular principal de cada página y de las bandas navy.
+- Botones en píldora; 3 radios (8, 16, 24).
+- Solo se animan `transform` y `opacity`; 4 duraciones con nombre y una curva para las interacciones.
+- Voz: tuteo, sin exclamaciones, sin urgencia fingida, sin cifras de clientes sin fuente.
+
+## Excepción documentada: animación de la portada
+
+- Luces de fondo en bucles lentos (24-32 s, `ease-in-out`) y un flujo de 4 pasos con ciclo de 12 s. Son las únicas animaciones fuera de las 4 duraciones.
+- Se pausan cuando la sección sale de pantalla (`data-anim` + `.is-paused`) y no existen con `prefers-reduced-motion`: el flujo queda completo y quieto.
+- El titular no se desvanece al entrar: es lo primero que se pinta.
+- Sin vídeo y sin librerías externas (la CSP las bloquearía).
+
+## Bloques compartidos
+
+El menú, el pie, la cabecera común y el bloque de contacto se editan en `index.html` y se copian al resto con `node scripts/compartidos.mjs --sync`. Sin argumentos, el script solo comprueba que coinciden.

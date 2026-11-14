@@ -208,6 +208,65 @@
     "primary_deep, danger y warning son colores nuevos, no existían en el :root original — se añaden porque cualquier sistema los necesita para hover states y validaciones futuras (formularios, alertas).",
     "geometry se mantiene en 2 (redondeado) a pesar del arquetipo Ruler porque la disciplina de Ruler aquí se expresa en consistencia de radios (3 valores), no en angularidad.",
     "Los controles en píldora (botones, badges, nav) usan 999px (fully rounded) por convención documentada en COMPONENT_RULES.md — no cuenta como cuarto valor de radio porque no es una decisión de 'cuánto redondear', es la forma por defecto de un control tipo píldora.",
-    "El :root actual del proyecto tiene 10 valores de radio distintos (2,8,12,14,16,18,20,22,24px + 999px de píldora) — pendiente de colapsar a radius_sm/md/lg + la píldora documentada."
-  ]
+    "El :root actual del proyecto tiene 10 valores de radio distintos (2,8,12,14,16,18,20,22,24px + 999px de píldora) — pendiente de colapsar a radius_sm/md/lg + la píldora documentada.",
+    "web_theme añadido el 15-11-2026 para la web de varias páginas. No cambia ningún token de la landing: los colores claros viven en web_theme.colors y los comprueba site.css, no el gate (que sigue validando tokens.colors)."
+  ],
+  "web_theme": {
+    "applies_to": "Web de varias páginas (/, /sobre-mi/, /servicios/, /trabajos/, /contacto/). La landing /empieza-aqui/ sigue con el tema oscuro de tokens.colors.",
+    "reference": "Estructura de bencorde.com, elegida por Fran el 14-11-2026: portada oscura con titular grande y una frase en cursiva de color; cuerpo claro y plano con tarjetas de borde fino.",
+    "colors": {
+      "paper": {
+        "hex": "#F6F7F5",
+        "name": "Blanco roto (fondo del cuerpo)"
+      },
+      "card": {
+        "hex": "#FFFFFF",
+        "name": "Blanco (tarjetas)"
+      },
+      "ink": {
+        "hex": "#001F3F",
+        "name": "Navy como texto"
+      },
+      "ink_2": {
+        "hex": "#34495E",
+        "name": "Texto secundario"
+      },
+      "ink_3": {
+        "hex": "#5A6D80",
+        "name": "Texto atenuado"
+      },
+      "accent_deep": {
+        "hex": "#0A6C7E",
+        "name": "Turquesa oscuro (enlaces y etiquetas sobre claro)"
+      },
+      "danger_deep": {
+        "hex": "#B3261E",
+        "name": "Rojo oscuro (errores sobre claro)"
+      },
+      "line": {
+        "hex": "rgba(0,31,63,0.12)",
+        "name": "Línea fina"
+      }
+    },
+    "contrast_checked": {
+      "ink sobre paper": "15.41",
+      "ink_2 sobre paper": "8.64",
+      "ink_3 sobre paper": "4.97",
+      "accent_deep sobre paper": "5.65",
+      "danger_deep sobre card": "6.54",
+      "navy_deep sobre neon (botón)": "13.54",
+      "turquesa #17A2B8 sobre paper (NO usar para texto)": "2.83"
+    },
+    "rules": [
+      "Verde neón solo como relleno del botón principal y solo sobre navy (portada, menú, bandas). Sobre fondo claro los botones son navy con texto blanco.",
+      "Sobre fondo claro, enlaces y etiquetas en accent_deep: el turquesa #17A2B8 no llega a 4,5:1.",
+      "Cuerpo plano: sin vidrio, sin brillos y sin sombras. Tarjetas blancas con borde de 1px.",
+      "Mismos 3 radios y la píldora del resto del contrato; misma tipografía (Geist + Fraunces cursiva)."
+    ],
+    "exceptions": [
+      "Menú clásico de barra completa (logo, enlaces, un botón) en lugar de la píldora de vidrio: la barra es transparente sobre la portada y navy sólido al hacer scroll.",
+      "Fraunces cursiva en una palabra o frase del titular principal (h1) de cada página y del titular de las bandas navy, siempre en verde neón sobre navy.",
+      "Animación de la portada: luces de fondo en bucles lentos (24-32 s, ease-in-out) y un flujo de 4 pasos con ciclo de 12 s. Solo se animan transform y opacity; se pausa fuera de pantalla y se desactiva con prefers-reduced-motion."
+    ]
+  }
 }
