@@ -2,8 +2,9 @@
 //
 // El navegador solo habla con esta funcion, en el propio dominio. El token vive
 // como variable de entorno en Vercel: no esta en el repositorio ni llega nunca
-// al navegador. La funcion solo sabe CREAR un contacto: no lee, no lista y no
-// borra, asi que aunque alguien la llame a proposito no puede sacar datos.
+// al navegador. La funcion solo sabe CREAR un contacto y, si el formulario trae
+// un mensaje, ANADIRLE una nota: no lee, no lista y no borra, asi que aunque
+// alguien la llame a proposito no puede sacar datos.
 
 const API = 'https://services.leadconnectorhq.com/contacts/';
 const VERSION = '2021-07-28';
@@ -41,7 +42,12 @@ module.exports = async function handler(req, res) {
   }
 
   const datos = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+  // Campo trampa: las personas no lo ven; si llega relleno es un bot. Se responde
+  // como si todo hubiera ido bien para no darle pistas, y no se crea nada.
+  if (String(datos.web || '').trim()) return res.status(200).json({ ok: true });
+
   const nombre = String(datos.first_name || '').trim().slice(0, 80);
+  const mensaje = String(datos.mensaje || '').trim().slice(0, 1500);
   const email = String(datos.email || '').trim().toLowerCase().slice(0, 120);
 
   if (!nombre || !emailValido(email)) {
@@ -54,7 +60,7 @@ module.exports = async function handler(req, res) {
     firstName: nombre,
     email,
     source: limpio(datos.source) || 'web-frangallegosr',
-    tags: ['lead-web'],
+    tags: limpio(datos.source) === 'web-contacto' ? ['lead-web', 'contacto-web'] : ['lead-web'],
     customFields: [],
     // Los UTM van en las notas del contacto: asi se ve el origen sin crear campos a mano.
     companyName: undefined
@@ -87,7 +93,44 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    console.log('Lead enviado al CRM', { email, origen: origen || 'directo', pagina: limpio(datos.pagina) });
+    // El mensaje del formulario de contacto se guarda como nota del contacto.
+    // Si la nota falla, el contacto ya existe en el CRM pero el mensaje no: se
+    // responde con error para que la web le diga al visitante que use WhatsApp,
+    // en vez de darle por enviado algo que Fran no va a poder leer. El fallo
+    // queda en el registro sin el texto del mensaje, que es un dato personal.
+    let notaGuardada = null;
+    if (mensaje) {
+      notaGuardada = false;
+      let contactoId = null;
+      try {
+        const json = JSON.parse(texto);
+        contactoId = (json.contact && json.contact.id) || (json.meta && json.meta.contactId) || null;
+      } catch (e) {}
+
+      if (contactoId) {
+        const nota = [
+          'Mensaje desde la web (' + (limpio(datos.pagina) || '/') + '):',
+          mensaje,
+          origen ? 'Origen: ' + origen : ''
+        ].filter(Boolean).join('\n\n');
+        const rn = await fetch(API + encodeURIComponent(contactoId) + '/notes', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            Version: VERSION,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ body: nota })
+        });
+        notaGuardada = rn.ok;
+        if (!rn.ok) console.error('El CRM no guardo la nota del mensaje:', rn.status);
+      } else {
+        console.error('No se pudo guardar la nota del mensaje: el CRM no devolvio el id del contacto');
+      }
+    }
+
+    console.log('Lead enviado al CRM', { email, origen: origen || 'directo', pagina: limpio(datos.pagina), nota: notaGuardada });
+    if (notaGuardada === false) return res.status(502).json({ ok: false, error: 'no se pudo guardar el mensaje' });
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('No se pudo hablar con el CRM:', err && err.message);
