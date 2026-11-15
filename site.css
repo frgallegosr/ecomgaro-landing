@@ -448,6 +448,27 @@ input, textarea { font: inherit; color: inherit; }
   font-size: 14px;
   color: var(--on-navy-3);
 }
+/* Portátiles con poca altura: la portada se compacta para que el botón principal
+   quede a la vista, por encima del aviso de cookies. El titular pasa de 4 líneas a 3. */
+@media (min-width: 1000px) and (max-height: 820px) {
+  .hero { padding-top: calc(var(--header-h) + 36px); padding-bottom: 56px; }
+  .hero h1 { font-size: clamp(2.75rem, 3.6vw, 3.375rem); margin: 20px 0 22px; }
+  .hero-sub { font-size: 1.125rem; }
+  .hero-actions { margin-top: 28px; }
+  .hero-notes { margin-top: 32px; }
+}
+@media (min-width: 1000px) and (max-height: 700px) {
+  .hero { padding-top: calc(var(--header-h) + 20px); }
+  .hero h1 { font-size: 3rem; margin: 16px 0 18px; }
+  .hero-sub { font-size: 1.0625rem; }
+  .hero-actions { margin-top: 24px; }
+}
+/* Móvil: menos aire arriba para que el botón principal suba dentro de la primera pantalla. */
+@media (max-width: 599px) {
+  .hero { padding-top: calc(var(--header-h) + 28px); }
+  .hero h1 { margin: 20px 0 22px; }
+  .hero-actions { margin-top: 28px; }
+}
 .hero-notes li { display: inline-flex; align-items: center; gap: 9px; }
 .hero-notes li::before {
   content: '';
@@ -1043,24 +1064,41 @@ a.aside-card:hover .arrow { transform: translateX(4px); color: var(--ink); }
   color: var(--on-navy-3);
 }
 
-/* ---------- Aviso de cookies ---------- */
+/* ---------- Aviso de cookies ----------
+   Barra baja y centrada, para no tapar el botón principal de la portada en la
+   primera visita. En móvil, texto y dos botones; desde 760 px, una sola fila. */
 .cookie {
   position: fixed;
-  left: 16px; right: 16px; bottom: 16px;
+  left: 12px; right: 12px; bottom: 12px;
   z-index: 60;
   max-width: 460px;
-  padding: 20px 22px;
+  margin-inline: auto;
+  padding: 14px 16px;
   background: var(--navy-deep);
   color: var(--on-navy-2);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--r-md);
-  font-size: 14.5px;
-  line-height: 1.5;
+  font-size: 13.5px;
+  line-height: 1.45;
 }
+.cookie[hidden] { display: none; }
 .cookie p a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
-.cookie-actions { display: flex; gap: 10px; margin-top: 16px; }
+.cookie-actions { display: flex; gap: 10px; margin-top: 12px; }
 .cookie-actions .btn { flex: 1; min-height: 44px; padding: 0 16px; font-size: 14.5px; border-color: rgba(255, 255, 255, 0.32); color: #fff; }
 .cookie-actions .btn:hover { border-color: #fff; background: rgba(255, 255, 255, 0.08); }
+@media (min-width: 760px) {
+  .cookie {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    left: 16px; right: 16px; bottom: 16px;
+    max-width: 880px;
+    padding: 12px 12px 12px 22px;
+    font-size: 14px;
+  }
+  .cookie-actions { flex: none; margin-top: 0; }
+  .cookie-actions .btn { flex: none; min-height: 40px; padding: 0 20px; }
+}
 
 /* ---------- Aparición al hacer scroll ---------- */
 @media (prefers-reduced-motion: no-preference) {
