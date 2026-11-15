@@ -7,6 +7,21 @@
   },
   "redirects": [
     {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:pagina(servicios|trabajos|sobre-mi|contacto|empieza-aqui)",
+      "destination": "/:pagina/",
+      "permanent": true
+    },
+    {
+      "source": "/:pagina(servicios|trabajos|sobre-mi|contacto|empieza-aqui)/index.html",
+      "destination": "/:pagina/",
+      "permanent": true
+    },
+    {
       "source": "/agenda",
       "destination": "/empieza-aqui/?ir=agenda#agenda",
       "permanent": false

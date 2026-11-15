@@ -163,7 +163,7 @@
     banner.hidden = true;
     banner.innerHTML =
       '<p>Uso cookies de analítica y de publicidad (Google y Meta) para medir y mejorar mis anuncios. ' +
-      'Puedes aceptarlas o rechazarlas. <a href="/politica-cookies.html">Más información</a>.</p>' +
+      'Puedes aceptarlas o rechazarlas. Detalles en la <a href="/politica-cookies.html">política de cookies</a>.</p>' +
       '<div class="cookie-actions">' +
       '<button type="button" class="btn btn--outline" data-cookie="reject">Rechazar</button>' +
       '<button type="button" class="btn btn--outline" data-cookie="accept">Aceptar</button>' +
