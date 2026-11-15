@@ -120,15 +120,15 @@ module.exports = async function handler(req, res) {
     // responde con error para que la web le diga al visitante que use WhatsApp,
     // en vez de darle por enviado algo que Fran no va a poder leer. El fallo
     // queda en el registro sin el texto del mensaje, que es un dato personal.
+    let contactoId = null;
+    try {
+      const json = JSON.parse(texto);
+      contactoId = (json.contact && json.contact.id) || (json.meta && json.meta.contactId) || null;
+    } catch (e) {}
+
     let notaGuardada = null;
     if (mensaje) {
       notaGuardada = false;
-      let contactoId = null;
-      try {
-        const json = JSON.parse(texto);
-        contactoId = (json.contact && json.contact.id) || (json.meta && json.meta.contactId) || null;
-      } catch (e) {}
-
       if (contactoId) {
         const nota = [
           'Mensaje desde la web (' + (limpio(datos.pagina) || '/') + '):',
@@ -148,6 +148,28 @@ module.exports = async function handler(req, res) {
         if (!rn.ok) console.error('El CRM no guardo la nota del mensaje:', rn.status);
       } else {
         console.error('No se pudo guardar la nota del mensaje: el CRM no devolvio el id del contacto');
+      }
+    }
+
+    // Aviso a Fran: la etiqueta «aviso-web» dispara el flujo de GHL que le manda un
+    // email; el flujo la quita al terminar. Se pone DESPUES de guardar la nota y
+    // tambien si el contacto ya existia (la etiqueta «contacto-web» solo se pone al
+    // crearlo, asi que un segundo mensaje de la misma persona no avisaria). Si falla,
+    // el mensaje ya esta guardado: solo se registra.
+    if (notaGuardada && contactoId && limpio(datos.source) === 'web-contacto') {
+      try {
+        const rt = await fetch(API + encodeURIComponent(contactoId) + '/tags', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            Version: VERSION,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ tags: ['aviso-web'] })
+        });
+        if (!rt.ok) console.error('El CRM no puso la etiqueta de aviso:', rt.status);
+      } catch (e) {
+        console.error('No se pudo poner la etiqueta de aviso:', e && e.message);
       }
     }
 
