@@ -31,6 +31,20 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'metodo no permitido' });
   }
 
+  // Solo se aceptan envios hechos desde la propia web. Un navegador manda siempre
+  // la cabecera Origin en un POST: si viene de otro dominio, se rechaza, y asi
+  // ninguna pagina ajena puede usar a sus visitantes para llenar el CRM. Quien
+  // llame sin navegador puede omitirla; para eso estan el freno por IP y los limites.
+  const cabeceraOrigen = req.headers.origin;
+  if (cabeceraOrigen) {
+    let hostOrigen = '';
+    try { hostOrigen = new URL(cabeceraOrigen).host; } catch (e) {}
+    const hostPropio = req.headers['x-forwarded-host'] || req.headers.host || '';
+    if (!hostOrigen || hostOrigen !== hostPropio) {
+      return res.status(403).json({ ok: false, error: 'origen no permitido' });
+    }
+  }
+
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'desconocida';
   if (frenado(ip)) return res.status(429).json({ ok: false, error: 'demasiados envios' });
 
@@ -41,7 +55,15 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ ok: false, error: 'sin configurar' });
   }
 
-  const datos = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+  let datos;
+  try {
+    datos = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+  } catch (e) {
+    return res.status(400).json({ ok: false, error: 'formato no valido' });
+  }
+  if (!datos || typeof datos !== 'object') {
+    return res.status(400).json({ ok: false, error: 'formato no valido' });
+  }
   // Campo trampa: las personas no lo ven; si llega relleno es un bot. Se responde
   // como si todo hubiera ido bien para no darle pistas, y no se crea nada.
   if (String(datos.web || '').trim()) return res.status(200).json({ ok: true });
