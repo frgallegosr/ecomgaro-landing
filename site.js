@@ -173,9 +173,28 @@
     /* Si la decisión se tomó con otra versión de la política, se vuelve a preguntar. */
     if (leer(VERSION_KEY) !== POLICY_VERSION) { try { localStorage.removeItem(STORAGE_KEY); } catch (e) {} }
 
+    /* En pantallas bajas (móviles pequeños) el aviso taparía el botón principal de
+       la portada. En ese caso espera a que el visitante haga scroll: no se pierde
+       nada, porque sin consentimiento no se carga ningún medidor. */
+    function mostrarAviso() {
+      banner.hidden = false;
+      var cta = doc.querySelector('.hero-actions .btn');
+      if (!cta || window.scrollY > 40) return;
+      var b = banner.getBoundingClientRect();
+      var c = cta.getBoundingClientRect();
+      if (b.top >= c.bottom + 8 || c.top >= window.innerHeight) return;
+      banner.hidden = true;
+      var alBajar = function () {
+        if (window.scrollY <= 40) return;
+        window.removeEventListener('scroll', alBajar);
+        if (leer(STORAGE_KEY) !== 'granted' && leer(STORAGE_KEY) !== 'denied') banner.hidden = false;
+      };
+      window.addEventListener('scroll', alBajar, { passive: true });
+    }
+
     var saved = leer(STORAGE_KEY);
     if (saved === 'granted' || saved === 'denied') applyConsent(saved === 'granted');
-    else banner.hidden = false;
+    else mostrarAviso();
 
     banner.addEventListener('click', function (e) {
       var b = e.target.closest('[data-cookie]');
