@@ -89,6 +89,13 @@ Referencia elegida por Fran: `bencorde.com`. Portada oscura con titular grande y
 - El titular no se desvanece al entrar: es lo primero que se pinta.
 - Sin vídeo y sin librerías externas (la CSP las bloquearía).
 
+## Excepción documentada: carruseles de Trabajos
+
+- Las dos filas de `/trabajos/` avanzan solas en bucle lineal, a ~30 px/s y en sentidos opuestos (pedido por Fran el 15-11-2026, para que la página no se vea vacía).
+- Solo se anima `transform`. Se paran al pasar el ratón, al tabular dentro y fuera de pantalla.
+- Con `prefers-reduced-motion` o sin JavaScript no se mueven: quedan como fila que se desliza con el dedo.
+- `site.js` duplica las tarjetas para el bucle; las copias llevan `inert` y `aria-hidden`. Las tarjetas originales no llevan `.reveal` (las copias saldrían invisibles): el `.reveal` va en el carrusel.
+
 ## Bloques compartidos
 
 El menú, el pie, la cabecera común y el bloque de contacto se editan en `index.html` y se copian al resto con `node scripts/compartidos.mjs --sync`. Sin argumentos, el script solo comprueba que coinciden.

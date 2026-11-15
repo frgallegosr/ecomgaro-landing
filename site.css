@@ -823,6 +823,47 @@ a.work-card:hover .work-media img { transform: scale(1.04); }
 .work-card p { color: var(--ink-2); font-size: 15.5px; margin-bottom: 18px; }
 .work-card .link-arrow { margin-top: auto; align-self: flex-start; font-size: 14.5px; }
 
+/* ---------- Carruseles de trabajos ----------
+   Sin JavaScript o con «reducir movimiento»: fila que se desliza con el dedo.
+   Con JavaScript, site.js duplica las tarjetas y añade .is-auto: la fila avanza
+   sola (uno hacia la izquierda y otro hacia la derecha), se para al pasar el
+   ratón o al tabular dentro y fuera de pantalla. Solo se anima transform. */
+.carrusel { --gap: 24px; --card-w: clamp(268px, 29vw, 372px); position: relative; }
+.carrusel-pista {
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+}
+.carrusel-pista > .work-card { flex: 0 0 var(--card-w); scroll-snap-align: start; }
+.carrusel.is-auto {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.carrusel.is-auto .carrusel-pista {
+  width: max-content;
+  overflow: visible;
+  scroll-snap-type: none;
+  padding-block: 6px;
+  animation: carrusel-izquierda var(--dur, 48s) linear infinite;
+}
+.carrusel.is-auto[data-carrusel="derecha"] .carrusel-pista { animation-name: carrusel-derecha; }
+.carrusel.is-auto:hover .carrusel-pista,
+.carrusel.is-auto:focus-within .carrusel-pista,
+.carrusel.is-auto.is-paused .carrusel-pista { animation-play-state: paused; }
+@keyframes carrusel-izquierda {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - var(--gap) / 2)); }
+}
+@keyframes carrusel-derecha {
+  from { transform: translateX(calc(-50% - var(--gap) / 2)); }
+  to { transform: translateX(0); }
+}
+@media (max-width: 599px) { .carrusel { --gap: 16px; --card-w: 78vw; } }
+
 /* ---------- Banda navy ---------- */
 .band { position: relative; isolation: isolate; overflow: hidden; }
 .band-grid { display: grid; gap: clamp(36px, 5vw, 72px); align-items: center; }

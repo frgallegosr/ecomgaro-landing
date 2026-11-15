@@ -268,6 +268,41 @@
     });
   })();
 
+  /* ============= Carruseles de trabajos =============
+     Duplica las tarjetas para que el bucle no tenga corte. Las copias quedan fuera
+     del teclado y de los lectores de pantalla (inert + aria-hidden). La velocidad
+     es la misma en todos los carruseles (~30 px/s) aunque tengan distinto número
+     de tarjetas. Con «reducir movimiento» no se toca nada: queda la fila deslizable. */
+  (function () {
+    var carruseles = doc.querySelectorAll('[data-carrusel]');
+    if (!carruseles.length || menosMovimiento) return;
+    var PX_POR_SEGUNDO = 30;
+    var ajustar = function (c) {
+      var pista = c.querySelector('.carrusel-pista');
+      var recorrido = pista.scrollWidth / 2;
+      if (recorrido > 0) c.style.setProperty('--dur', Math.round(recorrido / PX_POR_SEGUNDO) + 's');
+    };
+    carruseles.forEach(function (c) {
+      var pista = c.querySelector('.carrusel-pista');
+      if (!pista) return;
+      Array.prototype.slice.call(pista.children).forEach(function (t) {
+        var copia = t.cloneNode(true);
+        copia.setAttribute('aria-hidden', 'true');
+        copia.setAttribute('inert', '');
+        copia.querySelectorAll('a, button').forEach(function (el) { el.setAttribute('tabindex', '-1'); });
+        if (copia.matches('a')) copia.setAttribute('tabindex', '-1');
+        pista.appendChild(copia);
+      });
+      c.classList.add('is-auto');
+      ajustar(c);
+    });
+    var t;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(function () { carruseles.forEach(ajustar); }, 200);
+    }, { passive: true });
+  })();
+
   /* ============= Animaciones de fondo: se pausan fuera de pantalla ============= */
   (function () {
     var zonas = doc.querySelectorAll('[data-anim]');
