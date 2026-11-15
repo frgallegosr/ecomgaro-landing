@@ -279,6 +279,12 @@ input, textarea { font: inherit; color: inherit; }
   padding-block: 8px;
 }
 .nav-logo span { color: var(--neon); }
+/* Escritorio: logo a la izquierda, enlaces en el centro exacto, botón a la derecha. */
+@media (min-width: 880px) {
+  .nav { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .nav-logo { justify-self: start; margin-right: 0; }
+  .nav > .btn { justify-self: end; }
+}
 
 .nav-links { display: flex; align-items: center; gap: 34px; }
 .nav-links a {
