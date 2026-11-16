@@ -212,7 +212,7 @@
     "web_theme añadido el 15-11-2026 para la web de varias páginas. No cambia ningún token de la landing: los colores claros viven en web_theme.colors y los comprueba site.css, no el gate (que sigue validando tokens.colors)."
   ],
   "web_theme": {
-    "applies_to": "Web de varias páginas (/, /sobre-mi/, /servicios/, /trabajos/, /contacto/). La landing /empieza-aqui/ sigue con el tema oscuro de tokens.colors.",
+    "applies_to": "Web de varias páginas (/, /sobre-mi/, /servicios/, /trabajos/, /contacto/). La landing /salud-bienestar/ sigue con el tema oscuro de tokens.colors.",
     "reference": "Estructura de bencorde.com, elegida por Fran el 14-11-2026: portada oscura con titular grande y una frase en cursiva de color; cuerpo claro y plano con tarjetas de borde fino.",
     "colors": {
       "paper": {

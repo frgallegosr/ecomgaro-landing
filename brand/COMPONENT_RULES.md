@@ -63,7 +63,7 @@ Postura visual de referencia: sistema disciplinado (Ruler) que explica antes de 
 
 # Web de varias páginas (tema claro)
 
-Añadido el 15-11-2026. Vale para `/`, `/sobre-mi/`, `/servicios/`, `/trabajos/` y `/contacto/`, que comparten `site.css` y `site.js`. La landing `/empieza-aqui/` sigue con las reglas de arriba y no se toca.
+Añadido el 15-11-2026. Vale para `/`, `/sobre-mi/`, `/servicios/`, `/trabajos/` y `/contacto/`, que comparten `site.css` y `site.js`. La landing `/salud-bienestar/` sigue con las reglas de arriba y no se toca.
 
 Referencia elegida por Fran: `bencorde.com`. Portada oscura con titular grande y una frase en cursiva de color; cuerpo claro y plano. Los tokens están en `brand.json`, apartado `web_theme`.
 

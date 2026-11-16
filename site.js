@@ -1,5 +1,5 @@
 /* Web de Fran Gallegos — comportamiento compartido por las 5 páginas.
-   La landing (/empieza-aqui/) NO usa este archivo: lleva su script dentro.
+   La landing (/salud-bienestar/) NO usa este archivo: lleva su script dentro.
    Las claves de localStorage/sessionStorage son las mismas que usa la landing,
    para que la decisión de cookies y el origen (UTM) valgan en todo el dominio. */
 (function () {
