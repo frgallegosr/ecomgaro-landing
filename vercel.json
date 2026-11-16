@@ -12,6 +12,11 @@
       "permanent": true
     },
     {
+      "source": "/empieza-aqui/",
+      "destination": "/salud-bienestar/",
+      "permanent": true
+    },
+    {
       "source": "/empieza-aqui/index.html",
       "destination": "/salud-bienestar/",
       "permanent": true
