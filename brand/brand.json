@@ -266,7 +266,7 @@
     "exceptions": [
       "Menú clásico de barra completa (logo, enlaces, un botón) en lugar de la píldora de vidrio: la barra es transparente sobre la portada y navy sólido al hacer scroll.",
       "Fraunces cursiva en una palabra o frase del titular principal (h1) de cada página y del titular de las bandas navy, siempre en verde neón sobre navy.",
-      "Animación de la portada: luces de fondo en bucles lentos (24-32 s, ease-in-out) y un flujo de 4 pasos con ciclo de 12 s. Solo se animan transform y opacity; se pausa fuera de pantalla y se desactiva con prefers-reduced-motion.",
+      "Animación de la portada: un flujo de 4 pasos con ciclo de 12 s (el fondo es navy liso con una luz suave y grano fino, sin cuadrícula ni manchas desde el 17-11-2026). Solo se animan transform y opacity; se pausa fuera de pantalla y se desactiva con prefers-reduced-motion.",
       "Carruseles de la página Trabajos: las tarjetas avanzan solas en bucle lineal (~30 px/s; uno hacia la izquierda y otro hacia la derecha). Solo transform; se paran al pasar el ratón, al tabular dentro y fuera de pantalla, y con prefers-reduced-motion quedan como fila deslizable sin movimiento. Las copias del bucle llevan inert y aria-hidden."
     ]
   }

@@ -84,7 +84,7 @@ Referencia elegida por Fran: `bencorde.com`. Portada oscura con titular grande y
 
 ## Excepción documentada: animación de la portada
 
-- Luces de fondo en bucles lentos (24-32 s, `ease-in-out`) y un flujo de 4 pasos con ciclo de 12 s. Son las únicas animaciones fuera de las 4 duraciones.
+- Un flujo de 4 pasos con ciclo de 12 s: la única animación fuera de las 4 duraciones. Fondo de portadas y bandas: navy liso, una sola luz suave y grano fino, sin movimiento (desde el 17-11-2026; la cuadrícula y las manchas de color se quitaron por parecer «web hecha con IA», a petición de Fran).
 - Se pausan cuando la sección sale de pantalla (`data-anim` + `.is-paused`) y no existen con `prefers-reduced-motion`: el flujo queda completo y quieto.
 - El titular no se desvanece al entrar: es lo primero que se pinta.
 - Sin vídeo y sin librerías externas (la CSP las bloquearía).

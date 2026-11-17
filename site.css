@@ -375,43 +375,34 @@ input, textarea { font: inherit; color: inherit; }
   overflow: hidden;
   padding: calc(var(--header-h) + clamp(40px, 6vw, 84px)) 0 clamp(64px, 7vw, 104px);
 }
+/* Fondo de portadas y bandas navy (17-11-2026): navy liso, una sola luz suave y
+   grano fino de papel. Sin cuadrícula ni manchas de color: eran el recurso típico
+   de las webs hechas con IA. El grano es un SVG en línea (la CSP permite data:). */
 .hero-bg, .band-bg {
   position: absolute;
   inset: 0;
   z-index: -1;
   overflow: hidden;
-  background: radial-gradient(120% 90% at 72% 0%, #0A3556 0%, var(--navy) 46%, var(--navy-deep) 100%);
+  background:
+    radial-gradient(70% 80% at 88% -10%, rgba(23, 162, 184, 0.16), rgba(23, 162, 184, 0) 70%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
 }
-.aurora {
-  position: absolute;
-  border-radius: 50%;
-  will-change: transform;
+.band-bg {
+  background:
+    radial-gradient(60% 90% at 8% 110%, rgba(23, 162, 184, 0.13), rgba(23, 162, 184, 0) 70%),
+    linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
 }
-.aurora--teal {
-  width: 64vmax; height: 64vmax;
-  left: -22vmax; bottom: -36vmax;
-  background: radial-gradient(closest-side, rgba(23, 162, 184, 0.40), rgba(23, 162, 184, 0) 72%);
-}
-.aurora--neon {
-  width: 46vmax; height: 46vmax;
-  right: -14vmax; bottom: -26vmax;
-  background: radial-gradient(closest-side, rgba(57, 255, 20, 0.17), rgba(57, 255, 20, 0) 72%);
-}
-.aurora--sky {
-  width: 44vmax; height: 44vmax;
-  right: 6vmax; top: -26vmax;
-  background: radial-gradient(closest-side, rgba(26, 160, 200, 0.30), rgba(26, 160, 200, 0) 72%);
-}
-.hero-grid {
+.hero-bg::after, .band-bg::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 64px 64px;
-  -webkit-mask-image: radial-gradient(80% 70% at 78% 42%, #000 0%, transparent 72%);
-  mask-image: radial-gradient(80% 70% at 78% 42%, #000 0%, transparent 72%);
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
 }
+/* Las capas antiguas siguen en el HTML pero ya no se pintan. */
+.aurora, .hero-grid { display: none; }
 
 .hero-inner {
   display: grid;
@@ -616,10 +607,6 @@ input, textarea { font: inherit; color: inherit; }
 /* Animación: solo si el visitante no ha pedido menos movimiento.
    Sin animación, el flujo queda completo y quieto (estado final). */
 @media (prefers-reduced-motion: no-preference) {
-  .aurora--teal { animation: drift-a 24s ease-in-out infinite alternate; }
-  .aurora--neon { animation: drift-b 28s ease-in-out infinite alternate; }
-  .aurora--sky  { animation: drift-c 32s ease-in-out infinite alternate; }
-
   .flow-pulse { animation: flow-pulse var(--cycle) var(--ease) infinite; }
   .flow-step--1 { animation: flow-on-1 var(--cycle) linear infinite; }
   .flow-step--2 { animation: flow-on-2 var(--cycle) linear infinite; }
@@ -634,7 +621,6 @@ input, textarea { font: inherit; color: inherit; }
   .flow-chip--pop { animation: flow-pop-2 var(--cycle) linear infinite; }
   .flow-chip--ok { animation: flow-pop-4 var(--cycle) linear infinite; }
 
-  .is-paused .aurora,
   .is-paused .flow-pulse,
   .is-paused [class*='flow-'] { animation-play-state: paused; }
 
@@ -652,9 +638,6 @@ input, textarea { font: inherit; color: inherit; }
 @keyframes rise-solid { from { transform: translateY(14px); } to { transform: none; } }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-@keyframes drift-a { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(9vmax, -7vmax, 0) scale(1.12); } }
-@keyframes drift-b { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-8vmax, -9vmax, 0) scale(1.18); } }
-@keyframes drift-c { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-7vmax, 6vmax, 0) scale(0.9); } }
 
 @keyframes flow-pulse {
   0%   { opacity: 0; transform: translateY(0) scale(0.6); }
