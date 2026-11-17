@@ -401,6 +401,43 @@ input, textarea { font: inherit; color: inherit; }
   background-size: 180px 180px;
   pointer-events: none;
 }
+/* Rayos de luz que suben desde abajo (solo portadas). Dibujados con gradientes:
+   sin vídeo ni imagen. Se mueven muy despacio (transform y opacity). */
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -14%;
+  width: 180%;
+  height: 125%;
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  background:
+    radial-gradient(32% 26% at 50% 100%, rgba(140, 225, 245, 0.42), rgba(23, 162, 184, 0) 72%),
+    repeating-conic-gradient(from 270deg at 50% 100%,
+      rgba(23, 162, 184, 0) 0deg,
+      rgba(60, 190, 215, 0.30) 1.1deg,
+      rgba(23, 162, 184, 0) 2.6deg,
+      rgba(23, 162, 184, 0) 7.4deg),
+    repeating-conic-gradient(from 272.3deg at 50% 100%,
+      rgba(23, 162, 184, 0) 0deg,
+      rgba(150, 230, 250, 0.20) 0.6deg,
+      rgba(23, 162, 184, 0) 1.5deg,
+      rgba(23, 162, 184, 0) 11.3deg);
+  -webkit-mask-image: radial-gradient(58% 92% at 50% 100%, #000 8%, transparent 80%);
+  mask-image: radial-gradient(58% 92% at 50% 100%, #000 8%, transparent 80%);
+  filter: blur(4px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-bg::before { animation: rayos 20s ease-in-out infinite alternate; }
+  .is-paused .hero-bg::before { animation-play-state: paused; }
+}
+@keyframes rayos {
+  from { transform: translateX(-50%) rotate(-1.2deg) scale(1); opacity: 0.6; }
+  to   { transform: translateX(-50%) rotate(1.2deg) scale(1.05); opacity: 0.85; }
+}
 /* Las capas antiguas siguen en el HTML pero ya no se pintan. */
 .aurora, .hero-grid { display: none; }
 
