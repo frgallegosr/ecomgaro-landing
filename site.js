@@ -303,6 +303,49 @@
     }, { passive: true });
   })();
 
+  /* ============= Vídeo de fondo de las portadas =============
+     Solo en pantallas de 768 px o más, sin «reducir movimiento» y sin ahorro de
+     datos. Se añade después de cargar la página para no retrasar el titular, y se
+     pausa cuando la portada sale de la pantalla. Si no carga, queda la imagen fija. */
+  (function () {
+    var fondos = doc.querySelectorAll('.hero-bg');
+    if (!fondos.length || menosMovimiento || !window.matchMedia('(min-width: 768px)').matches) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+    var poner = function () {
+      fondos.forEach(function (fondo) {
+        var v = doc.createElement('video');
+        v.className = 'hero-video';
+        v.muted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('muted', '');
+        v.setAttribute('playsinline', '');
+        v.setAttribute('aria-hidden', 'true');
+        v.preload = 'auto';
+        [['/assets/fondo-ola.webm', 'video/webm'], ['/assets/fondo-ola.mp4', 'video/mp4']].forEach(function (f) {
+          var s = doc.createElement('source');
+          s.src = f[0];
+          s.type = f[1];
+          v.appendChild(s);
+        });
+        v.addEventListener('playing', function () { fondo.classList.add('con-video'); });
+        fondo.appendChild(v);
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) { var q = v.play(); if (q && q.catch) q.catch(function () {}); }
+              else v.pause();
+            });
+          }).observe(fondo);
+        }
+      });
+    };
+    if (doc.readyState === 'complete') poner();
+    else window.addEventListener('load', poner);
+  })();
+
   /* ============= Animaciones de fondo: se pausan fuera de pantalla ============= */
   (function () {
     var zonas = doc.querySelectorAll('[data-anim]');
