@@ -863,9 +863,9 @@ a.work-card:hover .work-media img { transform: scale(1.04); }
 
 /* ---------- Carruseles de trabajos ----------
    Sin JavaScript o con «reducir movimiento»: fila que se desliza con el dedo.
-   Con JavaScript, site.js duplica las tarjetas y añade .is-auto: la fila avanza
-   sola (uno hacia la izquierda y otro hacia la derecha), se para al pasar el
-   ratón o al tabular dentro y fuera de pantalla. Solo se anima transform. */
+   Con JavaScript, site.js duplica las tarjetas y añade .is-auto: la fila avanza sola
+   (una hacia la izquierda y otra hacia la derecha) y se puede mover a mano. No se
+   para al pasar el ratón. El scroll lo hace JavaScript sobre un contenedor normal. */
 .carrusel { --gap: 24px; --card-w: clamp(268px, 29vw, 372px); position: relative; }
 .carrusel-pista {
   display: flex;
@@ -877,28 +877,20 @@ a.work-card:hover .work-media img { transform: scale(1.04); }
 }
 .carrusel-pista > .work-card { flex: 0 0 var(--card-w); scroll-snap-align: start; }
 .carrusel.is-auto {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  cursor: grab;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
+.carrusel.is-auto::-webkit-scrollbar { display: none; }
+.carrusel.is-auto.arrastrando { cursor: grabbing; user-select: none; }
 .carrusel.is-auto .carrusel-pista {
   width: max-content;
   overflow: visible;
   scroll-snap-type: none;
   padding-block: 6px;
-  animation: carrusel-izquierda var(--dur, 48s) linear infinite;
-}
-.carrusel.is-auto[data-carrusel="derecha"] .carrusel-pista { animation-name: carrusel-derecha; }
-.carrusel.is-auto:hover .carrusel-pista,
-.carrusel.is-auto:focus-within .carrusel-pista,
-.carrusel.is-auto.is-paused .carrusel-pista { animation-play-state: paused; }
-@keyframes carrusel-izquierda {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - var(--gap) / 2)); }
-}
-@keyframes carrusel-derecha {
-  from { transform: translateX(calc(-50% - var(--gap) / 2)); }
-  to { transform: translateX(0); }
 }
 @media (max-width: 599px) { .carrusel { --gap: 16px; --card-w: 78vw; } }
 
@@ -1131,6 +1123,22 @@ a.aside-card:hover .arrow { transform: translateX(4px); color: var(--ink); }
   transition: color var(--t-fast) var(--ease);
 }
 .foot-col a:hover, .foot-col button:hover { color: #fff; }
+.foot-iconos { display: flex; flex-wrap: wrap; gap: 10px; }
+.foot-col a.foot-ico {
+  display: inline-grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  color: #fff;
+  transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.foot-ico svg { width: 22px; height: 22px; }
+.foot-col a.foot-ico:hover { border-color: #fff; background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+/* WhatsApp es el botón principal del pie: verde neón sobre navy. */
+.foot-col a.foot-ico--wa { background: var(--neon); border-color: var(--neon); color: var(--navy-deep); }
+.foot-col a.foot-ico--wa:hover { background: var(--neon-deep); border-color: var(--neon-deep); color: var(--navy-deep); }
 .foot-bottom {
   margin-top: clamp(40px, 5vw, 64px);
   padding-top: 24px;

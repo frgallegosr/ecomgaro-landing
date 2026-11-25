@@ -269,19 +269,18 @@
   })();
 
   /* ============= Carruseles de trabajos =============
-     Duplica las tarjetas para que el bucle no tenga corte. Las copias quedan fuera
-     del teclado y de los lectores de pantalla (inert + aria-hidden). La velocidad
-     es la misma en todos los carruseles (~30 px/s) aunque tengan distinto número
-     de tarjetas. Con «reducir movimiento» no se toca nada: queda la fila deslizable. */
+     Cada fila avanza sola (una hacia la izquierda y otra hacia la derecha) y NO se
+     para al pasar el ratón. Además se puede mover a mano: arrastrando con el ratón,
+     con el dedo o con la rueda/trackpad horizontal; al soltar, sigue sola a los 1,2 s.
+     Es una fila con scroll normal: se duplican las tarjetas para que el bucle no tenga
+     corte (las copias van con inert y aria-hidden). Misma velocidad en todas (~30 px/s).
+     Con «reducir movimiento» no avanza sola: queda la fila deslizable. */
   (function () {
     var carruseles = doc.querySelectorAll('[data-carrusel]');
-    if (!carruseles.length || menosMovimiento) return;
-    var PX_POR_SEGUNDO = 30;
-    var ajustar = function (c) {
-      var pista = c.querySelector('.carrusel-pista');
-      var recorrido = pista.scrollWidth / 2;
-      if (recorrido > 0) c.style.setProperty('--dur', Math.round(recorrido / PX_POR_SEGUNDO) + 's');
-    };
+    if (!carruseles.length) return;
+    var VELOCIDAD = 30;      /* px por segundo */
+    var REANUDAR_MS = 1200;  /* espera tras tocar o arrastrar */
+
     carruseles.forEach(function (c) {
       var pista = c.querySelector('.carrusel-pista');
       if (!pista) return;
@@ -294,13 +293,99 @@
         pista.appendChild(copia);
       });
       c.classList.add('is-auto');
-      ajustar(c);
+
+      var derecha = c.getAttribute('data-carrusel') === 'derecha';
+      var dir = derecha ? -1 : 1;
+      var pos = 0;              /* posición con decimales */
+      var esperado = 0;         /* lo último que escribimos en scrollLeft */
+      var visible = true;
+      var ultimoToque = 0;
+      var arrastrando = false;
+      var movido = false;
+      var inicioX = 0, inicioScroll = 0;
+      var anterior = 0;
+
+      var periodo = function () {
+        var gap = parseFloat(getComputedStyle(pista).columnGap) || 0;
+        return (pista.scrollWidth + gap) / 2;
+      };
+      var envolver = function (p, per) {
+        if (!per) return p;
+        while (p >= per) p -= per;
+        while (p < 0) p += per;
+        return p;
+      };
+      var poner = function (p) { pos = p; esperado = p; c.scrollLeft = p; };
+
+      /* La fila que va hacia la derecha empieza en la mitad. */
+      var iniciar = function () { poner(derecha ? periodo() : 0); };
+      iniciar();
+      window.addEventListener('load', iniciar);
+
+      /* Cualquier scroll que no hemos hecho nosotros es del visitante: se respeta y se
+         vuelve a envolver para que nunca llegue a un borde. */
+      c.addEventListener('scroll', function () {
+        if (Math.abs(c.scrollLeft - esperado) > 1.5) {
+          ultimoToque = performance.now();
+          var per = periodo();
+          var env = envolver(c.scrollLeft, per);
+          if (env !== c.scrollLeft) c.scrollLeft = env;
+          pos = esperado = c.scrollLeft;
+        }
+      }, { passive: true });
+
+      /* Arrastrar con el ratón (el dedo ya hace scroll de forma nativa). */
+      c.addEventListener('pointerdown', function (e) {
+        ultimoToque = performance.now();
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        arrastrando = true; movido = false;
+        inicioX = e.clientX; inicioScroll = c.scrollLeft;
+        c.classList.add('arrastrando');
+      });
+      doc.addEventListener('pointermove', function (e) {
+        if (!arrastrando) return;
+        var dx = e.clientX - inicioX;
+        if (Math.abs(dx) > 5) movido = true;
+        if (movido) { ultimoToque = performance.now(); c.scrollLeft = inicioScroll - dx; }
+      });
+      var soltar = function () {
+        if (!arrastrando) return;
+        arrastrando = false;
+        c.classList.remove('arrastrando');
+        ultimoToque = performance.now();
+      };
+      doc.addEventListener('pointerup', soltar);
+      doc.addEventListener('pointercancel', soltar);
+      /* Si se ha arrastrado, el clic final no debe abrir el enlace de la tarjeta. */
+      c.addEventListener('click', function (e) {
+        if (movido) { e.preventDefault(); e.stopPropagation(); movido = false; }
+      }, true);
+      c.addEventListener('dragstart', function (e) { e.preventDefault(); });
+      c.addEventListener('wheel', function () { ultimoToque = performance.now(); }, { passive: true });
+      c.addEventListener('touchstart', function () { ultimoToque = performance.now(); }, { passive: true });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (en) { visible = en.isIntersecting; });
+        }).observe(c);
+      }
+
+      if (menosMovimiento) return;
+      var paso = function (t) {
+        var dt = Math.min(0.25, (t - anterior) / 1000);
+        anterior = t;
+        var quieto = !visible || arrastrando || doc.hidden ||
+          (t - ultimoToque) < REANUDAR_MS || c.contains(doc.activeElement);
+        if (!quieto && dt > 0) {
+          var per = periodo();
+          pos = envolver(pos + dir * VELOCIDAD * dt, per);
+          esperado = pos;
+          c.scrollLeft = pos;
+        }
+        requestAnimationFrame(paso);
+      };
+      requestAnimationFrame(function (t) { anterior = t; requestAnimationFrame(paso); });
     });
-    var t;
-    window.addEventListener('resize', function () {
-      clearTimeout(t);
-      t = setTimeout(function () { carruseles.forEach(ajustar); }, 200);
-    }, { passive: true });
   })();
 
   /* ============= Vídeo de fondo de las portadas =============
